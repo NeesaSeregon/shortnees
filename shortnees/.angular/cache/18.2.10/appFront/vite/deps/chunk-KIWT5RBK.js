@@ -76,23 +76,6 @@ import {
   __spreadValues
 } from "./chunk-WDMUDEB6.js";
 
-// node_modules/@angular/cdk/fesm2022/coercion.mjs
-function coerceBooleanProperty(value) {
-  return value != null && `${value}` !== "false";
-}
-function coerceNumberProperty(value, fallbackValue = 0) {
-  return _isNumberValue(value) ? Number(value) : fallbackValue;
-}
-function _isNumberValue(value) {
-  return !isNaN(parseFloat(value)) && !isNaN(Number(value));
-}
-function coerceArray(value) {
-  return Array.isArray(value) ? value : [value];
-}
-function coerceElement(elementOrRef) {
-  return elementOrRef instanceof ElementRef ? elementOrRef.nativeElement : elementOrRef;
-}
-
 // node_modules/@angular/cdk/fesm2022/platform.mjs
 var hasV8BreakIterator;
 try {
@@ -261,6 +244,23 @@ function _isTestEnvironment() {
     typeof jest !== "undefined" && !!jest || // @ts-ignore
     typeof Mocha !== "undefined" && !!Mocha
   );
+}
+
+// node_modules/@angular/cdk/fesm2022/coercion.mjs
+function coerceBooleanProperty(value) {
+  return value != null && `${value}` !== "false";
+}
+function coerceNumberProperty(value, fallbackValue = 0) {
+  return _isNumberValue(value) ? Number(value) : fallbackValue;
+}
+function _isNumberValue(value) {
+  return !isNaN(parseFloat(value)) && !isNaN(Number(value));
+}
+function coerceArray(value) {
+  return Array.isArray(value) ? value : [value];
+}
+function coerceElement(elementOrRef) {
+  return elementOrRef instanceof ElementRef ? elementOrRef.nativeElement : elementOrRef;
 }
 
 // node_modules/@angular/cdk/fesm2022/observers.mjs
@@ -4563,12 +4563,12 @@ var MatRippleLoader = class _MatRippleLoader {
 })();
 
 export {
-  coerceBooleanProperty,
-  coerceNumberProperty,
-  coerceElement,
   Platform,
   getSupportedInputTypes,
   normalizePassiveListenerOptions,
+  coerceBooleanProperty,
+  coerceNumberProperty,
+  coerceElement,
   ObserversModule,
   FocusMonitor,
   Directionality,
@@ -4578,4 +4578,4 @@ export {
   MatRippleModule,
   MatRippleLoader
 };
-//# sourceMappingURL=chunk-5LJ4QPC5.js.map
+//# sourceMappingURL=chunk-KIWT5RBK.js.map

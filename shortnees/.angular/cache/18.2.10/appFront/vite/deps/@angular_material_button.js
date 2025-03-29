@@ -4,7 +4,7 @@ import {
   MatRippleLoader,
   MatRippleModule,
   Platform
-} from "./chunk-5LJ4QPC5.js";
+} from "./chunk-KIWT5RBK.js";
 import "./chunk-S3YABSBH.js";
 import "./chunk-65GWZ3SZ.js";
 import "./chunk-WFW5SV25.js";
