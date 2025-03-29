@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>WebTools</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="img-src 'self'; script-src 'self';">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="icon" type="image/x-icon" href="favicon.svg">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Bundle con Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+  <header class="custom-bg d-flex justify-content-center align-items-center">
+      <div class="d-flex flex-wrap">
+        <a href="/" class=" d-flex mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
+          <li><a href="home" class=" nav-link px-2 link-secondary"><p class="custom-txt">Home</p></a></li>
+          @if (!isLoggedIn()) {
+            <li><a href="" class="nav-link px-2 link-body-emphasis"><p class="custom-txt-off">Dashboard</p></a></li>
+            <li><a href="login" class="nav-link px-2 link-body-emphasis"><p class="custom-txt">Login</p></a></li>
+            <li><a href="registro" class="nav-link px-2 link-body-emphasis"><p class="custom-txt">Registro</p></a></li>
+          } @else {
+            <li><a href="dashboard" class="nav-link px-2 link-body-emphasis"><p class="custom-txt">Dashboard</p></a></li>
+            <li><a  href="" class="dropdown-item"  class="nav-link px-2 link-body-emphasis"><p class="custom-txt">Cuenta: {{username}}</p></a></li>
+            <li><a  href="login" class="dropdown-item" (click)="logout()" class="nav-link px-2 link-body-emphasis"> <p class="custom-txt">Sign out</p></a></li>
+           
+          }  
+        </ul>
+      </div>
+  
+  </header>
