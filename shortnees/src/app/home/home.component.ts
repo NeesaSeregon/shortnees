@@ -47,9 +47,6 @@ export class HomeComponent {
     
     }
   }
-  
-
-  
   acortarHash() {
     let url:Url = {
       url: this.urlForm.value ?? ''
