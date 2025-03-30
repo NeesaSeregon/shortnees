@@ -1,11 +1,13 @@
 .custom-bg {
-    background-color: #1f1c1c; /* Color personalizado */   
+    background-color: #0c0c0c; /* Color personalizado */   
 }
 .custom-txt {
     color: #e2e2e2; /* Color personalizado */
+    font-family: 'Roboto', sans-serif;
 }
 .custom-txt-off {
     color: #686867; /* Color personalizado */
+    font-family: 'Roboto', sans-serif;
 }
 .no-points {
     list-style: none; /* Elimina los puntos */
@@ -13,13 +15,11 @@
 .custom-hover {
     position: relative;
     transition: all 0.3s ease-in-out;
-  }
-  
+}
 .custom-hover:hover {
     background-color: #007bff; /* Cambia el fondo */
     border-radius: 5px; /* Añade bordes redondeados */
 }
-  
 .custom-hover::before {
     content: '';
     position: absolute;
@@ -32,9 +32,9 @@
     transform: scaleX(0);
     transition: all 0.3s ease-in-out;
 }
-  
 .custom-hover:hover::before {
     visibility: visible;
     transform: scaleX(1);
 }
+
 

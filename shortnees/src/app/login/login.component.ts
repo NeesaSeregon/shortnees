@@ -34,7 +34,7 @@ export class LoginComponent {
     const objeto:Login= {
       username: this.formularioLogin.value.correo,
       password: this.formularioLogin.value.password
-    }    
+    }
     this.accesoService.login(objeto).subscribe({
       next:(data)=>{
         console.log(data);
