@@ -9,10 +9,27 @@
             }
         </div>
         @if (!isLoggedIn()) {
-            <form class="form-inline" method="get">
-                <div class="form-group"><input class="form-control" [formControl]="urlForm" type="text" placeholder="Tu URL a acortar"></div>
-                <div class="form-group"><button class="btn btn-primary" (click)="acortarHash()" type="button">Acortar</button></div>
-            </form>
+          <form [formGroup]="formularioPersonalizar" class="mt-4 p-4 bg-light rounded shadow-sm">
+            <div class="mb-3">
+              <label for="urlOriginal" class="form-label">URL Original</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
+                <input id="urlOriginal" class="form-control" formControlName="urlOriginal" type="text" placeholder="Ingresa la URL que deseas acortar">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="urlPersonalizada" class="form-label">URL Personalizada</label>
+              <div class="input-group">
+                <span class="input-group-text">wbt.es/</span>
+                <input id="urlPersonalizada" class="form-control" formControlName="urlPersonalizada" type="text" placeholder="Crea tu nueva URL corta">
+              </div>
+            </div>
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary btn-lg" (click)="personalizar()" type="button">
+                <i class="bi bi-scissors me-2"></i> Acortar URL
+              </button>
+            </div>
+          </form>
                 @if (error !== ''){
                     <p>{{error}}</p>
                 }
@@ -20,11 +37,6 @@
                     <input class="form-control" value="{{shortUrl}}" type="text" placeholder="Tu URL a acortar">     
                 }
         } @else {
-            <!--form [formGroup]="formularioPersonalizar" class="form-inline" method="get">
-                <div class="form-group"><input class="form-control" formControlName="urlOriginal" type="text" placeholder="Tu URL a acortar"></div>
-                <div class="form-group"><input class="form-control" formControlName="urlPersonalizada" type="text" placeholder="Crea tu nueva URL"></div>
-                <div class="form-group"><button class="btn btn-primary" (click)="personalizar()" type="button">Acortar</button></div>
-            </form>-->
             <form [formGroup]="formularioPersonalizar" class="mt-4 p-4 bg-light rounded shadow-sm">
                 <div class="mb-3">
                   <label for="urlOriginal" class="form-label">URL Original</label>

@@ -5,7 +5,7 @@ export const jwtInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token'); //conviene investigar donde mas puedo almacenarlo
   if (token) {
     req = req.clone({
       setHeaders: {

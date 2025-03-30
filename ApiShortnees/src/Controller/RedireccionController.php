@@ -88,8 +88,6 @@ private function getDeviceType($userAgent)
         }
         return 'Móvil';
     }
-    
     return 'Desktop';
 }
-
 }
