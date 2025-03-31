@@ -1,24 +1,24 @@
 .custom-bg {
-    background-color: #0c0c0c; /* Color personalizado */   
+    background-color: #0c0c0c; 
 }
 .custom-txt {
-    color: #e2e2e2; /* Color personalizado */
+    color: #e2e2e2; 
     font-family: 'Roboto', sans-serif;
 }
 .custom-txt-off {
-    color: #686867; /* Color personalizado */
+    color: #686867; 
     font-family: 'Roboto', sans-serif;
 }
 .no-points {
-    list-style: none; /* Elimina los puntos */
+    list-style: none; 
 }
 .custom-hover {
     position: relative;
     transition: all 0.3s ease-in-out;
 }
 .custom-hover:hover {
-    background-color: #007bff; /* Cambia el fondo */
-    border-radius: 5px; /* Añade bordes redondeados */
+    background-color: #007bff; 
+    border-radius: 5px; 
 }
 .custom-hover::before {
     content: '';
@@ -27,7 +27,7 @@
     height: 3px;
     bottom: -5px;
     left: 0;
-    background-color: #007bff; /* Color del subrayado */
+    background-color: #007bff; 
     visibility: hidden;
     transform: scaleX(0);
     transition: all 0.3s ease-in-out;
