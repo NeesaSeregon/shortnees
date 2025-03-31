@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { LinkService } from '../services/link.service';
 import { Links } from '../interfaces/Links';
 import { Estadisticas } from '../interfaces/estadisticas';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [],
+  imports: [NgxChartsModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -14,7 +15,15 @@ export class DashboardComponent {
   estadisticas: Estadisticas | null = null; // Cambiado a null para reflejar que es un único objeto
   urlCortaSeleccionada: String | null = null; // Cambiado a null para reflejar que es opcional
   constructor(private linkService: LinkService) { }
-  
+  colorScheme = {
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
+  };
+  barChartData = [
+    { name: 'Link A', value: 100 },
+    { name: 'Link B', value: 200 },
+    { name: 'Link C', value: 150 },
+  ];
+
   ngOnInit(): void {
     this.loadEnlaces();
   }
