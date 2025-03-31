@@ -1,10 +1,19 @@
 import {
   BrowserModule,
   DomRendererFactory2
-} from "./chunk-65GWZ3SZ.js";
+} from "./chunk-CDF2PRND.js";
+import {
+  AUTO_STYLE,
+  AnimationGroupPlayer,
+  AnimationMetadataType,
+  NoopAnimationPlayer,
+  sequence,
+  style,
+  ɵPRE_STYLE
+} from "./chunk-GC3WN2DW.js";
 import {
   DOCUMENT
-} from "./chunk-D6MM4KQJ.js";
+} from "./chunk-CX7UBRQJ.js";
 import {
   ANIMATION_MODULE_TYPE,
   Inject,
@@ -13,468 +22,17 @@ import {
   NgZone,
   RendererFactory2,
   RuntimeError,
-  ViewEncapsulation$1,
-  inject,
   performanceMarkFeature,
   setClassMetadata,
   ɵɵdefineInjectable,
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-KRZSOQUC.js";
+} from "./chunk-6EV22F7X.js";
 import {
   __objRest,
   __spreadValues
 } from "./chunk-WDMUDEB6.js";
-
-// node_modules/@angular/animations/fesm2022/animations.mjs
-var AnimationMetadataType;
-(function(AnimationMetadataType2) {
-  AnimationMetadataType2[AnimationMetadataType2["State"] = 0] = "State";
-  AnimationMetadataType2[AnimationMetadataType2["Transition"] = 1] = "Transition";
-  AnimationMetadataType2[AnimationMetadataType2["Sequence"] = 2] = "Sequence";
-  AnimationMetadataType2[AnimationMetadataType2["Group"] = 3] = "Group";
-  AnimationMetadataType2[AnimationMetadataType2["Animate"] = 4] = "Animate";
-  AnimationMetadataType2[AnimationMetadataType2["Keyframes"] = 5] = "Keyframes";
-  AnimationMetadataType2[AnimationMetadataType2["Style"] = 6] = "Style";
-  AnimationMetadataType2[AnimationMetadataType2["Trigger"] = 7] = "Trigger";
-  AnimationMetadataType2[AnimationMetadataType2["Reference"] = 8] = "Reference";
-  AnimationMetadataType2[AnimationMetadataType2["AnimateChild"] = 9] = "AnimateChild";
-  AnimationMetadataType2[AnimationMetadataType2["AnimateRef"] = 10] = "AnimateRef";
-  AnimationMetadataType2[AnimationMetadataType2["Query"] = 11] = "Query";
-  AnimationMetadataType2[AnimationMetadataType2["Stagger"] = 12] = "Stagger";
-})(AnimationMetadataType || (AnimationMetadataType = {}));
-var AUTO_STYLE = "*";
-function trigger(name, definitions) {
-  return {
-    type: AnimationMetadataType.Trigger,
-    name,
-    definitions,
-    options: {}
-  };
-}
-function animate(timings, styles = null) {
-  return {
-    type: AnimationMetadataType.Animate,
-    styles,
-    timings
-  };
-}
-function sequence(steps, options = null) {
-  return {
-    type: AnimationMetadataType.Sequence,
-    steps,
-    options
-  };
-}
-function style(tokens) {
-  return {
-    type: AnimationMetadataType.Style,
-    styles: tokens,
-    offset: null
-  };
-}
-function state(name, styles, options) {
-  return {
-    type: AnimationMetadataType.State,
-    name,
-    styles,
-    options
-  };
-}
-function transition(stateChangeExpr, steps, options = null) {
-  return {
-    type: AnimationMetadataType.Transition,
-    expr: stateChangeExpr,
-    animation: steps,
-    options
-  };
-}
-var AnimationBuilder = class _AnimationBuilder {
-  static {
-    this.ɵfac = function AnimationBuilder_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _AnimationBuilder)();
-    };
-  }
-  static {
-    this.ɵprov = ɵɵdefineInjectable({
-      token: _AnimationBuilder,
-      factory: () => (() => inject(BrowserAnimationBuilder))(),
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(AnimationBuilder, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      useFactory: () => inject(BrowserAnimationBuilder)
-    }]
-  }], null, null);
-})();
-var AnimationFactory = class {
-};
-var BrowserAnimationBuilder = class _BrowserAnimationBuilder extends AnimationBuilder {
-  constructor(rootRenderer, doc) {
-    super();
-    this.animationModuleType = inject(ANIMATION_MODULE_TYPE, {
-      optional: true
-    });
-    this._nextAnimationId = 0;
-    const typeData = {
-      id: "0",
-      encapsulation: ViewEncapsulation$1.None,
-      styles: [],
-      data: {
-        animation: []
-      }
-    };
-    this._renderer = rootRenderer.createRenderer(doc.body, typeData);
-    if (this.animationModuleType === null && !isAnimationRenderer(this._renderer)) {
-      throw new RuntimeError(3600, (typeof ngDevMode === "undefined" || ngDevMode) && "Angular detected that the `AnimationBuilder` was injected, but animation support was not enabled. Please make sure that you enable animations in your application by calling `provideAnimations()` or `provideAnimationsAsync()` function.");
-    }
-  }
-  build(animation) {
-    const id = this._nextAnimationId;
-    this._nextAnimationId++;
-    const entry = Array.isArray(animation) ? sequence(animation) : animation;
-    issueAnimationCommand(this._renderer, null, id, "register", [entry]);
-    return new BrowserAnimationFactory(id, this._renderer);
-  }
-  static {
-    this.ɵfac = function BrowserAnimationBuilder_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _BrowserAnimationBuilder)(ɵɵinject(RendererFactory2), ɵɵinject(DOCUMENT));
-    };
-  }
-  static {
-    this.ɵprov = ɵɵdefineInjectable({
-      token: _BrowserAnimationBuilder,
-      factory: _BrowserAnimationBuilder.ɵfac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BrowserAnimationBuilder, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: RendererFactory2
-  }, {
-    type: Document,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }], null);
-})();
-var BrowserAnimationFactory = class extends AnimationFactory {
-  constructor(_id, _renderer) {
-    super();
-    this._id = _id;
-    this._renderer = _renderer;
-  }
-  create(element, options) {
-    return new RendererAnimationPlayer(this._id, element, options || {}, this._renderer);
-  }
-};
-var RendererAnimationPlayer = class {
-  constructor(id, element, options, _renderer) {
-    this.id = id;
-    this.element = element;
-    this._renderer = _renderer;
-    this.parentPlayer = null;
-    this._started = false;
-    this.totalTime = 0;
-    this._command("create", options);
-  }
-  _listen(eventName, callback) {
-    return this._renderer.listen(this.element, `@@${this.id}:${eventName}`, callback);
-  }
-  _command(command, ...args) {
-    issueAnimationCommand(this._renderer, this.element, this.id, command, args);
-  }
-  onDone(fn) {
-    this._listen("done", fn);
-  }
-  onStart(fn) {
-    this._listen("start", fn);
-  }
-  onDestroy(fn) {
-    this._listen("destroy", fn);
-  }
-  init() {
-    this._command("init");
-  }
-  hasStarted() {
-    return this._started;
-  }
-  play() {
-    this._command("play");
-    this._started = true;
-  }
-  pause() {
-    this._command("pause");
-  }
-  restart() {
-    this._command("restart");
-  }
-  finish() {
-    this._command("finish");
-  }
-  destroy() {
-    this._command("destroy");
-  }
-  reset() {
-    this._command("reset");
-    this._started = false;
-  }
-  setPosition(p) {
-    this._command("setPosition", p);
-  }
-  getPosition() {
-    return unwrapAnimationRenderer(this._renderer)?.engine?.players[this.id]?.getPosition() ?? 0;
-  }
-};
-function issueAnimationCommand(renderer, element, id, command, args) {
-  renderer.setProperty(element, `@@${id}:${command}`, args);
-}
-function unwrapAnimationRenderer(renderer) {
-  const type = renderer.ɵtype;
-  if (type === 0) {
-    return renderer;
-  } else if (type === 1) {
-    return renderer.animationRenderer;
-  }
-  return null;
-}
-function isAnimationRenderer(renderer) {
-  const type = renderer.ɵtype;
-  return type === 0 || type === 1;
-}
-var NoopAnimationPlayer = class {
-  constructor(duration = 0, delay = 0) {
-    this._onDoneFns = [];
-    this._onStartFns = [];
-    this._onDestroyFns = [];
-    this._originalOnDoneFns = [];
-    this._originalOnStartFns = [];
-    this._started = false;
-    this._destroyed = false;
-    this._finished = false;
-    this._position = 0;
-    this.parentPlayer = null;
-    this.totalTime = duration + delay;
-  }
-  _onFinish() {
-    if (!this._finished) {
-      this._finished = true;
-      this._onDoneFns.forEach((fn) => fn());
-      this._onDoneFns = [];
-    }
-  }
-  onStart(fn) {
-    this._originalOnStartFns.push(fn);
-    this._onStartFns.push(fn);
-  }
-  onDone(fn) {
-    this._originalOnDoneFns.push(fn);
-    this._onDoneFns.push(fn);
-  }
-  onDestroy(fn) {
-    this._onDestroyFns.push(fn);
-  }
-  hasStarted() {
-    return this._started;
-  }
-  init() {
-  }
-  play() {
-    if (!this.hasStarted()) {
-      this._onStart();
-      this.triggerMicrotask();
-    }
-    this._started = true;
-  }
-  /** @internal */
-  triggerMicrotask() {
-    queueMicrotask(() => this._onFinish());
-  }
-  _onStart() {
-    this._onStartFns.forEach((fn) => fn());
-    this._onStartFns = [];
-  }
-  pause() {
-  }
-  restart() {
-  }
-  finish() {
-    this._onFinish();
-  }
-  destroy() {
-    if (!this._destroyed) {
-      this._destroyed = true;
-      if (!this.hasStarted()) {
-        this._onStart();
-      }
-      this.finish();
-      this._onDestroyFns.forEach((fn) => fn());
-      this._onDestroyFns = [];
-    }
-  }
-  reset() {
-    this._started = false;
-    this._finished = false;
-    this._onStartFns = this._originalOnStartFns;
-    this._onDoneFns = this._originalOnDoneFns;
-  }
-  setPosition(position) {
-    this._position = this.totalTime ? position * this.totalTime : 1;
-  }
-  getPosition() {
-    return this.totalTime ? this._position / this.totalTime : 1;
-  }
-  /** @internal */
-  triggerCallback(phaseName) {
-    const methods = phaseName == "start" ? this._onStartFns : this._onDoneFns;
-    methods.forEach((fn) => fn());
-    methods.length = 0;
-  }
-};
-var AnimationGroupPlayer = class {
-  constructor(_players) {
-    this._onDoneFns = [];
-    this._onStartFns = [];
-    this._finished = false;
-    this._started = false;
-    this._destroyed = false;
-    this._onDestroyFns = [];
-    this.parentPlayer = null;
-    this.totalTime = 0;
-    this.players = _players;
-    let doneCount = 0;
-    let destroyCount = 0;
-    let startCount = 0;
-    const total = this.players.length;
-    if (total == 0) {
-      queueMicrotask(() => this._onFinish());
-    } else {
-      this.players.forEach((player) => {
-        player.onDone(() => {
-          if (++doneCount == total) {
-            this._onFinish();
-          }
-        });
-        player.onDestroy(() => {
-          if (++destroyCount == total) {
-            this._onDestroy();
-          }
-        });
-        player.onStart(() => {
-          if (++startCount == total) {
-            this._onStart();
-          }
-        });
-      });
-    }
-    this.totalTime = this.players.reduce((time, player) => Math.max(time, player.totalTime), 0);
-  }
-  _onFinish() {
-    if (!this._finished) {
-      this._finished = true;
-      this._onDoneFns.forEach((fn) => fn());
-      this._onDoneFns = [];
-    }
-  }
-  init() {
-    this.players.forEach((player) => player.init());
-  }
-  onStart(fn) {
-    this._onStartFns.push(fn);
-  }
-  _onStart() {
-    if (!this.hasStarted()) {
-      this._started = true;
-      this._onStartFns.forEach((fn) => fn());
-      this._onStartFns = [];
-    }
-  }
-  onDone(fn) {
-    this._onDoneFns.push(fn);
-  }
-  onDestroy(fn) {
-    this._onDestroyFns.push(fn);
-  }
-  hasStarted() {
-    return this._started;
-  }
-  play() {
-    if (!this.parentPlayer) {
-      this.init();
-    }
-    this._onStart();
-    this.players.forEach((player) => player.play());
-  }
-  pause() {
-    this.players.forEach((player) => player.pause());
-  }
-  restart() {
-    this.players.forEach((player) => player.restart());
-  }
-  finish() {
-    this._onFinish();
-    this.players.forEach((player) => player.finish());
-  }
-  destroy() {
-    this._onDestroy();
-  }
-  _onDestroy() {
-    if (!this._destroyed) {
-      this._destroyed = true;
-      this._onFinish();
-      this.players.forEach((player) => player.destroy());
-      this._onDestroyFns.forEach((fn) => fn());
-      this._onDestroyFns = [];
-    }
-  }
-  reset() {
-    this.players.forEach((player) => player.reset());
-    this._destroyed = false;
-    this._finished = false;
-    this._started = false;
-  }
-  setPosition(p) {
-    const timeAtPosition = p * this.totalTime;
-    this.players.forEach((player) => {
-      const position = player.totalTime ? Math.min(1, timeAtPosition / player.totalTime) : 1;
-      player.setPosition(position);
-    });
-  }
-  getPosition() {
-    const longestPlayer = this.players.reduce((longestSoFar, player) => {
-      const newPlayerIsLongest = longestSoFar === null || player.totalTime > longestSoFar.totalTime;
-      return newPlayerIsLongest ? player : longestSoFar;
-    }, null);
-    return longestPlayer != null ? longestPlayer.getPosition() : 0;
-  }
-  beforeDestroy() {
-    this.players.forEach((player) => {
-      if (player.beforeDestroy) {
-        player.beforeDestroy();
-      }
-    });
-  }
-  /** @internal */
-  triggerCallback(phaseName) {
-    const methods = phaseName == "start" ? this._onStartFns : this._onDoneFns;
-    methods.forEach((fn) => fn());
-    methods.length = 0;
-  }
-};
-var ɵPRE_STYLE = "!";
 
 // node_modules/@angular/animations/fesm2022/browser.mjs
 var LINE_START = "\n - ";
@@ -1142,10 +700,10 @@ var AnimationAstBuilderVisitor = class {
         });
         stateDef.name = name;
       } else if (def.type == AnimationMetadataType.Transition) {
-        const transition2 = this.visitTransition(def, context);
-        queryCount += transition2.queryCount;
-        depCount += transition2.depCount;
-        transitions.push(transition2);
+        const transition = this.visitTransition(def, context);
+        queryCount += transition.queryCount;
+        depCount += transition.depCount;
+        transitions.push(transition);
       } else {
         context.errors.push(invalidDefinition());
       }
@@ -2381,7 +1939,7 @@ function createFallbackTransition(triggerName, states, normalizer) {
     steps: [],
     options: null
   };
-  const transition2 = {
+  const transition = {
     type: AnimationMetadataType.Transition,
     animation,
     matchers,
@@ -2389,7 +1947,7 @@ function createFallbackTransition(triggerName, states, normalizer) {
     queryCount: 0,
     depCount: 0
   };
-  return new AnimationTransitionFactory(triggerName, transition2, states);
+  return new AnimationTransitionFactory(triggerName, transition, states);
 }
 function balanceProperties(stateMap, key1, key2) {
   if (stateMap.has(key1)) {
@@ -2637,14 +2195,14 @@ var AnimationTransitionNamespace = class {
     }
   }
   _getTrigger(name) {
-    const trigger2 = this._triggers.get(name);
-    if (!trigger2) {
+    const trigger = this._triggers.get(name);
+    if (!trigger) {
       throw unregisteredTrigger(name);
     }
-    return trigger2;
+    return trigger;
   }
   trigger(element, triggerName, value, defaultToFallback = true) {
-    const trigger2 = this._getTrigger(triggerName);
+    const trigger = this._getTrigger(triggerName);
     const player = new TransitionAnimationPlayer(this.id, triggerName, element);
     let triggersWithStates = this._engine.statesByElement.get(element);
     if (!triggersWithStates) {
@@ -2666,8 +2224,8 @@ var AnimationTransitionNamespace = class {
     if (!isRemoval && fromState.value === toState.value) {
       if (!objEquals(fromState.params, toState.params)) {
         const errors = [];
-        const fromStyles = trigger2.matchStyles(fromState.value, fromState.params, errors);
-        const toStyles = trigger2.matchStyles(toState.value, toState.params, errors);
+        const fromStyles = trigger.matchStyles(fromState.value, fromState.params, errors);
+        const toStyles = trigger.matchStyles(toState.value, toState.params, errors);
         if (errors.length) {
           this._engine.reportError(errors);
         } else {
@@ -2685,18 +2243,18 @@ var AnimationTransitionNamespace = class {
         player2.destroy();
       }
     });
-    let transition2 = trigger2.matchTransition(fromState.value, toState.value, element, toState.params);
+    let transition = trigger.matchTransition(fromState.value, toState.value, element, toState.params);
     let isFallbackTransition = false;
-    if (!transition2) {
+    if (!transition) {
       if (!defaultToFallback) return;
-      transition2 = trigger2.fallbackTransition;
+      transition = trigger.fallbackTransition;
       isFallbackTransition = true;
     }
     this._engine.totalQueuedPlayers++;
     this._queue.push({
       element,
       triggerName,
-      transition: transition2,
+      transition,
       fromState,
       toState,
       player,
@@ -2761,8 +2319,8 @@ var AnimationTransitionNamespace = class {
     const previousTriggersValues = /* @__PURE__ */ new Map();
     if (triggerStates) {
       const players = [];
-      triggerStates.forEach((state2, triggerName) => {
-        previousTriggersValues.set(triggerName, state2.value);
+      triggerStates.forEach((state, triggerName) => {
+        previousTriggersValues.set(triggerName, state.value);
         if (this._triggers.has(triggerName)) {
           const player = this.trigger(element, triggerName, VOID_VALUE, defaultToFallback);
           if (player) {
@@ -2789,8 +2347,8 @@ var AnimationTransitionNamespace = class {
         const triggerName = listener.name;
         if (visitedTriggers.has(triggerName)) return;
         visitedTriggers.add(triggerName);
-        const trigger2 = this._triggers.get(triggerName);
-        const transition2 = trigger2.fallbackTransition;
+        const trigger = this._triggers.get(triggerName);
+        const transition = trigger.fallbackTransition;
         const fromState = elementStates.get(triggerName) || DEFAULT_STATE_VALUE;
         const toState = new StateValue(VOID_VALUE);
         const player = new TransitionAnimationPlayer(this.id, triggerName, element);
@@ -2798,7 +2356,7 @@ var AnimationTransitionNamespace = class {
         this._queue.push({
           element,
           triggerName,
-          transition: transition2,
+          transition,
           fromState,
           toState,
           player,
@@ -2964,9 +2522,9 @@ var TransitionAnimationEngine = class {
     }
     return ns;
   }
-  registerTrigger(namespaceId, name, trigger2) {
+  registerTrigger(namespaceId, name, trigger) {
     let ns = this._namespaceLookup[namespaceId];
-    if (ns && ns.register(name, trigger2)) {
+    if (ns && ns.register(name, trigger)) {
       this.totalAnimations++;
     }
   }
@@ -3262,9 +2820,9 @@ var TransitionAnimationEngine = class {
               const previousValue = details.previousTriggersValues.get(entry.triggerName);
               const triggersWithStates = this.statesByElement.get(entry.element);
               if (triggersWithStates && triggersWithStates.has(entry.triggerName)) {
-                const state2 = triggersWithStates.get(entry.triggerName);
-                state2.value = previousValue;
-                triggersWithStates.set(entry.triggerName, state2);
+                const state = triggersWithStates.get(entry.triggerName);
+                state.value = previousValue;
+                triggersWithStates.set(entry.triggerName, state);
               }
             }
             player.destroy();
@@ -3816,8 +3374,8 @@ var AnimationEngine = class {
   }
   registerTrigger(componentId, namespaceId, hostElement, name, metadata) {
     const cacheKey = componentId + "-" + name;
-    let trigger2 = this._triggerCache[cacheKey];
-    if (!trigger2) {
+    let trigger = this._triggerCache[cacheKey];
+    if (!trigger) {
       const errors = [];
       const warnings = [];
       const ast = buildAnimationAst(this._driver, metadata, errors, warnings);
@@ -3827,10 +3385,10 @@ var AnimationEngine = class {
       if (warnings.length) {
         warnTriggerBuild(name, warnings);
       }
-      trigger2 = buildTrigger(name, ast, this._normalizer);
-      this._triggerCache[cacheKey] = trigger2;
+      trigger = buildTrigger(name, ast, this._normalizer);
+      this._triggerCache[cacheKey] = trigger;
     }
-    this._transitionEngine.registerTrigger(namespaceId, name, trigger2);
+    this._transitionEngine.registerTrigger(namespaceId, name, trigger);
   }
   register(namespaceId, hostElement) {
     this._transitionEngine.register(namespaceId, hostElement);
@@ -4302,9 +3860,9 @@ function resolveElementFromTarget(target) {
 }
 function parseTriggerCallbackName(triggerName) {
   const dotIndex = triggerName.indexOf(".");
-  const trigger2 = triggerName.substring(0, dotIndex);
+  const trigger = triggerName.substring(0, dotIndex);
   const phase = triggerName.slice(dotIndex + 1);
-  return [trigger2, phase];
+  return [trigger, phase];
 }
 var AnimationRendererFactory = class {
   constructor(delegate, engine, _zone) {
@@ -4337,11 +3895,11 @@ var AnimationRendererFactory = class {
     const namespaceId = type.id + "-" + this._currentId;
     this._currentId++;
     this.engine.register(namespaceId, hostElement);
-    const registerTrigger = (trigger2) => {
-      if (Array.isArray(trigger2)) {
-        trigger2.forEach(registerTrigger);
+    const registerTrigger = (trigger) => {
+      if (Array.isArray(trigger)) {
+        trigger.forEach(registerTrigger);
       } else {
-        this.engine.registerTrigger(componentId, namespaceId, hostElement, trigger2.name, trigger2);
+        this.engine.registerTrigger(componentId, namespaceId, hostElement, trigger.name, trigger);
       }
     };
     const animationTriggers = type.data["animation"];
@@ -4552,11 +4110,6 @@ function provideNoopAnimations() {
 }
 
 export {
-  trigger,
-  animate,
-  style,
-  state,
-  transition,
   InjectableAnimationEngine,
   BrowserAnimationsModule,
   provideAnimations,
@@ -4564,13 +4117,6 @@ export {
   provideNoopAnimations
 };
 /*! Bundled license information:
-
-@angular/animations/fesm2022/animations.mjs:
-  (**
-   * @license Angular v18.2.9
-   * (c) 2010-2024 Google LLC. https://angular.io/
-   * License: MIT
-   *)
 
 @angular/animations/fesm2022/browser.mjs:
   (**
@@ -4586,4 +4132,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-S3YABSBH.js.map
+//# sourceMappingURL=chunk-W3Q4TGRE.js.map
