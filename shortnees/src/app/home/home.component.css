@@ -1,12 +1,14 @@
 .newsletter-subscribe {
-    color:#313437;
-    background-color:#fff;
+    color:#313437; /*Color titulo principal*/
+    background-color:#858484; /*colo fondo home*/
     padding:50px 0;
+    font-family: 'Roboto', sans-serif;
   }
   
   .newsletter-subscribe p {
-    color:#7d8285;
+    color:#f9fafc; /*Color texto p*/
     line-height:1.5;
+    font-family: 'Roboto', sans-serif;
   }
   
   .newsletter-subscribe h2 {
@@ -23,18 +25,21 @@
     font-size:16px;
     max-width:500px;
     margin:0 auto 25px;
+    
   }
   
   .newsletter-subscribe .intro p {
     margin-bottom:35px;
+    
   }
   
   .newsletter-subscribe form {
     justify-content:center;
+    
   }
   
   .newsletter-subscribe form .form-control {
-    background:#eff1f4;
+    background:#a5a5a5; /*Fondo inputs*/
     border:none;
     border-radius:3px;
     box-shadow:none;
@@ -44,6 +49,7 @@
     height:45px;
     margin-right:10px;
     min-width:250px;
+    font-family: 'Roboto', sans-serif;
   }
   
   .newsletter-subscribe form .btn {
@@ -58,6 +64,7 @@
     font-size:13px;
     letter-spacing:0.4px;
     line-height:1;
+    
   }
   
   .newsletter-subscribe form .btn:hover {
@@ -73,4 +80,12 @@
     color:#fff;
     outline:none !important;
   }
-  
+  .input-group-text{
+    background-color: #858484;
+    border-color: #fff;
+  }
+
+  .form-label {/*Color texto interno*/
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+  }

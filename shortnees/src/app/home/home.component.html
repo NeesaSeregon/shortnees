@@ -9,7 +9,7 @@
             }
         </div>
         @if (!isLoggedIn()) {
-          <form [formGroup]="formularioPersonalizar" class="mt-4 p-4 bg-light rounded shadow-sm">
+          <form [formGroup]="formularioSinRegistro" class="mt-4 p-4 bg-dark rounded shadow-sm">
             <div class="mb-3">
               <label for="urlOriginal" class="form-label">URL Original</label>
               <div class="input-group">
@@ -17,15 +17,16 @@
                 <input id="urlOriginal" class="form-control" formControlName="urlOriginal" type="text" placeholder="Ingresa la URL que deseas acortar">
               </div>
             </div>
+            <!-- Este segmento no ha de funcionar-->
             <div class="mb-3">
-              <label for="urlPersonalizada" class="form-label">URL Personalizada</label>
+              <label for="urlPersonalizada " class="form-label">Personaliza tu URL</label>
               <div class="input-group">
-                <span class="input-group-text">wbt.es/</span>
-                <input id="urlPersonalizada" class="form-control" formControlName="urlPersonalizada" type="text" placeholder="Crea tu nueva URL corta">
+                <span class="input-group-text">registrate para acceder a esta caracteristica</span>
               </div>
             </div>
+
             <div class="d-grid gap-2">
-              <button class="btn btn-primary btn-lg" (click)="personalizar()" type="button">
+              <button class="btn btn-primary btn-lg" (click)="acortarHash()" type="button">
                 <i class="bi bi-scissors me-2"></i> Acortar URL
               </button>
             </div>
@@ -37,7 +38,7 @@
                     <input class="form-control" value="{{shortUrl}}" type="text" placeholder="Tu URL a acortar">     
                 }
         } @else {
-            <form [formGroup]="formularioPersonalizar" class="mt-4 p-4 bg-light rounded shadow-sm">
+            <form [formGroup]="formularioPersonalizar" class="mt-4 p-4 bg-dark rounded shadow-sm">
                 <div class="mb-3">
                   <label for="urlOriginal" class="form-label">URL Original</label>
                   <div class="input-group">

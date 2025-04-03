@@ -25,6 +25,7 @@ export class HomeComponent {
   private accesoService = inject(AccesoService)
   isLoggedIn:any;
   formularioPersonalizar: FormGroup;
+  formularioSinRegistro: FormGroup;
   constructor(
     private resolverToken: ResolverTokenService,
     private linkService : LinkService,
@@ -33,6 +34,9 @@ export class HomeComponent {
     this.formularioPersonalizar = this.fb.group({
       urlOriginal: [''],
       urlPersonalizada: ['']
+    });
+    this.formularioSinRegistro = this.fb.group({
+      urlOriginal: [''],
     });
   }
   ngOnInit() {
@@ -62,7 +66,7 @@ export class HomeComponent {
             this.shortUrl=data.urlCorta;
             this.error = data.mensaje
           }else{
-            this.error = data.mensaje
+            this.error = 'todo lo demas'
           }
           //LLAMAR EVENTO: MOSTRAR LA URL 
         }
