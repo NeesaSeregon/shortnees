@@ -18,8 +18,6 @@ import { LinkResponse } from '../interfaces/link-response';
 export class HomeComponent {
   username: string | undefined;
   roles: string[] | undefined;
-  private router = inject(Router);
-  urlForm = new FormControl('');
   shortUrl: string = '';
   error: string = '';
   private accesoService = inject(AccesoService)
@@ -52,10 +50,11 @@ export class HomeComponent {
     }
   }
   acortarHash() {
+    console.log(this.formularioSinRegistro.value['urlOriginal']);
     let url:Url = {
-      url: this.urlForm.value ?? ''
+      url: this.formularioSinRegistro.value['urlOriginal']
     };
-    if(this.urlForm.value != null){
+    if(this.formularioSinRegistro.value['urlOriginal'] != null){
       this.linkService.enviarLink(url).subscribe({
         next: (data:LinkResponse) => {
           if(data.urlCorta==='protocolo'){
