@@ -18,6 +18,8 @@ export class DashboardComponent {
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
   };
+
+  //IMPORTANTE, como y cuanto actualizar esta informacion a tarves de una peticion, 
   barChartData = [
     { name: 'Link A', value: 100 },
     { name: 'Link B', value: 200 },
