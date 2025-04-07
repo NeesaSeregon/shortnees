@@ -14,17 +14,42 @@ export class DashboardComponent {
   enlaces: Links[] = [];
   estadisticas: Estadisticas | null = null; // Cambiado a null para reflejar que es un único objeto
   urlCortaSeleccionada: String | null = null; // Cambiado a null para reflejar que es opcional
-  constructor(private linkService: LinkService) { }
+
+  single: any[] = [];
+  view: any[] = [700, 400];
+  // options
+  gradient: boolean = true;
+  showLegend: boolean = true;
+  showLabels: boolean = true;
+  isDoughnut: boolean = false;
+  constructor(private linkService: LinkService) { 
+   
+  }
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
+    
   };
 
-  //IMPORTANTE, como y cuanto actualizar esta informacion a tarves de una peticion, 
-  barChartData = [
-    { name: 'Link A', value: 100 },
-    { name: 'Link B', value: 200 },
-    { name: 'Link C', value: 150 },
-  ];
+  // Crear un servicio en mi api que envie esta informacion formateada correctamente 
+  dataBarPais = [];
+  dataBar = [
+    {
+      "name": "Germany",
+      "value": 8940000
+    },
+    {
+      "name": "USA",
+      "value": 5000000
+    },
+    {
+      "name": "France",
+      "value": 7200000
+    },
+      {
+      "name": "UK",
+      "value": 6200000
+    }
+  ]
 
   ngOnInit(): void {
     this.loadEnlaces();
@@ -74,4 +99,18 @@ export class DashboardComponent {
     this.urlCortaSeleccionada=url;
   }
   
+
+  // ngx xhars
+
+  onSelect(): void {
+    console.log('Item clicked', JSON.parse(JSON.stringify(this.dataBar)));
+  }
+
+  onActivate(): void {
+    console.log('Activate', JSON.parse(JSON.stringify(this.dataBar)));
+  }
+
+  onDeactivate(): void {
+    console.log('Deactivate', JSON.parse(JSON.stringify(this.dataBar)));
+  }
 }
