@@ -18,6 +18,16 @@
 
       <!-- Mostrar estadísticas si están disponibles -->
       @if (estadisticas) {
+        
+        <ngx-charts-advanced-pie-chart
+      
+        [results]="dataBar"
+        [gradient]="gradient"
+       
+        >
+      </ngx-charts-advanced-pie-chart>
+
+  
         <div class="mt-4">
           <h3 class="mb-3">Estadísticas del Enlace {{ urlCortaSeleccionada }}</h3>
           <div class="alert alert-info">
@@ -46,7 +56,10 @@
         No tienes enlaces disponibles.
       </div>
     }
-    <ngx-charts-bar-vertical
+
+    
+
+<!--<ngx-charts-bar-vertical
   [view]="[700,400]"
   [results]="barChartData"
   
@@ -54,6 +67,7 @@
   [xAxis]="true"
   [yAxis]="true"
 >
-</ngx-charts-bar-vertical>
+</ngx-charts-bar-vertical> -->
+    
 
 </div>

@@ -31,7 +31,17 @@ class EstadisticasEnlacesRepository extends ServiceEntityRepository
                 ->getResult()
             ;
         }
-    
+        // Consulta con QueryBuilder
+        public function findByPais($enlace_id): array {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $query = $queryBuilder
+           ->select('e.ubicacion, COUNT(e.id) as totalClicks')
+           ->from('App\Entity\EstadisticasEnlaces', 'e')
+           ->groupBy('e.ubicacion')
+           ->getQuery();
+        // Ejecutar la consulta
+        return $query->getResult();
+        }
     //    /**
     //     * @return EstadisticasEnlaces[] Returns an array of EstadisticasEnlaces objects
     //     */
