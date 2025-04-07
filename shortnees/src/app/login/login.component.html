@@ -1,8 +1,8 @@
-<main class="container d-flex align-items-center justify-content-center vh-100">
-  <div class="card" style="width: 400px;">
+<main class="container d-flex align-items-center justify-content-center vh-100 ">
+  <div class="card mt-4 p-4 bg-dark rounded shadow-sm" style="width: 400px;">
     <div class="card-body">
       <h5 class="card-title text-center">Iniciar Sesión</h5>
-      <form [formGroup]="formularioLogin" (ngSubmit)="iniciarSesion()">
+      <form class="" [formGroup]="formularioLogin" (ngSubmit)="iniciarSesion()">
         <div class="mb-3">
           <label for="correo" class="form-label">Email</label>
           <input type="email" class="form-control" id="correo" formControlName="correo" placeholder="Ex. pat@example.com" required>

@@ -1,0 +1,16 @@
+:host {
+    display: block;
+}
+.card-body {
+    font-family: 'Roboto', sans-serif;
+   
+  }
+ form .form-control {
+    background-color: #858484 !important; 
+    border-color: #fff;
+  }
+
+  .form-label {
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+  }
