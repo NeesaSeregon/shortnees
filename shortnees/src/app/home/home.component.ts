@@ -46,7 +46,6 @@ export class HomeComponent {
       this.roles = user.roles;
       localStorage.setItem('email', this.username);
       localStorage.setItem('rol', this.roles[0]);
-    
     }
   }
   acortarHash() {
