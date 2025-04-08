@@ -44,19 +44,8 @@ export class HomeComponent {
   ngOnInit() {
     const user = this.resolverToken.getUser();
     this.isLoggedIn = this.accesoService.loginStatus;
-    this.usuarioService.user$.subscribe((user) => {
-      this.user2 = user; // Escucha cambios en el usuario
-      this.router.navigate(['/home'])
-    });
-    if (user) {
-      this.username = user.username;
-      this.roles = user.roles;
-      localStorage.setItem('email', this.username);
-      localStorage.setItem('rol', this.roles[0]);
-    }
   }
   acortarHash() {
-    console.log(this.formularioSinRegistro.value['urlOriginal']);
     let url:Url = {
       url: this.formularioSinRegistro.value['urlOriginal']
     };
