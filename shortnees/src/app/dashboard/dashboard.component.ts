@@ -3,6 +3,7 @@ import { LinkService } from '../services/link.service';
 import { Links } from '../interfaces/Links';
 import { Estadisticas } from '../interfaces/estadisticas';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { EstadisticasPais } from '../interfaces/estadisticas-pais';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -14,6 +15,7 @@ export class DashboardComponent {
   enlaces: Links[] = [];
   estadisticas: Estadisticas | null = null; // Cambiado a null para reflejar que es un único objeto
   urlCortaSeleccionada: String | null = null; // Cambiado a null para reflejar que es opcional
+  estadisticasPais: EstadisticasPais | null = null; // Cambiado a null para reflejar que es un único objeto
 
   single: any[] = [];
   view: any[] = [700, 400];
@@ -31,7 +33,7 @@ export class DashboardComponent {
   };
 
   // Crear un servicio en mi api que envie esta informacion formateada correctamente 
-  dataBarPais = [];
+  dataBarPais:any = [];
   dataBar = [
     {
       "name": "Germany",
@@ -53,11 +55,11 @@ export class DashboardComponent {
 
   ngOnInit(): void {
     this.loadEnlaces();
+    
   }
   loadEnlaces(): void {
     this.linkService.getUserEnlaces().subscribe({
       next: (data: any) => {
-        console.log(data)
         // Asignar directamente los datos a la propiedad enlaces
         this.enlaces = data; // No necesitas forEach si solo asignas el array
       },
@@ -80,15 +82,26 @@ export class DashboardComponent {
   verEstadisticas(id: number){
     this.linkService.obtenerEstadisticas(id).subscribe({
       next: (data: Estadisticas) => {
-        console.log(data)
         data.detalles.forEach(detalle => {
-          console.log(detalle.fecha_click);
           let fechaString:String = detalle.fecha_click.toString();
           detalle.fecha_click = "Fecha: "+fechaString.replace(' ', ' Hora: '); // Convierte la cadena a un objeto Date
         });
-        
-        this.estadisticas = data; 
-        
+        this.estadisticas = data;
+      
+      },
+      error: (error) => {
+        console.error('Error al cargar las estadisticas:', error);
+      }
+    });
+  }
+  verEstadisticasPais (id:number) {
+    this.linkService.obtenerEstadisticasPais(id).subscribe({
+      next: (data2: EstadisticasPais) => {
+        console.log(data2)
+        console.log(this.dataBar);
+        this.estadisticasPais = data2; 
+        this.dataBarPais = this.estadisticasPais; 
+        console.log(this.estadisticasPais);
       },
       error: (error) => {
         console.error('Error al cargar las estadisticas:', error);
@@ -99,7 +112,6 @@ export class DashboardComponent {
     this.urlCortaSeleccionada=url;
   }
   
-
   // ngx xhars
 
   onSelect(): void {

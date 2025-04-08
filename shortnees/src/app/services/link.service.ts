@@ -10,6 +10,9 @@ import { Url } from '../interfaces/Url';
 import { LinkResponse } from '../interfaces/link-response';
 import { Urls } from '../interfaces/Urls';
 import { Estadisticas } from '../interfaces/estadisticas';
+import { EstadisticasPais } from '../interfaces/estadisticas-pais';
+import { EstadisticasFecha } from '../interfaces/estadisticas-fecha';
+import { EstadisticasDispositivo } from '../interfaces/estadisticas-dispositivo';
 @Injectable({
   providedIn: 'root'
 })
@@ -31,6 +34,16 @@ export class LinkService {
     return this.http.delete(`${this.baseUrl}eliminar-enlace/${id}`);
   }
   obtenerEstadisticas(id: number): Observable<Estadisticas> {
+    return this.http.get<Estadisticas>(`${this.baseUrl}estadisticas/${id}`);
+  }
+  obtenerEstadisticasPais(id: number): Observable<EstadisticasPais> {
+    return this.http.get<EstadisticasPais>(`${this.baseUrl}estadisticas_pais/${id}`);
+  }
+  //sin ahcer
+  obtenerEstadisticasFecha(id: number): Observable<Estadisticas> {
+    return this.http.get<Estadisticas>(`${this.baseUrl}estadisticas/${id}`);
+  }
+  obtenerEstadisticasDispositivo(id: number): Observable<Estadisticas> {
     return this.http.get<Estadisticas>(`${this.baseUrl}estadisticas/${id}`);
   }
 }

@@ -11,7 +11,7 @@
             <strong>Expira en:</strong> {{ enlace.fechaExpiracion }}<br>
             <!-- Botones para acciones -->
             <button (click)="eliminarEnlace(enlace.id)" class="btn btn-danger btn-sm">Eliminar Enlace</button>
-            <button (click)="urlSeleccionada(enlace.urlCorta); verEstadisticas(enlace.id)" class="btn btn-primary btn-sm">Ver Estadísticas</button>    
+            <button (click)="urlSeleccionada(enlace.urlCorta); verEstadisticasPais(enlace.id); verEstadisticas(enlace.id)" class="btn btn-primary btn-sm">Ver Estadísticas</button>    
           </li>
         }
       </ul>
@@ -30,15 +30,10 @@
                 <div class="card">
                   <div class="card-body">
                     <ngx-charts-advanced-pie-chart
-                    [results]="dataBar"
+                    [results]="dataBarPais"
                     [gradient]="gradient"
                     >
                     </ngx-charts-advanced-pie-chart>
-            
-                   <!-- <p class="card-text"><strong>Fecha Click:</strong> {{ detalle.fecha_click }}</p>
-                    <p class="card-text"><strong>IP Usuario:</strong> {{ detalle.ip_usuario }}</p>
-                    <p class="card-text"><strong>Ubicación:</strong> {{ detalle.ubicacion }}</p>
-                    <p class="card-text"><strong>Dispositivo:</strong> {{ detalle.dispositivo }}</p> -->
                   </div>
                 </div>
                 <div class="card">
@@ -48,6 +43,11 @@
                     [gradient]="gradient"
                     >
                     </ngx-charts-advanced-pie-chart>
+            
+                   <!-- <p class="card-text"><strong>Fecha Click:</strong> {{ detalle.fecha_click }}</p>
+                    <p class="card-text"><strong>IP Usuario:</strong> {{ detalle.ip_usuario }}</p>
+                    <p class="card-text"><strong>Ubicación:</strong> {{ detalle.ubicacion }}</p>
+                    <p class="card-text"><strong>Dispositivo:</strong> {{ detalle.dispositivo }}</p> -->
                   </div>
                 </div>
                 <div class="card">

@@ -80,7 +80,13 @@ class EstadisticasEnlacesController extends AbstractController
             }
             $clicsPorPais[$pais]++;
         }
-        return new JsonResponse($clicsPorPais, Response::HTTP_OK);
+        foreach ($clicsPorPais as $pais => $numeroClics) {
+            $resultado[] = [
+                'name' => $pais,
+                'value' => $numeroClics
+            ];
+        }
+        return new JsonResponse($resultado, Response::HTTP_OK);
     }
     //crea un endpoint que devuelva en formato json el numero de visitas segmentado por fecha
     #[Route('/estadisticas_fecha/{id}', name: 'estadisticas_fecha', methods: ['GET'])]
