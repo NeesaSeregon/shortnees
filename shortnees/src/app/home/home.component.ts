@@ -8,6 +8,7 @@ import { Links } from '../interfaces/Links';
 import { Url } from '../interfaces/Url';
 import { AccesoService } from '../services/acceso.service';
 import { LinkResponse } from '../interfaces/link-response';
+import { UsuarioService } from '../services/usuario.service';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -20,14 +21,17 @@ export class HomeComponent {
   roles: string[] | undefined;
   shortUrl: string = '';
   error: string = '';
-  private accesoService = inject(AccesoService)
+  private accesoService = inject(AccesoService);
+  private router = inject(Router);
   isLoggedIn:any;
   formularioPersonalizar: FormGroup;
   formularioSinRegistro: FormGroup;
+  user2: any;
   constructor(
     private resolverToken: ResolverTokenService,
     private linkService : LinkService,
-    private fb : FormBuilder
+    private fb : FormBuilder,
+    private usuarioService: UsuarioService
   ) {
     this.formularioPersonalizar = this.fb.group({
       urlOriginal: [''],
@@ -40,7 +44,10 @@ export class HomeComponent {
   ngOnInit() {
     const user = this.resolverToken.getUser();
     this.isLoggedIn = this.accesoService.loginStatus;
-   
+    this.usuarioService.user$.subscribe((user) => {
+      this.user2 = user; // Escucha cambios en el usuario
+      this.router.navigate(['/home'])
+    });
     if (user) {
       this.username = user.username;
       this.roles = user.roles;
