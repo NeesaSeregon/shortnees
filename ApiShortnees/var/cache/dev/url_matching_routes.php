@@ -39,7 +39,7 @@ return [
         101 => [[['_route' => 'obtener_estadisticas', '_controller' => 'App\\Controller\\EstadisticasEnlacesController::obtenerEstadisticas'], ['id'], ['GET' => 0], null, false, true, null]],
         126 => [[['_route' => 'estadisticas_pais', '_controller' => 'App\\Controller\\EstadisticasEnlacesController::obtenerEstadisticasPorPais'], ['id'], ['GET' => 0], null, false, true, null]],
         148 => [[['_route' => 'estadisticas_fecha', '_controller' => 'App\\Controller\\EstadisticasEnlacesController::obtenerEstadisticasPorFecha'], ['id'], ['GET' => 0], null, false, true, null]],
-        176 => [[['_route' => 'estadisticas_ispositivo', '_controller' => 'App\\Controller\\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo'], ['id'], ['GET' => 0], null, false, true, null]],
+        176 => [[['_route' => 'estadisticas_dispositivo', '_controller' => 'App\\Controller\\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo'], ['id'], ['GET' => 0], null, false, true, null]],
         204 => [
             [['_route' => 'app_redireccionapp_redireccion', '_controller' => 'App\\Controller\\RedireccionController::redirectToOriginalUrl'], ['urlCorta'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],

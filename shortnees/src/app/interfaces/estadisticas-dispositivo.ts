@@ -1,4 +1,4 @@
 export interface EstadisticasDispositivo {
-    dispositivo: string;
-    numeroClicks: number;
+    name: string;
+    value: number;
 }
