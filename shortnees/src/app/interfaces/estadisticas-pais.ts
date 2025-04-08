@@ -1,4 +1,4 @@
 export interface EstadisticasPais {
-    pais: string;
-    numeroClicks: number;
+    name: string;
+    value: number;
 }
