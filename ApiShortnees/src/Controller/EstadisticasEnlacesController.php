@@ -59,7 +59,7 @@ class EstadisticasEnlacesController extends AbstractController
 
 
     //crea un endpoint que devuelva en formato json el numero de visitas segmentado por paises
-    #[Route('/enlace/{id}/estadisticas/pais', name: 'obtener_estadisticas', methods: ['GET'])]
+    #[Route('/enlace/{id}/estadisticasPais', name: 'estadisticasPais', methods: ['GET'])]
     public function obtenerEstadisticasPorPais(int $id, EntityManagerInterface $entityManager): JsonResponse
     {
         // Buscar el enlace por su ID
@@ -71,26 +71,14 @@ class EstadisticasEnlacesController extends AbstractController
         }
     
         // Obtener todas las estadísticas asociadas al enlace
-        $estadisticas = $entityManager->getRepository(EstadisticasEnlaces::class)->findBy(['enlace' => $enlace]);
+       // $estadisticas = $entityManager->getRepository(EstadisticasEnlaces::class)->findBy(['enlace' => $enlace]);
     
         // Contar los clics (apariciones)
-        $numeroClicks = count($estadisticas);
-        
-
-        // Preparar la respuesta con las estadísticas
-        /*$resultadoEstadisticas = [
-            'id' => $enlace->getId(),
-            'numeroClicks' => $numeroClicks,
-            'detalles' => []
-        ];*/
+        //$numeroClicks = count($estadisticas);
         
         $resultadoEstadisticas = $entityManager->getRepository(EstadisticasEnlaces::class)->findByPais($enlace->getId());
-    
-
-            
-
         // Devolver la respuesta con todas las estadísticas
-        return new JsonResponse($resultadoEstadisticas, Response::HTTP_OK);
+        return $resultadoEstadisticas; //new JsonResponse($resultadoEstadisticas, Response::HTTP_OK);
     }
 
     //crea un endpoint que devuelva en formato json el numero de visitas segmentado por fecha
