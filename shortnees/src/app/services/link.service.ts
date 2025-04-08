@@ -31,6 +31,6 @@ export class LinkService {
     return this.http.delete(`${this.baseUrl}eliminar-enlace/${id}`);
   }
   obtenerEstadisticas(id: number): Observable<Estadisticas> {
-    return this.http.get<Estadisticas>(`${this.baseUrl}enlace/${id}/estadisticas`);
+    return this.http.get<Estadisticas>(`${this.baseUrl}estadisticas/${id}`);
   }
 }

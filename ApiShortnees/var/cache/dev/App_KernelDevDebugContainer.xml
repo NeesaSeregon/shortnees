@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
   <parameters>
-    <parameter key="kernel.project_dir">C:\Users\Luis\Desktop\Shortnees\ApiShortnees</parameter>
+    <parameter key="kernel.project_dir">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees</parameter>
     <parameter key="kernel.environment">dev</parameter>
     <parameter key="kernel.runtime_environment">%env(default:kernel.environment:APP_RUNTIME_ENV)%</parameter>
     <parameter key="kernel.runtime_mode">%env(query_string:default:container.runtime_mode:APP_RUNTIME_MODE)%</parameter>
@@ -9,9 +9,9 @@
     <parameter key="kernel.runtime_mode.cli">%env(not:default:kernel.runtime_mode.web:)%</parameter>
     <parameter key="kernel.runtime_mode.worker">%env(bool:default::key:worker:default:kernel.runtime_mode:)%</parameter>
     <parameter key="kernel.debug">true</parameter>
-    <parameter key="kernel.build_dir">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev</parameter>
-    <parameter key="kernel.cache_dir">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev</parameter>
-    <parameter key="kernel.logs_dir">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\log</parameter>
+    <parameter key="kernel.build_dir">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev</parameter>
+    <parameter key="kernel.cache_dir">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev</parameter>
+    <parameter key="kernel.logs_dir">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\log</parameter>
     <parameter key="kernel.bundles" type="collection">
       <parameter key="FrameworkBundle">Symfony\Bundle\FrameworkBundle\FrameworkBundle</parameter>
       <parameter key="DoctrineBundle">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</parameter>
@@ -23,31 +23,31 @@
     </parameter>
     <parameter key="kernel.bundles_metadata" type="collection">
       <parameter key="FrameworkBundle" type="collection">
-        <parameter key="path">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\vendor\symfony\framework-bundle</parameter>
+        <parameter key="path">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\vendor\symfony\framework-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\FrameworkBundle</parameter>
       </parameter>
       <parameter key="DoctrineBundle" type="collection">
-        <parameter key="path">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\vendor\doctrine\doctrine-bundle</parameter>
+        <parameter key="path">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\vendor\doctrine\doctrine-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\DoctrineBundle</parameter>
       </parameter>
       <parameter key="DoctrineMigrationsBundle" type="collection">
-        <parameter key="path">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\vendor\doctrine\doctrine-migrations-bundle</parameter>
+        <parameter key="path">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\vendor\doctrine\doctrine-migrations-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\MigrationsBundle</parameter>
       </parameter>
       <parameter key="MakerBundle" type="collection">
-        <parameter key="path">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\vendor\symfony\maker-bundle\src</parameter>
+        <parameter key="path">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\vendor\symfony\maker-bundle\src</parameter>
         <parameter key="namespace">Symfony\Bundle\MakerBundle</parameter>
       </parameter>
       <parameter key="SecurityBundle" type="collection">
-        <parameter key="path">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\vendor\symfony\security-bundle</parameter>
+        <parameter key="path">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\vendor\symfony\security-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\SecurityBundle</parameter>
       </parameter>
       <parameter key="NelmioCorsBundle" type="collection">
-        <parameter key="path">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\vendor\nelmio\cors-bundle</parameter>
+        <parameter key="path">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\vendor\nelmio\cors-bundle</parameter>
         <parameter key="namespace">Nelmio\CorsBundle</parameter>
       </parameter>
       <parameter key="LexikJWTAuthenticationBundle" type="collection">
-        <parameter key="path">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\vendor\lexik\jwt-authentication-bundle</parameter>
+        <parameter key="path">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\vendor\lexik\jwt-authentication-bundle</parameter>
         <parameter key="namespace">Lexik\Bundle\JWTAuthenticationBundle</parameter>
       </parameter>
     </parameter>
@@ -81,15 +81,15 @@
     <parameter key="kernel.error_controller">error_controller</parameter>
     <parameter key="debug.file_link_format">%env(default::SYMFONY_IDE)%</parameter>
     <parameter key="debug.error_handler.throw_at">-1</parameter>
-    <parameter key="debug.container.dump">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/App_KernelDevDebugContainer.xml</parameter>
+    <parameter key="debug.container.dump">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/App_KernelDevDebugContainer.xml</parameter>
     <parameter key="router.request_context.host">localhost</parameter>
     <parameter key="router.request_context.scheme">http</parameter>
     <parameter key="router.request_context.base_url"></parameter>
     <parameter key="router.resource">kernel::loadRoutes</parameter>
-    <parameter key="router.cache_dir">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev</parameter>
+    <parameter key="router.cache_dir">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev</parameter>
     <parameter key="request_listener.http_port">80</parameter>
     <parameter key="request_listener.https_port">443</parameter>
-    <parameter key="cache.prefix.seed">_C:\Users\Luis\Desktop\Shortnees\ApiShortnees.App_KernelDevDebugContainer</parameter>
+    <parameter key="cache.prefix.seed">_C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees.App_KernelDevDebugContainer</parameter>
     <parameter key="session.metadata.storage_key">_sf2_meta</parameter>
     <parameter key="session.storage.options" type="collection">
       <parameter key="cache_limiter" type="string">0</parameter>
@@ -166,7 +166,7 @@
     <parameter key="doctrine.orm.second_level_cache.regions_configuration.class">Doctrine\ORM\Cache\RegionsConfiguration</parameter>
     <parameter key="doctrine.orm.auto_generate_proxy_classes">true</parameter>
     <parameter key="doctrine.orm.enable_lazy_ghost_objects">true</parameter>
-    <parameter key="doctrine.orm.proxy_dir">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/doctrine/orm/Proxies</parameter>
+    <parameter key="doctrine.orm.proxy_dir">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/doctrine/orm/Proxies</parameter>
     <parameter key="doctrine.orm.proxy_namespace">Proxies</parameter>
     <parameter key="doctrine.migrations.preferred_em">null</parameter>
     <parameter key="doctrine.migrations.preferred_connection">null</parameter>
@@ -320,7 +320,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.J6NYfMQ"/>
+      <argument type="service" id=".service_locator.PYAwk_h"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -401,7 +401,7 @@
       </argument>
     </service>
     <service id="http_cache.store" class="Symfony\Component\HttpKernel\HttpCache\Store">
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/http_cache</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/http_cache</argument>
     </service>
     <service id="url_helper" class="Symfony\Component\HttpFoundation\UrlHelper">
       <argument type="service" id="request_stack"/>
@@ -411,7 +411,7 @@
       <tag name="container.no_preload"/>
       <argument type="tagged_iterator" tag="kernel.cache_warmer"/>
       <argument>true</argument>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/App_KernelDevDebugContainerDeprecations.log</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/App_KernelDevDebugContainerDeprecations.log</argument>
     </service>
     <service id="cache_clearer" class="Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer">
       <argument type="tagged_iterator" tag="kernel.cache_clearer"/>
@@ -615,7 +615,7 @@
       </argument>
       <argument>UTF-8</argument>
       <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees</argument>
       <argument type="service">
         <service>
           <argument type="service" id="request_stack"/>
@@ -651,7 +651,7 @@
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="filesystem"/>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees</argument>
       <call method="setName">
         <argument>assets:install</argument>
       </call>
@@ -828,7 +828,7 @@
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
       <argument>dev</argument>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees</argument>
       <call method="setName">
         <argument>debug:dotenv</argument>
       </call>
@@ -978,9 +978,9 @@
     <service id="cache.app" class="Symfony\Component\Cache\Adapter\FilesystemAdapter" public="true">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>s7qZWuG-gh</argument>
+      <argument>VMa5LXtdlu</argument>
       <argument>0</argument>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/pools/app</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/pools/app</argument>
       <argument type="service" id="cache.default_marshaller" on-invalid="ignore"/>
       <call method="setLogger">
         <argument type="service" id="logger" on-invalid="ignore"/>
@@ -993,40 +993,40 @@
     <service id="cache.system" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="true">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>thrVBn+uVQ</argument>
+      <argument>l7pOkZN9ZN</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.validator" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>kRTmP+uPPJ</argument>
+      <argument>w0Wvz2YGzF</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.serializer" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>Nb2ycWdBJb</argument>
+      <argument>MRYj7EDgwf</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.property_info" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>iblMKV9Cni</argument>
+      <argument>Sn+UW1kM5S</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -1036,7 +1036,7 @@
       <argument></argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -1055,7 +1055,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/pools/app</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/pools/app</argument>
       <argument type="service" id="cache.default_marshaller" on-invalid="ignore"/>
       <call method="setLogger">
         <argument type="service" id="logger" on-invalid="ignore"/>
@@ -1588,7 +1588,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.J6NYfMQ"/>
+      <argument type="service" id=".service_locator.PYAwk_h"/>
     </service>
     <service id="routing.resolver" class="Symfony\Component\Config\Loader\LoaderResolver">
       <call method="addLoader">
@@ -1683,7 +1683,7 @@
       <argument type="service" id=".service_locator.JI6krIU.router.default"/>
       <argument>kernel::loadRoutes</argument>
       <argument type="collection">
-        <argument key="cache_dir">C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev</argument>
+        <argument key="cache_dir">C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev</argument>
         <argument key="debug">true</argument>
         <argument key="generator_class">Symfony\Component\Routing\Generator\CompiledUrlGenerator</argument>
         <argument key="generator_dumper_class">Symfony\Component\Routing\Generator\Dumper\CompiledUrlGeneratorDumper</argument>
@@ -1721,7 +1721,7 @@
       <argument type="service" id="request_stack"/>
       <argument type="service" id="router.request_context" on-invalid="ignore"/>
       <argument type="service" id="logger" on-invalid="ignore"/>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees</argument>
       <argument>true</argument>
     </service>
     <service id="Symfony\Bundle\FrameworkBundle\Controller\RedirectController" class="Symfony\Bundle\FrameworkBundle\Controller\RedirectController" public="true">
@@ -1748,7 +1748,7 @@
       <argument type="service" id="property_info.reflection_extractor" on-invalid="null"/>
     </service>
     <service id="secrets.vault" class="Symfony\Bundle\FrameworkBundle\Secrets\SodiumVault">
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees/config/secrets/%env(default:kernel.environment:APP_RUNTIME_ENV)%</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees/config/secrets/%env(default:kernel.environment:APP_RUNTIME_ENV)%</argument>
       <argument type="service" id="secrets.decryption_key" on-invalid="ignore"/>
     </service>
     <service id="secrets.env_var_loader" class="Symfony\Component\DependencyInjection\StaticEnvVarLoader">
@@ -1760,7 +1760,7 @@
       <argument>base64:default::SYMFONY_DECRYPTION_SECRET</argument>
     </service>
     <service id="secrets.local_vault" class="Symfony\Bundle\FrameworkBundle\Secrets\DotenvVault">
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees/.env.dev.local</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees/.env.dev.local</argument>
     </service>
     <service id="type_info.type_context_factory" class="Symfony\Component\TypeInfo\TypeContext\TypeContextFactory">
       <argument>null</argument>
@@ -1853,7 +1853,7 @@
       <argument>true</argument>
     </service>
     <service id="session.storage.factory.mock_file" class="Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorageFactory">
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/sessions</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/sessions</argument>
       <argument>MOCKSESSID</argument>
       <argument type="service">
         <service class="Symfony\Component\HttpFoundation\Session\Storage\MetadataBag">
@@ -2085,7 +2085,7 @@
         <argument key="default">600</argument>
       </argument>
     </service>
-    <service id=".1_ServiceLocator~BRjsmLd" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".1_ServiceLocator~yBsleq9" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <argument type="collection"/>
     </service>
     <service id="doctrine.orm.proxy_cache_warmer" class="Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer">
@@ -2291,7 +2291,7 @@
         <argument type="service" id=".doctrine.orm.default_metadata_driver"/>
       </call>
       <call method="setProxyDir">
-        <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/doctrine/orm/Proxies</argument>
+        <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/doctrine/orm/Proxies</argument>
       </call>
       <call method="setProxyNamespace">
         <argument>Proxies</argument>
@@ -2334,7 +2334,7 @@
     </service>
     <service id="doctrine.orm.default_attribute_metadata_driver" class="Doctrine\ORM\Mapping\Driver\AttributeDriver">
       <argument type="collection">
-        <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\src\Entity</argument>
+        <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\src\Entity</argument>
       </argument>
       <argument>true</argument>
     </service>
@@ -2391,7 +2391,7 @@
     <service id="doctrine.migrations.configuration" class="Doctrine\Migrations\Configuration\Configuration">
       <call method="addMigrationsDirectory">
         <argument>DoctrineMigrations</argument>
-        <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees/migrations</argument>
+        <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees/migrations</argument>
       </call>
       <call method="setAllOrNothing">
         <argument>false</argument>
@@ -2570,7 +2570,7 @@
       <argument type="service" id="filesystem"/>
       <argument type="service" id="maker.autoloader_util"/>
       <argument type="service" id="maker.file_link_formatter"/>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees</argument>
       <argument>null</argument>
     </service>
     <service id="maker.autoloader_finder" class="Symfony\Bundle\MakerBundle\Util\ComposerAutoloaderFinder">
@@ -2748,7 +2748,7 @@
     </service>
     <service id="maker.maker.make_migration" class="Symfony\Bundle\MakerBundle\Maker\MakeMigration">
       <tag name="maker.command"/>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees</argument>
       <argument type="service" id="maker.file_link_formatter"/>
     </service>
     <service id="maker.maker.make_stimulus_controller" class="Symfony\Bundle\MakerBundle\Maker\MakeStimulusController">
@@ -2909,10 +2909,10 @@
     <service id="cache.security_expression_language" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>OCSVqxqb2p</argument>
+      <argument>tmbkUum1pV</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -2925,20 +2925,20 @@
     <service id="cache.security_is_granted_attribute_expression_language" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="true">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>0Qljp7Weqt</argument>
+      <argument>rE-PAYJQy4</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.security_is_csrf_token_valid_attribute_expression_language" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="true">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>aCCIY5-1VN</argument>
+      <argument>b+FBl-m1Vm</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\Users\Luis\Desktop\Shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
+      <argument>C:\Users\Luis\Desktop\repositorio shortnees\shortnees\ApiShortnees\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -4540,6 +4540,24 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.P.blNFL" method="withContext"/>
     </service>
+    <service id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorPais()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorPais()"/>
+      <argument>App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorPais()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.P.blNFL" method="withContext"/>
+    </service>
+    <service id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha()"/>
+      <argument>App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.P.blNFL" method="withContext"/>
+    </service>
+    <service id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo()"/>
+      <argument>App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.P.blNFL" method="withContext"/>
+    </service>
     <service id=".service_locator.TMleYZy" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -4579,7 +4597,7 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.K6BUKFy" method="withContext"/>
     </service>
-    <service id=".service_locator.J6NYfMQ" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.PYAwk_h" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.4wc4Ag1.kernel::registerContainerConfiguration()"/>
@@ -4591,6 +4609,9 @@
         <argument key="App\Controller\EnlacesController::getUserEnlaces" type="service_closure" id=".service_locator.iXC9NKv.App\Controller\EnlacesController::getUserEnlaces()"/>
         <argument key="App\Controller\EnlacesController::eliminarEnlace" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EnlacesController::eliminarEnlace()"/>
         <argument key="App\Controller\EstadisticasEnlacesController::obtenerEstadisticas" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticas()"/>
+        <argument key="App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorPais" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorPais()"/>
+        <argument key="App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha()"/>
+        <argument key="App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo()"/>
         <argument key="App\Controller\RedireccionController::redirectToOriginalUrl" type="service_closure" id=".service_locator.TMleYZy.App\Controller\RedireccionController::redirectToOriginalUrl()"/>
         <argument key="App\Controller\RegistroController::registro" type="service_closure" id=".service_locator.jWo6Ji9.App\Controller\RegistroController::registro()"/>
         <argument key="App\Controller\RegistroController::login" type="service_closure" id=".service_locator.K6BUKFy.App\Controller\RegistroController::login()"/>
@@ -4601,6 +4622,9 @@
         <argument key="App\Controller\EnlacesController:getUserEnlaces" type="service_closure" id=".service_locator.iXC9NKv.App\Controller\EnlacesController::getUserEnlaces()"/>
         <argument key="App\Controller\EnlacesController:eliminarEnlace" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EnlacesController::eliminarEnlace()"/>
         <argument key="App\Controller\EstadisticasEnlacesController:obtenerEstadisticas" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticas()"/>
+        <argument key="App\Controller\EstadisticasEnlacesController:obtenerEstadisticasPorPais" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorPais()"/>
+        <argument key="App\Controller\EstadisticasEnlacesController:obtenerEstadisticasPorFecha" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha()"/>
+        <argument key="App\Controller\EstadisticasEnlacesController:obtenerEstadisticasPorDispositivo" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo()"/>
         <argument key="App\Controller\RedireccionController:redirectToOriginalUrl" type="service_closure" id=".service_locator.TMleYZy.App\Controller\RedireccionController::redirectToOriginalUrl()"/>
         <argument key="App\Controller\RegistroController:registro" type="service_closure" id=".service_locator.jWo6Ji9.App\Controller\RegistroController::registro()"/>
         <argument key="App\Controller\RegistroController:login" type="service_closure" id=".service_locator.K6BUKFy.App\Controller\RegistroController::login()"/>
@@ -5781,7 +5805,7 @@
     <service id="Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface" alias="lexik_jwt_authentication.encoder.lcobucci"/>
     <service id="lexik_jwt_authentication.key_loader" alias="lexik_jwt_authentication.key_loader.raw" public="true"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.pRu6x_4" public="true"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.J6NYfMQ"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.PYAwk_h"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.BxSdgVt"/>
     <service id="Psr\Log\LoggerInterface" alias="logger"/>
     <service id="http_client" alias="http_client.uri_template"/>

@@ -21,16 +21,26 @@ return [
                 .'|/_error/(\\d+)(?:\\.([^/]++))?(*:35)'
                 .'|/e(?'
                     .'|liminar\\-enlace/([^/]++)(*:71)'
-                    .'|nlace/([^/]++)/estadisticas(*:105)'
+                    .'|stadisticas(?'
+                        .'|/([^/]++)(*:101)'
+                        .'|_(?'
+                            .'|pais/([^/]++)(*:126)'
+                            .'|fecha/([^/]++)(*:148)'
+                            .'|dispositivo/([^/]++)(*:176)'
+                        .')'
+                    .')'
                 .')'
-                .'|/wbt\\.es/([^/]++)(*:131)'
+                .'|/wbt\\.es/([^/]++)(*:204)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
         35 => [[['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null]],
         71 => [[['_route' => 'eliminar_enlace', '_controller' => 'App\\Controller\\EnlacesController::eliminarEnlace'], ['id'], ['DELETE' => 0], null, false, true, null]],
-        105 => [[['_route' => 'obtener_estadisticas', '_controller' => 'App\\Controller\\EstadisticasEnlacesController::obtenerEstadisticas'], ['id'], ['GET' => 0], null, false, false, null]],
-        131 => [
+        101 => [[['_route' => 'obtener_estadisticas', '_controller' => 'App\\Controller\\EstadisticasEnlacesController::obtenerEstadisticas'], ['id'], ['GET' => 0], null, false, true, null]],
+        126 => [[['_route' => 'estadisticas_pais', '_controller' => 'App\\Controller\\EstadisticasEnlacesController::obtenerEstadisticasPorPais'], ['id'], ['GET' => 0], null, false, true, null]],
+        148 => [[['_route' => 'estadisticas_fecha', '_controller' => 'App\\Controller\\EstadisticasEnlacesController::obtenerEstadisticasPorFecha'], ['id'], ['GET' => 0], null, false, true, null]],
+        176 => [[['_route' => 'estadisticas_ispositivo', '_controller' => 'App\\Controller\\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo'], ['id'], ['GET' => 0], null, false, true, null]],
+        204 => [
             [['_route' => 'app_redireccionapp_redireccion', '_controller' => 'App\\Controller\\RedireccionController::redirectToOriginalUrl'], ['urlCorta'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
