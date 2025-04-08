@@ -1,4 +1,4 @@
 export interface EstadisticasFecha {
-    fecha: Date;
-    numeroClicks: number;    
+    name: Date;
+    value: number;    
 }

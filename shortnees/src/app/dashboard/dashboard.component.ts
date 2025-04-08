@@ -4,6 +4,8 @@ import { Links } from '../interfaces/Links';
 import { Estadisticas } from '../interfaces/estadisticas';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { EstadisticasPais } from '../interfaces/estadisticas-pais';
+import { EstadisticasFecha } from '../interfaces/estadisticas-fecha';
+import { EstadisticasDispositivo } from '../interfaces/estadisticas-dispositivo';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -16,9 +18,13 @@ export class DashboardComponent {
   estadisticas: Estadisticas | null = null; // Cambiado a null para reflejar que es un único objeto
   urlCortaSeleccionada: String | null = null; // Cambiado a null para reflejar que es opcional
   estadisticasPais: EstadisticasPais | null = null; // Cambiado a null para reflejar que es un único objeto
-
+  dataBarPais:any = [];
+  estadisticasFecha: EstadisticasFecha | null = null; // Cambiado a null para reflejar que es un único objeto
+  dataBarFecha:any = [];
+  estadisticasDispositivo: EstadisticasDispositivo | null = null; // Cambiado a null para reflejar que es un único objeto
+  dataBarDispositivo:any = [];
   single: any[] = [];
-  view: any[] = [700, 400];
+  view: any[] = [700, 300];
   // options
   gradient: boolean = true;
   showLegend: boolean = true;
@@ -33,25 +39,6 @@ export class DashboardComponent {
   };
 
   // Crear un servicio en mi api que envie esta informacion formateada correctamente 
-  dataBarPais:any = [];
-  dataBar = [
-    {
-      "name": "Germany",
-      "value": 8940000
-    },
-    {
-      "name": "USA",
-      "value": 5000000
-    },
-    {
-      "name": "France",
-      "value": 7200000
-    },
-      {
-      "name": "UK",
-      "value": 6200000
-    }
-  ]
 
   ngOnInit(): void {
     this.loadEnlaces();
@@ -82,10 +69,10 @@ export class DashboardComponent {
   verEstadisticas(id: number){
     this.linkService.obtenerEstadisticas(id).subscribe({
       next: (data: Estadisticas) => {
-        data.detalles.forEach(detalle => {
+       /* data.detalles.forEach(detalle => {
           let fechaString:String = detalle.fecha_click.toString();
           detalle.fecha_click = "Fecha: "+fechaString.replace(' ', ' Hora: '); // Convierte la cadena a un objeto Date
-        });
+        });*/
         this.estadisticas = data;
       
       },
@@ -98,10 +85,36 @@ export class DashboardComponent {
     this.linkService.obtenerEstadisticasPais(id).subscribe({
       next: (data2: EstadisticasPais) => {
         console.log(data2)
-        console.log(this.dataBar);
         this.estadisticasPais = data2; 
         this.dataBarPais = this.estadisticasPais; 
         console.log(this.estadisticasPais);
+      },
+      error: (error) => {
+        console.error('Error al cargar las estadisticas:', error);
+      }
+      
+    });
+  }
+  verEstadisticasFecha (id:number) {
+    this.linkService.obtenerEstadisticasFecha(id).subscribe({
+      next: (data3: EstadisticasFecha) => {
+        this.estadisticasFecha = data3; 
+        this.dataBarFecha = this.estadisticasFecha; 
+        console.log(this.estadisticasFecha);
+      },
+      error: (error) => {
+        console.error('Error al cargar las estadisticas:', error);
+      }
+    });
+  }
+  verEstadisticasDispositivo (id:number) {
+    this.linkService.obtenerEstadisticasDispositivo(id).subscribe({
+      next: (data4: EstadisticasDispositivo) => {
+        console.log(data4);
+        this.estadisticasDispositivo = data4; 
+        this.dataBarDispositivo = this.estadisticasDispositivo; 
+        console.log("marcador");
+        console.log(this.estadisticasDispositivo);
       },
       error: (error) => {
         console.error('Error al cargar las estadisticas:', error);
@@ -113,7 +126,7 @@ export class DashboardComponent {
   }
   
   // ngx xhars
-
+/*
   onSelect(): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(this.dataBar)));
   }
@@ -124,5 +137,5 @@ export class DashboardComponent {
 
   onDeactivate(): void {
     console.log('Deactivate', JSON.parse(JSON.stringify(this.dataBar)));
-  }
+  }*/
 }

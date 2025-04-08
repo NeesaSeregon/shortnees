@@ -16,7 +16,7 @@ if (!\class_exists(App_KernelDevDebugContainer::class, false)) {
 
 return new \ContainerEHxToxP\App_KernelDevDebugContainer([
     'container.build_hash' => 'EHxToxP',
-    'container.build_id' => '998e9788',
-    'container.build_time' => 1744113084,
+    'container.build_id' => 'ba310671',
+    'container.build_time' => 1744139025,
     'container.runtime_mode' => \in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) ? 'web=0' : 'web=1',
 ], __DIR__.\DIRECTORY_SEPARATOR.'ContainerEHxToxP');

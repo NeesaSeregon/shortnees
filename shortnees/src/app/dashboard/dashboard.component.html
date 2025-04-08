@@ -5,13 +5,14 @@
             <div class="card">
               <div class="card-body">
                 <strong>link:</strong> {{ enlace.urlCorta }}<br>
-                <!-- 
+                <!-- verEstadisticasDispositivo(enlace.id);
                 <strong>URL Original:</strong> {{ enlace.urlOriginal }}<br>
                 <strong>Creado en:</strong> {{ enlace.fechaCreacion }}<br>
                 <strong>Expira en:</strong> {{ enlace.fechaExpiracion }}<br> -->
                 <!-- Botones para acciones -->
                 <button (click)="eliminarEnlace(enlace.id)" class="btn btn-danger btn-sm">Eliminar Enlace</button>
-                <button (click)="urlSeleccionada(enlace.urlCorta); verEstadisticasPais(enlace.id); verEstadisticas(enlace.id)" class="btn btn-primary btn-sm">Ver Estadísticas</button>    
+                <button (click)="urlSeleccionada(enlace.urlCorta); verEstadisticasDispositivo(enlace.id); verEstadisticasFecha(enlace.id);
+                verEstadisticasPais(enlace.id); verEstadisticas(enlace.id)" class="btn btn-primary btn-sm">Ver Estadísticas</button>    
               </div>
             </div>
         }
@@ -38,7 +39,7 @@
                 <div class="card">
                   <div class="card-body">
                     <ngx-charts-advanced-pie-chart
-                    [results]="dataBar"
+                    [results]="dataBarDispositivo"
                     [gradient]="gradient"
                     >
                     </ngx-charts-advanced-pie-chart>
@@ -52,7 +53,7 @@
                 <div class="card">
                   <div class="card-body">
                     <ngx-charts-advanced-pie-chart
-                    [results]="dataBar"
+                    [results]="dataBarFecha"
                     [gradient]="gradient"
                     >
                     </ngx-charts-advanced-pie-chart>
