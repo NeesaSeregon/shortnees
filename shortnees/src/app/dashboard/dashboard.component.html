@@ -1,21 +1,20 @@
-<div class="container mt-4">
+<main class="container mt-4 h-100">
     @if (enlaces.length > 0) {
       <h2>Mis Enlaces:</h2>
-      <ul class="list-group">
         @for (enlace of enlaces; track enlace.id) {
-          <li id="{{ enlace.id }}" class="list-group-item">
-
-            <strong>URL Original:</strong> {{ enlace.urlOriginal }}<br>
-            <strong>URL Corta:</strong> {{ enlace.urlCorta }}<br>
-            <strong>Creado en:</strong> {{ enlace.fechaCreacion }}<br>
-            <strong>Expira en:</strong> {{ enlace.fechaExpiracion }}<br>
-            <!-- Botones para acciones -->
-            <button (click)="eliminarEnlace(enlace.id)" class="btn btn-danger btn-sm">Eliminar Enlace</button>
-            <button (click)="urlSeleccionada(enlace.urlCorta); verEstadisticasPais(enlace.id); verEstadisticas(enlace.id)" class="btn btn-primary btn-sm">Ver Estadísticas</button>    
-          </li>
+            <div class="card">
+              <div class="card-body">
+                <strong>link:</strong> {{ enlace.urlCorta }}<br>
+                <!-- 
+                <strong>URL Original:</strong> {{ enlace.urlOriginal }}<br>
+                <strong>Creado en:</strong> {{ enlace.fechaCreacion }}<br>
+                <strong>Expira en:</strong> {{ enlace.fechaExpiracion }}<br> -->
+                <!-- Botones para acciones -->
+                <button (click)="eliminarEnlace(enlace.id)" class="btn btn-danger btn-sm">Eliminar Enlace</button>
+                <button (click)="urlSeleccionada(enlace.urlCorta); verEstadisticasPais(enlace.id); verEstadisticas(enlace.id)" class="btn btn-primary btn-sm">Ver Estadísticas</button>    
+              </div>
+            </div>
         }
-      </ul>
-
       <!-- Mostrar estadísticas si están disponibles -->
       @if (estadisticas) {
         <div class="mt-4">
@@ -64,7 +63,6 @@
           </div>
         </div>
       }
-
     } @else {
       <div class="alert alert-warning mt-4" role="alert">
         No tienes enlaces disponibles.
@@ -84,4 +82,4 @@
 </ngx-charts-bar-vertical> -->
     
 
-</div>
+</main>
