@@ -18,35 +18,49 @@
 
       <!-- Mostrar estadísticas si están disponibles -->
       @if (estadisticas) {
-        
-        <ngx-charts-advanced-pie-chart
-      
-        [results]="dataBar"
-        [gradient]="gradient"
-       
-        >
-      </ngx-charts-advanced-pie-chart>
-
-  
         <div class="mt-4">
-          <h3 class="mb-3">Estadísticas del Enlace {{ urlCortaSeleccionada }}</h3>
           <div class="alert alert-info">
-            <strong>Número de clics:</strong> {{ estadisticas.numeroClicks }}
+            <h3 class="mb-3">Estadísticas del Enlace {{ urlCortaSeleccionada }}</h3>
+            <!-- <strong>Número de clics:</strong> {{ estadisticas.numeroClicks }}-->
           </div>
           <h4 class="mt-4 mb-3">Detalles:</h4>
           <div class="row">
-            @for (detalle of estadisticas.detalles; track detalle.id) {
-              <div class="col-md-6 mb-3">
+            <!--@for (detalle of estadisticas.detalles; track detalle.id) {-->
+              <div class="col-md-10 mb-3">
                 <div class="card">
                   <div class="card-body">
-                    <p class="card-text"><strong>Fecha Click:</strong> {{ detalle.fecha_click }}</p>
+                    <ngx-charts-advanced-pie-chart
+                    [results]="dataBar"
+                    [gradient]="gradient"
+                    >
+                    </ngx-charts-advanced-pie-chart>
+            
+                   <!-- <p class="card-text"><strong>Fecha Click:</strong> {{ detalle.fecha_click }}</p>
                     <p class="card-text"><strong>IP Usuario:</strong> {{ detalle.ip_usuario }}</p>
                     <p class="card-text"><strong>Ubicación:</strong> {{ detalle.ubicacion }}</p>
-                    <p class="card-text"><strong>Dispositivo:</strong> {{ detalle.dispositivo }}</p>
+                    <p class="card-text"><strong>Dispositivo:</strong> {{ detalle.dispositivo }}</p> -->
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-body">
+                    <ngx-charts-advanced-pie-chart
+                    [results]="dataBar"
+                    [gradient]="gradient"
+                    >
+                    </ngx-charts-advanced-pie-chart>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-body">
+                    <ngx-charts-advanced-pie-chart
+                    [results]="dataBar"
+                    [gradient]="gradient"
+                    >
+                    </ngx-charts-advanced-pie-chart>
                   </div>
                 </div>
               </div>
-            }
+            <!--}-->
           </div>
         </div>
       }
