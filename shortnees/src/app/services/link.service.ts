@@ -39,11 +39,10 @@ export class LinkService {
   obtenerEstadisticasPais(id: number): Observable<EstadisticasPais> {
     return this.http.get<EstadisticasPais>(`${this.baseUrl}estadisticas_pais/${id}`);
   }
-  //sin ahcer
-  obtenerEstadisticasFecha(id: number): Observable<Estadisticas> {
-    return this.http.get<Estadisticas>(`${this.baseUrl}estadisticas/${id}`);
+  obtenerEstadisticasFecha(id: number): Observable<EstadisticasFecha> {
+    return this.http.get<EstadisticasFecha>(`${this.baseUrl}estadisticas/${id}`);
   }
-  obtenerEstadisticasDispositivo(id: number): Observable<Estadisticas> {
-    return this.http.get<Estadisticas>(`${this.baseUrl}estadisticas/${id}`);
+  obtenerEstadisticasDispositivo(id: number): Observable<EstadisticasDispositivo> {
+    return this.http.get<EstadisticasDispositivo>(`${this.baseUrl}estadisticas/${id}`);
   }
 }
