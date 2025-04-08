@@ -102,27 +102,54 @@ class EstadisticasEnlacesController extends AbstractController
          $estadisticas = $entityManager->getRepository(EstadisticasEnlaces::class)->findBy(['enlace' => $enlace]);
          // Contar los clics 
          $numeroClicks = count($estadisticas);
-           
+         
+         foreach ($estadisticas as $estadistica) {
+            $fecha = $estadistica->getFecha(); //probablemente con formatear aqui, lo tengas 1*
+            if ($fecha === null || $fecha === '') {
+                $fecha = 'Desconocido';
+            }
+            if (!isset($clicsPorFecha[$fecha])) {
+                $clicsPorFecha[$fecha] = 0;
+            }
+            $clicsPorFecha[$fecha]++;
+        }
+        //El problema es que aqui estoy enviando la fecha completa, debo filtrar por añoo mes *1
+        foreach ($clicsPorFecha as $fecha => $numeroClics) {
+            $resultado[] = [
+                'name' => $fecha,
+                'value' => $numeroClics
+            ];
+        }
         
          return new JsonResponse(Response::HTTP_OK);
      }
     //crea un endpoint que devuelva en formato json el numero de visitas segmentado por dispositivo
-     //crea un endpoint que devuelva en formato json el numero de visitas segmentado por paises
-     #[Route('/estadisticas_dispositivo/{id}', name: 'estadisticas_ispositivo', methods: ['GET'])]
+     #[Route('/estadisticas_dispositivo/{id}', name: 'estadisticas_dispositivo', methods: ['GET'])]
      public function obtenerEstadisticasPorDispositivo(int $id, EntityManagerInterface $entityManager): JsonResponse
      {
-         // Buscar el enlace por su ID
          $enlace = $entityManager->getRepository(Enlaces::class)->find($id);
-         // Verificar si el enlace existe
          if (!$enlace) {
              return new JsonResponse(['error' => 'Enlace no encontrado'], Response::HTTP_NOT_FOUND);
          }
-         // Obtener todas las estadísticas asociadas al enlace
          $estadisticas = $entityManager->getRepository(EstadisticasEnlaces::class)->findBy(['enlace' => $enlace]);
-         // Contar los clics 
          $numeroClicks = count($estadisticas);
-
-         return new JsonResponse(Response::HTTP_OK);
+         foreach ($estadisticas as $estadistica) {
+            $dispositivo = $estadistica->getDispositivo(); 
+            if ($dispositivo === null || $dispositivo === '') {
+                $dispositivo = 'Desconocido';
+            }
+            if (!isset($clicsPorDispositivo[$dispositivo])) {
+                $clicsPorDispositivo[$dispositivo] = 0;
+            }
+            $clicsPorDispositivo[$dispositivo]++;
+        }
+        foreach ($clicsPorDispositivo as $dispositivo => $numeroClics) {
+            $resultado[] = [
+                'name' => $dispositivo,
+                'value' => $numeroClics
+            ];
+        }
+         return new JsonResponse($resultado,Response::HTTP_OK);
      }
 
 }
