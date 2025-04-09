@@ -25,7 +25,7 @@ export class AccesoService {
   }
   login(objeto:Login): Observable<ResponseAcceso>{
     //this.userName.set(objeto.username);
-
+    
     return this.http.post<ResponseAcceso>(`${this.baseUrl}api/login_check`,objeto)
   }
   get loginStatus() {
