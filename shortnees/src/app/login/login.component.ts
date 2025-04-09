@@ -41,7 +41,7 @@ export class LoginComponent {
     this.accesoService.login(objeto).subscribe({
       next:(data)=>{
         if(data.token){
-          //aqui se esta grabando el token
+          //aqui se esta grabando el token por que aqui esta llegando la respuesta de la api
           localStorage.setItem("token", data.token)
         }else{
           alert("Credenciales incorrectas")
