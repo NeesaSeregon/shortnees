@@ -50,8 +50,8 @@ class RegistroController extends AbstractController
                 return new JsonResponse(['message' => 'Invalid credentials'], 401);
             }
             if ($passwordHasher->isPasswordValid($user, $request->get('password'))){        
-              //  $session = $request->getSession();
-               // $session->start();
+                //$session = $request->getSession();
+                //$session->start();
                 //$session->set('email', $request->get('correo'));
                 return new JsonResponse(['isSuccess' => true,
                                         'usuario' => $user], 200);
@@ -59,6 +59,7 @@ class RegistroController extends AbstractController
         } catch (\InvalidArgumentException $e){
             return new JsonResponse(['error' => $e->getMessage()], 400);
         }
+        return new JsonResponse(['message' => 'Error desconocido'], 401);
     }
     #[Route('/session', name: 'app_session', methods: ['GET'])]
     public function getSessionData(SessionInterface $session): JsonResponse
