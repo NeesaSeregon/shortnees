@@ -33,6 +33,5 @@ export class HeaderComponent {
   logout() {
     this.accesoService.logout();
     this.router.navigate(['/login']);
-    //this.isLoggedIn = false;
   }
 }
