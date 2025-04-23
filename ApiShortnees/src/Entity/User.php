@@ -151,7 +151,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $enlace->setUsuario(null);
             }
         }
-
         return $this;
     }
 }

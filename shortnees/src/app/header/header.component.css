@@ -14,11 +14,15 @@
 }
 .custom-hover {
     position: relative;
+    height: 100%;
     transition: all 0.3s ease-in-out;
 }
 .custom-hover:hover {
-    background-color: #007bff; 
-    border-radius: 5px; 
+
+    background-color: #006eff; 
+    border-radius: 5px;
+    height: 40px; 
+
 }
 .custom-hover::before {
     content: '';
@@ -27,7 +31,7 @@
     height: 3px;
     bottom: -5px;
     left: 0;
-    background-color: #007bff; 
+    background-color: #bebebe; 
     visibility: hidden;
     transform: scaleX(0);
     transition: all 0.3s ease-in-out;

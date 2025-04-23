@@ -24,7 +24,7 @@ export class DashboardComponent {
   estadisticasDispositivo: EstadisticasDispositivo | null = null; // Cambiado a null para reflejar que es un único objeto
   dataBarDispositivo:any = [];
   single: any[] = [];
-  view: any[] = [700, 300];
+  view: [number, number] =  [900, 200];
   // options
   gradient: boolean = true;
   showLegend: boolean = true;
