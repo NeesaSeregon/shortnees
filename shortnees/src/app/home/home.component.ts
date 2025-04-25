@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ResolverTokenService } from '../services/resolver-token.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { inject } from '@angular/core';
 import { LinkService } from '../services/link.service';
-import { Links } from '../interfaces/Links';
 import { Url } from '../interfaces/Url';
 import { AccesoService } from '../services/acceso.service';
 import { LinkResponse } from '../interfaces/link-response';
@@ -21,7 +19,6 @@ export class HomeComponent {
   roles: string[] | undefined;
   shortUrl: string = '';
   error: string = '';
-  private router = inject(Router);
   isLoggedIn:any;
   formularioPersonalizar: FormGroup;
   formularioSinRegistro: FormGroup;
@@ -30,7 +27,8 @@ export class HomeComponent {
     private resolverToken: ResolverTokenService,
     private linkService : LinkService,
     private fb : FormBuilder,
-    private accesoService: AccesoService
+    private accesoService: AccesoService,
+    private router: Router
   ) {
     this.formularioPersonalizar = this.fb.group({
       urlOriginal: [''],

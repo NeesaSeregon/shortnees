@@ -5,7 +5,7 @@
       <form [formGroup]="formularioRegistro" (ngSubmit)="submit()">
         <div class="mb-3">
           <label for="nombre" class="form-label">Nombre</label>
-          <input type="nombre" class="form-control" id="nombre" placeholder="Ex. pat@example.com" required>
+          <input type="nombre" class="form-control" id="nombre" formControlName="nombre" placeholder="Usuario01" required>
         </div>
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
