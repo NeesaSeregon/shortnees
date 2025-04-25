@@ -6,10 +6,12 @@ import { ResolverTokenService } from '../services/resolver-token.service'
 import { Subscription } from 'rxjs';import { Usuario } from '../interfaces/Usuario';
 import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, NgIf],
+  imports: [CommonModule, NgIf,MatListModule,MatIconModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })

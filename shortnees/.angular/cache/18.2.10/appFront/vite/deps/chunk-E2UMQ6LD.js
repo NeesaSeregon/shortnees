@@ -1,8 +1,4 @@
 import {
-  BrowserModule,
-  DomRendererFactory2
-} from "./chunk-B2KTIWYK.js";
-import {
   AUTO_STYLE,
   AnimationGroupPlayer,
   AnimationMetadataType,
@@ -11,6 +7,10 @@ import {
   style,
   ɵPRE_STYLE
 } from "./chunk-6RHDBOZD.js";
+import {
+  BrowserModule,
+  DomRendererFactory2
+} from "./chunk-B2KTIWYK.js";
 import {
   DOCUMENT
 } from "./chunk-VJDQQC2E.js";
@@ -4132,4 +4132,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-ZW57OPSB.js.map
+//# sourceMappingURL=chunk-E2UMQ6LD.js.map

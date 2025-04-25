@@ -54,4 +54,15 @@ p {
     border-radius: 2px;    
     margin: 0 1rem;        
   }
-  
+  .avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #bebebe;
+    color: #0c0c0c;
+    font-weight: bold;
+    font-size: 0.9rem;
+  }

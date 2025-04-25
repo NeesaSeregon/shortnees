@@ -2,11 +2,6 @@
     <div class="container">
         <div class="intro">
             <h2 class="text-center">Introduce tu URL</h2>
-            @if (!isLoggedIn) {
-                <p class="text-center">Hola muy buenas</p>
-            } @else {
-                <p class="text-center">Hola muy buenas {{username}}</p>
-            }
         </div>
         @if (!isLoggedIn) {
           <form [formGroup]="formularioSinRegistro" class="mt-4 p-4 bg-dark rounded shadow-sm">

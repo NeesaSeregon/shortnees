@@ -15,8 +15,6 @@ import { Subscription } from 'rxjs';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  username: string | undefined;
-  roles: string[] | undefined;
   shortUrl: string = '';
   error: string = '';
   isLoggedIn:any;
@@ -39,6 +37,7 @@ export class HomeComponent {
     });
   }
   ngOnInit() {
+    
     const user = this.resolverToken.getUser();
     this.authSubscription = this.accesoService.isAuthenticated$.subscribe(
       (isAuthenticated) => {
