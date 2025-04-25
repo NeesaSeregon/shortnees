@@ -7,6 +7,12 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Login } from '../interfaces/Login';
 import { ResolverTokenService } from './resolver-token.service';
 import { Router } from '@angular/router';
+import { LoginComponent } from '../login/login.component';
+interface UserData {
+  nombre: any;
+  email: any;
+  rol: any;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -17,19 +23,34 @@ export class AccesoService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
   // Observable público que los componentes pueden suscribir
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  private authToken: string | null = null;
+  private userData: UserData | null = null;
   constructor(
     private router: Router,
     private resolverToken: ResolverTokenService
-  ) { }
-  // Verifica si hay un token almacenado
-  private hasToken(): boolean {
-    return !!localStorage.getItem('token');
+  ) { 
+    this.initializeFromLocalStorage();
+    const storedUser = localStorage.getItem('userData');
+    this.userData = storedUser ? JSON.parse(storedUser) : null;
   }
-  registrarse(objeto:Usuario): Observable<any>{
-    return this.http.post<any>(`${this.baseUrl}registro`,objeto)
+  //inicializamos la informacion
+  private initializeFromLocalStorage(): void {
+    const token = localStorage.getItem('jwt_token');
+    if (token) {
+      this.authToken = token;
+    }
+  }
+  private getUserFromAPI(objeto:Login): any | null {
+    
+    return this.http.post<UserData>(`${this.baseUrl}login`,objeto);
   }
   login(objeto:Login): Observable<ResponseAcceso>{
-    //this.userName.set(objeto.username);
+    this.getUserFromAPI(objeto).subscribe({
+      next: (data: UserData) => {
+        this.userData = data;
+        localStorage.setItem('userData', JSON.stringify(data));
+      }
+    });
     return this.http.post<ResponseAcceso>(`${this.baseUrl}api/login_check`,objeto).pipe(
       map((res: any) => {
         this.authSuccess(res.access_token);
@@ -37,16 +58,18 @@ export class AccesoService {
       })
     );
   }
+  // Verifica si hay un token almacenado
+  private hasToken(): boolean {
+    return !!localStorage.getItem('token');
+  }
+  registrarse(objeto:Usuario): Observable<any>{
+    return this.http.post<any>(`${this.baseUrl}registro`,objeto)
+  }
   
   // Método llamado al autenticar exitosamente
   authSuccess(token: string) {
     localStorage.setItem('token', token);
-    this.resolverToken.getUsername()
-    
-    /*
-    ocuparse aqui de nombre de usuario y opciones
-    
-    */ 
+    this.authToken = token;
     // Actualiza el BehaviorSubject a true
     this.isAuthenticatedSubject.next(true);
   }
@@ -54,6 +77,11 @@ export class AccesoService {
     localStorage.removeItem("token"); // Elimina el token del localStorage
     localStorage.removeItem('email');
     localStorage.removeItem('rol');
+    localStorage.removeItem('userData');
+    this.userData = null;
     this.router.navigate(['login']);
+  }
+  get currentUserValue() {
+    return this.userData;
   }
 }

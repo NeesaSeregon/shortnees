@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ResolverTokenService } from '../services/resolver-token.service';
 import { UsuarioService } from '../services/usuario.service';
+import { Usuario } from '../interfaces/Usuario';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -28,9 +29,8 @@ export class LoginComponent {
   public formularioLogin: FormGroup = this.formBuild.group({
     correo: ['',Validators.required],
     password: ['',Validators.required]
-  })
-  username: string | undefined;
-  roles: string[] | undefined;
+  });
+
   constructor(private usuarioService: UsuarioService) {}
   iniciarSesion(){
     if(this.formularioLogin.invalid) return;
@@ -42,6 +42,7 @@ export class LoginComponent {
       next:(data)=>{
         if(data.token){
           //aqui se esta grabando el token por que aqui esta llegando la respuesta de la api
+          this.accesoService.authSuccess(data.token);
           localStorage.setItem("token", data.token)
         }else{
           alert("Credenciales incorrectas")

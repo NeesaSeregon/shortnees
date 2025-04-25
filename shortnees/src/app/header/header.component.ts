@@ -1,25 +1,24 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { AccesoService } from '../services/acceso.service';
 import { Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { ResolverTokenService } from '../services/resolver-token.service'
-import { Subscription } from 'rxjs';;
+import { Subscription } from 'rxjs';import { Usuario } from '../interfaces/Usuario';
+import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, NgIf],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   private router = inject(Router);
   private resolverToken = inject(ResolverTokenService);
   public isLoggedIn : any = false;
   private authSubscription: Subscription | undefined;
-  //isLoggedIn = signal(false);
-  username: string | undefined;
-  roles: string[] | undefined;
-  constructor(private accesoService: AccesoService) {}
+  constructor(public accesoService: AccesoService) {}
   ngOnInit() {
     this.authSubscription = this.accesoService.isAuthenticated$.subscribe(
       (isAuthenticated) => {
