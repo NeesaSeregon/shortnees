@@ -1,0 +1,6 @@
+<main>
+    <p *ngIf="accesoService.currentUserValue as user">Nombre de usuario: {{user.nombre}}</p>
+    <button>Cambiar nombre</button>
+    <p *ngIf="accesoService.currentUserValue as user">Email: {{user.email}}</p>
+    <button>Cambiar email</button>
+</main>
