@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 
 interface DecodedToken {
-    username: string;
-    roles: string[];
-    // Agrega otros campos según tu token
+    nombre: string;
+    email:string;
+    rol: string[];
 }
 
 @Injectable({
@@ -33,10 +33,10 @@ export class ResolverTokenService {
     }
 
     getUsername(): string | undefined {
-        return this.user?.username;
+        return this.user?.nombre;
     }
 
     getRoles(): string[] | undefined {
-        return this.user?.roles;
+        return this.user?.rol;
     }
 }

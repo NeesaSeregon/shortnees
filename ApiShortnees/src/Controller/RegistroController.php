@@ -46,17 +46,15 @@ class RegistroController extends AbstractController
         try {
             $request = $this->transformarJsonBody($request);
             $user = new User();
-            $user = $usuarioRepository->findOneByEmail($request->get('correo'));
+            $user = $usuarioRepository->findOneByEmail($request->get('username'));
             //Si el usuario no esta o la contraseña no es valida, devuelvo un mensaje de credenciales incorrectas
             if (!$user || !$passwordHasher->isPasswordValid($user, $request->get('password'))){
                 return new JsonResponse(['message' => 'Invalid credentials'], 401);
             }
             if ($passwordHasher->isPasswordValid($user, $request->get('password'))){        
-                //$session = $request->getSession();
-                //$session->start();
-                //$session->set('email', $request->get('correo'));
-                return new JsonResponse(['isSuccess' => true,
-                                        'usuario' => $user], 200);
+                return new JsonResponse(['nombre' => $user->getNombre(),
+                                        'email' => $user->getEmail(),
+                                        'rol' => $user->getRoles()], 200);
             }
         } catch (\InvalidArgumentException $e){
             return new JsonResponse(['error' => $e->getMessage()], 400);
