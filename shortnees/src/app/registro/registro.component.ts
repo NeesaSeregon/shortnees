@@ -25,6 +25,7 @@ export class RegistroComponent implements OnInit {
   })
   submit() {
       let user: Usuario = {
+        nombre: this.formularioRegistro.value.nombre ?? '',
         email: this.formularioRegistro.value.email ?? '',
         password: this.formularioRegistro.value.password ?? ''
       };
