@@ -7,7 +7,6 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Login } from '../interfaces/Login';
 import { ResolverTokenService } from './resolver-token.service';
 import { Router } from '@angular/router';
-import { LoginComponent } from '../login/login.component';
 interface UserData {
   nombre: any;
   email: any;
@@ -41,7 +40,6 @@ export class AccesoService {
     }
   }
   private getUserFromAPI(objeto:Login): any | null {
-    
     return this.http.post<UserData>(`${this.baseUrl}login`,objeto);
   }
   login(objeto:Login): Observable<ResponseAcceso>{
