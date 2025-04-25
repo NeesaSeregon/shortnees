@@ -2,13 +2,13 @@
     <div class="container">
         <div class="intro">
             <h2 class="text-center">Introduce tu URL</h2>
-            @if (!isLoggedIn()) {
+            @if (!isLoggedIn) {
                 <p class="text-center">Hola muy buenas</p>
             } @else {
                 <p class="text-center">Hola muy buenas {{username}}</p>
             }
         </div>
-        @if (!isLoggedIn()) {
+        @if (!isLoggedIn) {
           <form [formGroup]="formularioSinRegistro" class="mt-4 p-4 bg-dark rounded shadow-sm">
             <div class="mb-3">
               <label for="urlOriginal" class="form-label">URL Original</label>

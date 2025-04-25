@@ -16,20 +16,22 @@
 </head>
 <body>
   <header class="custom-bg d-flex justify-content-center align-items-center">
-      <div class="d-flex flex-wrap">
-        <a href="/" class=" d-flex mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+      <div class="d-flex">
+        <a href="/" class="d-flex mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
           <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
         </a>
         <ul class="navbar col-12 col-lg-auto me-lg-auto mb-2 mb-md-0 no-points">
-          <li class="nav-item"><a href="home" class=" nav-link px-2 link-secondary custom-hover"><p class="custom-txt">Home</p></a></li>
-          @if (!isLoggedIn()) {
-            <li class="nav-item"><a href="registro" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt-off">Dashboard</p></a></li>
+          <li class="nav-item"><a href="home" class=" nav-link px-2 link-secondary custom-hover"><p class="custom-txt">Acortador</p></a></li>
+          @if (!isLoggedIn) {
+            <li class="nav-item "><a href="registro" class="nav-link  px-2 link-body-emphasis custom-hover"><p class="custom-txt-off">Panel de control</p></a></li>
+            <div class="vr mx-3"></div>
             <li class="nav-item"><a href="login" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">Login</p></a></li>
             <li class="nav-item"><a href="registro" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">Registro</p></a></li>
           } @else {
-            <li class="nav-item "><a href="dashboard" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">Dashboard</p></a></li>
+            <li class="nav-item"><a href="dashboard" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">Panel de control</p></a></li>
+            <div class="vr mx-3"></div>
             <li class="nav-item"><a href="" class="dropdown-item"  class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">Cuenta: {{username}}</p></a></li>
-            <li class="nav-item"><a href="login" class="dropdown-item " (click)="logout()" class="nav-link px-2 link-body-emphasis custom-hover"> <p class="custom-txt">Sign out</p></a></li>
+            <li class="nav-item"><a href="login" class="dropdown-item " (click)="logout()" class="nav-link px-2 link-body-emphasis custom-hover"> <p class="custom-txt">Cerrar Sesion</p></a></li>
           }
         </ul>
       </div>

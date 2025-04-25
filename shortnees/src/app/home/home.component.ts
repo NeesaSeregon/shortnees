@@ -8,7 +8,7 @@ import { Links } from '../interfaces/Links';
 import { Url } from '../interfaces/Url';
 import { AccesoService } from '../services/acceso.service';
 import { LinkResponse } from '../interfaces/link-response';
-import { UsuarioService } from '../services/usuario.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -21,17 +21,16 @@ export class HomeComponent {
   roles: string[] | undefined;
   shortUrl: string = '';
   error: string = '';
-  private accesoService = inject(AccesoService);
   private router = inject(Router);
   isLoggedIn:any;
   formularioPersonalizar: FormGroup;
   formularioSinRegistro: FormGroup;
-  user2: any;
+  user2: any;private authSubscription: Subscription | undefined;
   constructor(
     private resolverToken: ResolverTokenService,
     private linkService : LinkService,
     private fb : FormBuilder,
-    private usuarioService: UsuarioService
+    private accesoService: AccesoService
   ) {
     this.formularioPersonalizar = this.fb.group({
       urlOriginal: [''],
@@ -43,7 +42,11 @@ export class HomeComponent {
   }
   ngOnInit() {
     const user = this.resolverToken.getUser();
-    this.isLoggedIn = this.accesoService.loginStatus;
+    this.authSubscription = this.accesoService.isAuthenticated$.subscribe(
+      (isAuthenticated) => {
+        this.isLoggedIn = isAuthenticated;
+      }
+    );
   }
   acortarHash() {
     let url:Url = {
@@ -83,6 +86,12 @@ export class HomeComponent {
           }
         }
       });
+    }
+  }
+  ngOnDestroy(): void {
+    // Importante: cancelar la suscripción para evitar memory leaks
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
     }
   }
 }
