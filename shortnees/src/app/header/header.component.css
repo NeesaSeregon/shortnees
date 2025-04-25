@@ -5,6 +5,10 @@
     color: #e2e2e2; 
     font-family: 'Roboto', sans-serif;
 }
+
+p {
+    margin-top: 10px;
+}
 .custom-txt-off {
     color: #686867; 
     font-family: 'Roboto', sans-serif;
@@ -13,16 +17,18 @@
     list-style: none; 
 }
 .custom-hover {
+    margin-right: 25px;
+    border: left 10px;
+    border-left: #e2e2e2;
     position: relative;
-    height: 100%;
     transition: all 0.3s ease-in-out;
 }
+.custom-txt:hover {
+    color:#0c0c0c;
+}
 .custom-hover:hover {
-
-    background-color: #006eff; 
+    background-color: #bebebe;     
     border-radius: 5px;
-    height: 40px; 
-
 }
 .custom-hover::before {
     content: '';
@@ -40,5 +46,12 @@
     visibility: visible;
     transform: scaleX(1);
 }
-
-
+.vr {
+    width: 2px;            
+    height: 45px;        
+    background-color: #bebebe; 
+    opacity: 0.8;          
+    border-radius: 2px;    
+    margin: 0 1rem;        
+  }
+  
