@@ -4,7 +4,7 @@
             <h2 class="text-center">Introduce tu URL</h2>
         </div>
         @if (!isLoggedIn) {
-          <form [formGroup]="formularioSinRegistro" class="mt-4 p-4 bg-dark rounded shadow-sm">
+          <form [formGroup]="formularioSinRegistro" class="mt-4 p-4 bg-custom rounded shadow-sm">
             <div class="mb-3">
               <label for="urlOriginal" class="form-label">URL Original</label>
               <div class="input-group">
@@ -19,7 +19,6 @@
                 <span class="input-group-text">registrate para acceder a esta caracteristica</span>
               </div>
             </div>
-
             <div class="d-grid gap-2">
               <button class="btn btn-primary btn-lg" (click)="acortarHash()" type="button">
                 <i class="bi bi-scissors me-2"></i> Acortar URL
@@ -33,7 +32,7 @@
                     <input class="form-control" value="{{shortUrl}}" type="text" placeholder="Tu URL a acortar">     
                 }
         } @else {
-            <form [formGroup]="formularioPersonalizar" class="mt-4 p-4 bg-dark rounded shadow-sm">
+            <form [formGroup]="formularioPersonalizar" class="mt-4 p-4 bg-custom rounded shadow-sm">
                 <div class="mb-3">
                   <label for="urlOriginal" class="form-label">URL Original</label>
                   <div class="input-group">

@@ -1,5 +1,5 @@
 :host {
     display:block;
-    background-color: 858484;
+    background-color: var(--bg-main);
   }
   

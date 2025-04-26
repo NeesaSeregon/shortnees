@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { TemaService } from './services/tema.service';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -13,4 +14,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 export class AppComponent {
   title = 'appFront';
   public email:any = 'Sin Session';
+  constructor (private temaService: TemaService ){}
+  ngOnInit() {
+    this.temaService.initTheme();
+  }
 }

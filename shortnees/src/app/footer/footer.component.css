@@ -1,5 +1,5 @@
 :host {
     display:block;
-    background-color: 0c0c0c;   
+    background-color: var(--primary-bg);   
     font-family: 'Roboto', sans-serif;
 }

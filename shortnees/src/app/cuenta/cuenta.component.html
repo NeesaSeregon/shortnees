@@ -3,4 +3,9 @@
     <button>Cambiar nombre</button>
     <p *ngIf="accesoService.currentUserValue as user">Email: {{user.email}}</p>
     <button>Cambiar email</button>
+    <label for="theme-select">Tema:</label>
+    <select id="theme-select" [value]="seleccionarTema" (change)="onThemeChange($any($event.target).value)">
+  <option *ngFor="let t of temas" [value]="t.value">{{ t.label }}</option>
+    </select>
+
 </main>
