@@ -1,0 +1,9 @@
+.button {
+    margin: 2px;
+    color: var(--color-enlace);
+    background-color: var(--bg-enlace);
+}
+.button:hover {
+    color: var(--bg-enlace);
+    background-color: var(--color-enlace);
+}
