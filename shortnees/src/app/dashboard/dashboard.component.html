@@ -1,25 +1,27 @@
 <main class="container mt-4  container-fluid min-vh-100">
     @if (enlaces.length > 0) {
      <h2 class="d-flex justify-content-center align-items-center">Mis Enlaces:</h2>
-      <div class="row contenedor">
-        <ul class="d-flex justify-content-center align-items-center">
+      <div class="row contenedor1">
+        <ul class="d-flex justify-content-center align-items-center ">
         @for (enlace of enlaces; track enlace.id) {
-          <li><button (click)="urlSeleccionada(enlace.urlCorta); verEstadisticasDispositivo(enlace.id); verEstadisticasFecha(enlace.id);
-            verEstadisticasPais(enlace.id); verEstadisticas(enlace.id)" class="" >{{enlace.urlCorta}}</button></li> 
+          <li><button  (click)="urlSeleccionada(enlace.urlCorta); verEstadisticasDispositivo(enlace.id); verEstadisticasFecha(enlace.id);
+            verEstadisticasPais(enlace.id); verEstadisticas(enlace.id)" class="button-enlaces" >{{enlace.urlCorta}}</button></li> 
         }
         </ul>
       <!-- 
         Mostrar estadísticas si están disponibles
         <button (click)="eliminarEnlace(enlace.id)" class="btn btn-danger btn-sm">Eliminar Enlace</button>
-        <button (click)="urlSeleccionada(enlace.urlCorta); verEstadisticasDispositivo(enlace.id); verEstadisticasFecha(enlace.id);
-        verEstadisticasPais(enlace.id); verEstadisticas(enlace.id)" class="btn btn-primary btn-sm">Ver Estadísticas</button>    
+          
       -->
       </div>
       @if (estadisticas) {
         <div class="mt-4 contenedor">
           <div class="alert">
             <h3 class="mb-3 d-flex justify-content-center align-items-center">Enlace selecionado {{ urlCortaSeleccionada }}</h3>
-            <!-- <strong>Número de clics:</strong> {{ estadisticas.numeroClicks }}-->
+            <!-- <strong>Número de clics:</strong> {{ estadisticas.numeroClicks }}
+            <button (click)="eliminarEnlace(enlace.id)" class="btn btn-danger btn-sm">Eliminar Enlace</button> 
+            -->
+            
           </div>
           <h4 class="mt-4 mb-3">Visitas:</h4>
           <div class="row">

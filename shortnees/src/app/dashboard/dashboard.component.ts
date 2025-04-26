@@ -33,16 +33,13 @@ export class DashboardComponent {
   constructor(private linkService: LinkService) { 
    
   }
+  //colores grafica
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
     
   };
-
-  // Crear un servicio en mi api que envie esta informacion formateada correctamente 
-
   ngOnInit(): void {
     this.loadEnlaces();
-    
   }
   loadEnlaces(): void {
     this.linkService.getUserEnlaces().subscribe({
