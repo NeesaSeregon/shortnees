@@ -37,7 +37,6 @@ export class HomeComponent {
     });
   }
   ngOnInit() {
-    
     const user = this.resolverToken.getUser();
     this.authSubscription = this.accesoService.isAuthenticated$.subscribe(
       (isAuthenticated) => {

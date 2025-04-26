@@ -347,3 +347,27 @@
   [hidden] {
     display: none;
   }
+
+  /*Variables globales para los temas de la aplicacion*/
+
+  body.theme-dark {
+    --bg-main: #858484;
+    --primary-bg:#0c0c0c ;
+    --color: #e2e2e2;
+    --color-hover: #bebebe;
+    --primary-button: #646970;
+  }
+  body.theme-light {
+    --bg-main: #f5f5f5;
+    --primary-bg:#e7e7e7 ;
+    --color: #6b6b6b;
+    --color-hover: #8D8C8C;
+    --primary-button: #b3b3b3;
+  }
+  body.theme-blue {
+    --bg-main: #00CDCD;
+    --primary-bg: #007171;
+    --color: #00FFFF;
+    --color-hover: #00FFFF;
+    --primary-button: #0095a0c7;
+  }

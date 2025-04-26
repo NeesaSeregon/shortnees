@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { Usuario } from '../interfaces/Usuario';
 import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
+import { TemaService } from '../services/tema.service';
 @Component({
   selector: 'app-cuenta',
   standalone: true,
@@ -14,26 +15,42 @@ import { CommonModule } from '@angular/common';
   templateUrl: './cuenta.component.html',
   styleUrl: './cuenta.component.css'
 })
-export class CuentaComponent {
+export class CuentaComponent implements OnInit{
   private resolverToken = inject(ResolverTokenService);
   public isLoggedIn : any = false;
   private authSubscription: Subscription | undefined;
-  constructor(public accesoService: AccesoService,private router: Router) {}
+  temas = [
+    { value: 'dark', label: 'Oscuro' },
+    { value: 'light', label: 'Claro' },
+    { value: 'blue', label: 'Azul' }
+  ];
+
+  constructor(public accesoService: AccesoService,private router: Router, private temaService: TemaService) 
+  {}
+  seleccionarTema: string | undefined;
   ngOnInit() {
+    this.seleccionarTema = this.temaService.getTheme();
     this.authSubscription = this.accesoService.isAuthenticated$.subscribe(
       (isAuthenticated) => {
         this.isLoggedIn = isAuthenticated;
       }
     );
+    console.log(this.seleccionarTema);
   }
-  logout() {
-    this.accesoService.logout();
-    this.router.navigate(['/login']);
-  }
+
   ngOnDestroy(): void {
     // Importante: cancelar la suscripción para evitar memory leaks
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }
   }
+
+  //funciones para el control estetico
+  
+  onThemeChange(theme: string) {
+    this.seleccionarTema = theme;
+    console.log(theme)
+    this.temaService.setTheme(theme);
+  }
+
 }
