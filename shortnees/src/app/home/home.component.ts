@@ -60,8 +60,10 @@ export class HomeComponent {
             //si el enlace se acorto correctamente
             this.shortUrl=data.urlCorta;
             this.error = data.mensaje
+          }else if (data.mensaje === 'No puede dejar su URL en blanco') {
+            this.error = data.mensaje
           }else{
-            this.error = 'todo lo demas'
+            this.error = 'error desconocido'
           }
           //LLAMAR EVENTO: MOSTRAR LA URL 
         }

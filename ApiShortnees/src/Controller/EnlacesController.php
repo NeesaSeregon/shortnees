@@ -21,6 +21,12 @@ class EnlacesController extends AbstractController
     {
         $request = $this->transformarJsonBody($request);
         $urlOriginal = $filtroUrl->limpiarCadena($request->get('url'));
+        if ($urlOriginal == ''){
+            return new JsonResponse(
+                ['mensaje' => 'No puede dejar su URL en blanco',
+                'urlCorta' => ''],
+                200
+            );}    
         if ($filtroUrl->verificarProtocolo($urlOriginal)){
                 //comienzo la creacion del enlace
                 $enlace = new Enlaces(); 
@@ -61,6 +67,12 @@ class EnlacesController extends AbstractController
         $urlPersonalizada = $filtroUrl->limpiarCadena($request->get('urlPersonalizada'));
         $urlPersonalizadaConDominio = 'wbt.es/'.$urlPersonalizada;
         if ($filtroUrl->verificarProtocolo($urlOriginal)){
+            if ($urlPersonalizada == ''){
+                return new JsonResponse(
+                    ['mensaje' => 'No puede dejar su URL en blanco',
+                    'urlCorta' => ''],
+                    200
+                );}    
         if ($filtroUrl->evitarColisionUrlCorta($urlPersonalizadaConDominio)){
                 $enlace = new Enlaces();
                 $enlace = $enlacesRepository->findOneByUrlcorta($urlPersonalizadaConDominio);
