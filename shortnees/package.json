@@ -25,6 +25,7 @@
     "angularx-qrcode": "^18.0.2",
     "bootstrap": "^5.3.3",
     "jwt-decode": "^4.0.0",
+    "qr-code-styling": "^1.9.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
