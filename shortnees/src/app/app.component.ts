@@ -4,6 +4,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { TemaService } from './services/tema.service';
+
 @Component({
   selector: 'app-root',
   standalone: true,

@@ -1,7 +1,7 @@
 import {
   DOCUMENT,
   isPlatformBrowser
-} from "./chunk-VJDQQC2E.js";
+} from "./chunk-AX354DBU.js";
 import {
   ANIMATION_MODULE_TYPE,
   APP_ID,
@@ -58,7 +58,7 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate1,
   ɵɵviewQuery
-} from "./chunk-OJTLVV7Z.js";
+} from "./chunk-P4XFVZZG.js";
 import {
   BehaviorSubject,
   Observable,
@@ -80,7 +80,7 @@ import {
 import {
   __spreadProps,
   __spreadValues
-} from "./chunk-WDMUDEB6.js";
+} from "./chunk-3OV72XIM.js";
 
 // node_modules/@angular/cdk/fesm2022/platform.mjs
 var hasV8BreakIterator;
@@ -4964,9 +4964,8 @@ export {
   ErrorStateMatcher,
   RippleRenderer,
   MAT_RIPPLE_GLOBAL_OPTIONS,
-  MatRipple,
   MatRippleModule,
   MatPseudoCheckboxModule,
   MatRippleLoader
 };
-//# sourceMappingURL=chunk-UZU5EL67.js.map
+//# sourceMappingURL=chunk-G6BYTQEX.js.map

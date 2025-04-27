@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AutenticacionGuard } from './custom/autenticacion.guard';
 import { WellcomeComponent } from './wellcome/wellcome.component';
 import { CuentaComponent } from './cuenta/cuenta.component';
+import { GeneradorQRComponent } from './generador-qr/generador-qr.component';
 //import { autenticacionGuard } from './custom/autenticacion.guard';
 export const routes: Routes = [
     {path:'', pathMatch:'full', redirectTo:'home'},
@@ -14,5 +15,6 @@ export const routes: Routes = [
     {path:'home', component: HomeComponent},
     {path:'dashboard', component: DashboardComponent, canActivate:[AutenticacionGuard]},
     {path:'wellcome', component: WellcomeComponent},
-    {path:'cuenta', component: CuentaComponent}
+    {path:'cuenta', component: CuentaComponent},
+    {path:'generador', component: GeneradorQRComponent},
 ];

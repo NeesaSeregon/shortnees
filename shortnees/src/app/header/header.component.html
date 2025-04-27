@@ -29,12 +29,12 @@
             <li class="nav-item"><a href="registro" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">Registro</p></a></li>
           } @else {
             <li class="nav-item"><a href="dashboard" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">Panel de control</p></a></li>
+            <li class="nav-item"><a href="generador" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">QR</p></a></li>
             <div class="vr mx-3"></div>
             <li class="nav-item" *ngIf="accesoService.currentUserValue as user"><a href="cuenta" class="dropdown-item"  class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">
             <span class="avatar"> {{user.nombre.slice(0, 2).toUpperCase()}}</span> 
             </p></a></li>
             <li class="nav-item"><a href="login" class="dropdown-item " (click)="logout()" class="nav-link px-2 link-body-emphasis custom-hover"> <p class="custom-txt">Cerrar Sesion</p></a></li>
-            
           }
         </ul>
       </div>
