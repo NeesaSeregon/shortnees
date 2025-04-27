@@ -20,6 +20,7 @@ p {
 }
 .custom-hover {
     margin-right: 25px;
+    margin-left: 20px;
     border: left 10px;
     border-left: var(--color);
     position: relative;
@@ -50,11 +51,12 @@ p {
 }
 .vr {
     width: 2px;            
-    height: 45px;        
+    height: 40px;        
     background-color: var(--color-hover); 
     opacity: 0.8;          
     border-radius: 2px;    
-    margin: 0 1rem;        
+    margin-top: 8px;
+    
   }
   .avatar {
     display: inline-flex;
@@ -67,4 +69,5 @@ p {
     color: var(--primary-bg);
     font-weight: bold;
     font-size: 0.9rem;
+    
   }

@@ -17,6 +17,8 @@ import { Subscription } from 'rxjs';
 export class HomeComponent {
   shortUrl: string = '';
   error: string = '';
+  shortUrlP: string = '';
+  errorP: string = '';
   isLoggedIn:any;
   formularioPersonalizar: FormGroup;
   formularioSinRegistro: FormGroup;
@@ -73,12 +75,13 @@ export class HomeComponent {
         next: (data:LinkResponse) => {
           if(data.urlCorta==='protocolo'){
             //si el protocolo no es https
-            this.error=data.mensaje;
+            this.errorP=data.mensaje;
           }else if (data.mensaje === 'Enlace creado'){
             //si el enlace se acorto correctamente
-            this.shortUrl=data.urlCorta;
+            this.shortUrlP=data.urlCorta;
+            this.errorP = data.mensaje
           }else{
-            this.error = data.mensaje
+            this.errorP = data.mensaje
           }
         }
       });

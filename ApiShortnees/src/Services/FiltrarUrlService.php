@@ -20,6 +20,7 @@ private $repositorio;
     public function limpiarCadena($url){
         return trim($url);
     }
+    //Funcionalidad en desuso
     public function comprobarExistencia ($url) {
         if ($this->repositorio->findOneByUrlOriginal($url) == null){
             //no existe, crealo

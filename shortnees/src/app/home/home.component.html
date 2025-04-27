@@ -1,7 +1,7 @@
 <main class="newsletter-subscribe h-100">
     <div class="container">
         <div class="intro">
-            <h2 class="text-center">Introduce tu URL</h2>
+            <h2 class="text-center">Shortnees</h2>
         </div>
         @if (!isLoggedIn) {
           <form [formGroup]="formularioSinRegistro" class="mt-4 p-4 bg-custom rounded shadow-sm">
@@ -12,7 +12,6 @@
                 <input id="urlOriginal" class="form-control" formControlName="urlOriginal" type="text" placeholder="Ingresa la URL que deseas acortar">
               </div>
             </div>
-            <!--Este segmento no ha de funcionar-->
             <div class="mb-3">
               <label for="urlPersonalizada " class="form-label">Personaliza tu URL</label>
               <div class="input-group">
@@ -49,18 +48,40 @@
                 </div>
                 <div class="d-grid gap-2">
                   <button class="btn btn-primary btn-lg" (click)="personalizar()" type="button">
-                    <i class="bi bi-scissors me-2"></i> Acortar URL
+                    <i class="bi bi-scissors me-2"></i> Personalizar Url
                   </button>
                 </div>
               </form>
-                @if (error !== ''){
-                    <p>{{error}}</p>
+                @if (errorP !== ''){
+                    <p>{{errorP}}</p>
                 }
-                @if (shortUrl!==''){
-                    <input class="form-control" value="{{shortUrl}}" type="text" placeholder="Tu URL a acortar">     
+                @if (shortUrlP!==''){
+                    <input class="form-control" value="{{shortUrlP}}" type="text" placeholder="Tu URL a acortar">     
                 }
+                <!--Adicion formulario estandar-->
+                <form [formGroup]="formularioSinRegistro" class="mt-4 p-4 bg-custom rounded shadow-sm">
+                  <div class="mb-3">
+                    <label for="urlOriginal" class="form-label">URL Original</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
+                      <input id="urlOriginal" class="form-control" formControlName="urlOriginal" type="text" placeholder="Ingresa la URL que deseas acortar">
+                    </div>
+                  </div>
+
+                  <div class="d-grid gap-2">
+                    <button class="btn btn-primary btn-lg" (click)="acortarHash()" type="button">
+                      <i class="bi bi-scissors me-2"></i> Acortar URL
+                    </button>
+                  </div>
+                </form>
+                      @if (error !== ''){
+                          <p>{{error}}</p>
+                      }
+                      @if (shortUrl!==''){
+                          <input class="form-control" value="{{shortUrl}}" type="text" placeholder="Tu URL a acortar">     
+                      }
+                <!--fin adiccion estandar -->
         }
-        
     </div>
   </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
