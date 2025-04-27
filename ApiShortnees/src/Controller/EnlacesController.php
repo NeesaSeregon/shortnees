@@ -22,15 +22,6 @@ class EnlacesController extends AbstractController
         $request = $this->transformarJsonBody($request);
         $urlOriginal = $filtroUrl->limpiarCadena($request->get('url'));
         if ($filtroUrl->verificarProtocolo($urlOriginal)){
-            if ($filtroUrl->comprobarExistencia($urlOriginal)){
-                $enlace = new Enlaces();
-                $enlace = $enlacesRepository->findOneByUrlOriginal($urlOriginal);
-                return new JsonResponse(
-                    ['mensaje' => 'Enlace creado',
-                    'urlCorta' => $enlace->getUrlCorta()],
-                    200
-                );
-            }else{
                 //comienzo la creacion del enlace
                 $enlace = new Enlaces(); 
                 $fechaActual = new \DateTime();
@@ -51,7 +42,7 @@ class EnlacesController extends AbstractController
                     200
                 ); 
             }
-        }else {
+        else {
             //no es seguro
             return new JsonResponse(
                 ['mensaje' => 'Este servicio solo acorta Urls seguras',
@@ -70,16 +61,7 @@ class EnlacesController extends AbstractController
         $urlPersonalizada = $filtroUrl->limpiarCadena($request->get('urlPersonalizada'));
         $urlPersonalizadaConDominio = 'wbt.es/'.$urlPersonalizada;
         if ($filtroUrl->verificarProtocolo($urlOriginal)){
-            if ($filtroUrl->comprobarExistencia($urlOriginal)){
-                //Si, SI existe
-                $enlace = new Enlaces();
-                $enlace = $enlacesRepository->findOneByUrlOriginal($urlOriginal);
-                return new JsonResponse(
-                    ['mensaje' => 'El enlace ya dispone de una abreviatura',
-                    'urlCorta' => $enlace->getUrlCorta()],
-                    200
-                );
-            }else if ($filtroUrl->evitarColisionUrlCorta($urlPersonalizadaConDominio)){
+        if ($filtroUrl->evitarColisionUrlCorta($urlPersonalizadaConDominio)){
                 $enlace = new Enlaces();
                 $enlace = $enlacesRepository->findOneByUrlcorta($urlPersonalizadaConDominio);
                 return new JsonResponse(
