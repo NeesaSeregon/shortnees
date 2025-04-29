@@ -81,10 +81,8 @@ export class DashboardComponent {
   verEstadisticasPais (id:number) {
     this.linkService.obtenerEstadisticasPais(id).subscribe({
       next: (data2: EstadisticasPais) => {
-        console.log(data2)
         this.estadisticasPais = data2; 
         this.dataBarPais = this.estadisticasPais; 
-        console.log(this.estadisticasPais);
       },
       error: (error) => {
         console.error('Error al cargar las estadisticas:', error);
@@ -95,23 +93,22 @@ export class DashboardComponent {
   verEstadisticasFecha (id:number) {
     this.linkService.obtenerEstadisticasFecha(id).subscribe({
       next: (data3: EstadisticasFecha) => {
+        console.log(id)
         this.estadisticasFecha = data3; 
         this.dataBarFecha = this.estadisticasFecha; 
-        console.log(this.estadisticasFecha);
+        console.log(this.dataBarFecha)
       },
       error: (error) => {
-        console.error('Error al cargar las estadisticas:', error);
+        console.log(id)
+        console.error('Error al cargar las estadisticas de FECHA:', error);
       }
     });
   }
   verEstadisticasDispositivo (id:number) {
     this.linkService.obtenerEstadisticasDispositivo(id).subscribe({
       next: (data4: EstadisticasDispositivo) => {
-        console.log(data4);
         this.estadisticasDispositivo = data4; 
         this.dataBarDispositivo = this.estadisticasDispositivo; 
-        console.log("marcador");
-        console.log(this.estadisticasDispositivo);
       },
       error: (error) => {
         console.error('Error al cargar las estadisticas:', error);

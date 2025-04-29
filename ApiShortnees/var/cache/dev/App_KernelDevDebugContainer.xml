@@ -294,6 +294,7 @@
       <argument type="service" id="doctrine"/>
     </service>
     <service id="App\Services\AcortarUrlService" class="App\Services\AcortarUrlService" autowire="true" autoconfigure="true"/>
+    <service id="App\Services\FechasService" class="App\Services\FechasService" autowire="true" autoconfigure="true"/>
     <service id="App\Services\FiltrarUrlService" class="App\Services\FiltrarUrlService" autowire="true" autoconfigure="true">
       <argument type="service" id="App\Repository\EnlacesRepository"/>
     </service>
@@ -320,7 +321,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.PYAwk_h"/>
+      <argument type="service" id=".service_locator.LlM6toU"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -1588,7 +1589,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.PYAwk_h"/>
+      <argument type="service" id=".service_locator.LlM6toU"/>
     </service>
     <service id="routing.resolver" class="Symfony\Component\Config\Loader\LoaderResolver">
       <call method="addLoader">
@@ -4546,11 +4547,18 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.P.blNFL" method="withContext"/>
     </service>
-    <service id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.Svls8H_" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="servicio_fechas" type="service_closure" id="App\Services\FechasService"/>
+      </argument>
+    </service>
+    <service id=".service_locator.Svls8H_.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha()"/>
       <argument>App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha()</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.P.blNFL" method="withContext"/>
+      <factory service=".service_locator.Svls8H_" method="withContext"/>
     </service>
     <service id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo()"/>
@@ -4597,7 +4605,7 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.K6BUKFy" method="withContext"/>
     </service>
-    <service id=".service_locator.PYAwk_h" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.LlM6toU" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.4wc4Ag1.kernel::registerContainerConfiguration()"/>
@@ -4610,7 +4618,7 @@
         <argument key="App\Controller\EnlacesController::eliminarEnlace" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EnlacesController::eliminarEnlace()"/>
         <argument key="App\Controller\EstadisticasEnlacesController::obtenerEstadisticas" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticas()"/>
         <argument key="App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorPais" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorPais()"/>
-        <argument key="App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha()"/>
+        <argument key="App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha" type="service_closure" id=".service_locator.Svls8H_.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha()"/>
         <argument key="App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo()"/>
         <argument key="App\Controller\RedireccionController::redirectToOriginalUrl" type="service_closure" id=".service_locator.TMleYZy.App\Controller\RedireccionController::redirectToOriginalUrl()"/>
         <argument key="App\Controller\RegistroController::registro" type="service_closure" id=".service_locator.jWo6Ji9.App\Controller\RegistroController::registro()"/>
@@ -4623,7 +4631,7 @@
         <argument key="App\Controller\EnlacesController:eliminarEnlace" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EnlacesController::eliminarEnlace()"/>
         <argument key="App\Controller\EstadisticasEnlacesController:obtenerEstadisticas" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticas()"/>
         <argument key="App\Controller\EstadisticasEnlacesController:obtenerEstadisticasPorPais" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorPais()"/>
-        <argument key="App\Controller\EstadisticasEnlacesController:obtenerEstadisticasPorFecha" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha()"/>
+        <argument key="App\Controller\EstadisticasEnlacesController:obtenerEstadisticasPorFecha" type="service_closure" id=".service_locator.Svls8H_.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorFecha()"/>
         <argument key="App\Controller\EstadisticasEnlacesController:obtenerEstadisticasPorDispositivo" type="service_closure" id=".service_locator.P.blNFL.App\Controller\EstadisticasEnlacesController::obtenerEstadisticasPorDispositivo()"/>
         <argument key="App\Controller\RedireccionController:redirectToOriginalUrl" type="service_closure" id=".service_locator.TMleYZy.App\Controller\RedireccionController::redirectToOriginalUrl()"/>
         <argument key="App\Controller\RegistroController:registro" type="service_closure" id=".service_locator.jWo6Ji9.App\Controller\RegistroController::registro()"/>
@@ -5805,7 +5813,7 @@
     <service id="Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface" alias="lexik_jwt_authentication.encoder.lcobucci"/>
     <service id="lexik_jwt_authentication.key_loader" alias="lexik_jwt_authentication.key_loader.raw" public="true"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.pRu6x_4" public="true"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.PYAwk_h"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.LlM6toU"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.BxSdgVt"/>
     <service id="Psr\Log\LoggerInterface" alias="logger"/>
     <service id="http_client" alias="http_client.uri_template"/>
@@ -5825,6 +5833,7 @@
     <service id=".service_locator.7MhVm0q" alias=".service_locator.M5PgiJv"/>
     <service id=".service_locator.4Ps4w2l" alias=".service_locator.iXC9NKv"/>
     <service id=".service_locator.4KsIGyf" alias=".service_locator.P.blNFL"/>
+    <service id=".service_locator.VgY47WS" alias=".service_locator.Svls8H_"/>
     <service id=".service_locator.l03bdUT" alias=".service_locator.TMleYZy"/>
     <service id=".service_locator.awqLBbl" alias=".service_locator.jWo6Ji9"/>
     <service id=".service_locator.texMWAl" alias=".service_locator.K6BUKFy"/>

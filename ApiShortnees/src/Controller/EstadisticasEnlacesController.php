@@ -16,6 +16,9 @@ use App\Services\FiltrarUrlService;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\EstadisticasEnlaces;
+use DateTime;
+use App\Services\FechasService;
+
 class EstadisticasEnlacesController extends AbstractController
 {
     #[Route('/estadisticas/{id}', name: 'obtener_estadisticas', methods: ['GET'])]
@@ -90,7 +93,7 @@ class EstadisticasEnlacesController extends AbstractController
     }
     //crea un endpoint que devuelva en formato json el numero de visitas segmentado por fecha
     #[Route('/estadisticas_fecha/{id}', name: 'estadisticas_fecha', methods: ['GET'])]
-     public function obtenerEstadisticasPorFecha(int $id, EntityManagerInterface $entityManager): JsonResponse
+     public function obtenerEstadisticasPorFecha(int $id, EntityManagerInterface $entityManager, FechasService $servicio_fechas): JsonResponse
      {
          // Buscar el enlace por su ID
          $enlace = $entityManager->getRepository(Enlaces::class)->find($id);
@@ -101,27 +104,26 @@ class EstadisticasEnlacesController extends AbstractController
          // Obtener todas las estadísticas asociadas al enlace
          $estadisticas = $entityManager->getRepository(EstadisticasEnlaces::class)->findBy(['enlace' => $enlace]);
          // Contar los clics 
-         $numeroClicks = count($estadisticas);
-         
          foreach ($estadisticas as $estadistica) {
-            $fecha = $estadistica->getFecha(); //probablemente con formatear aqui, lo tengas 1*
+            $fecha = $estadistica->getFechaClick(); //probablemente con formatear aqui, lo tengas 1*
             if ($fecha === null || $fecha === '') {
                 $fecha = 'Desconocido';
             }
-            if (!isset($clicsPorFecha[$fecha])) {
-                $clicsPorFecha[$fecha] = 0;
+            $fecha = $servicio_fechas->formatearFecha($fecha);
+            if (!isset($clicksPorAnoyMes[$fecha])) {
+                $clicksPorAnoyMes[$fecha] = 0;
             }
-            $clicsPorFecha[$fecha]++;
-        }
-        //El problema es que aqui estoy enviando la fecha completa, debo filtrar por añoo mes *1
-        foreach ($clicsPorFecha as $fecha => $numeroClics) {
+            $clicksPorAnoyMes[$fecha]++;
+          }  
+        foreach ($clicksPorAnoyMes as $anoyMes => $numeroClics) {
             $resultado[] = [
-                'name' => $fecha,
+                'name' => $anoyMes,
                 'value' => $numeroClics
             ];
         }
         
-         return new JsonResponse(Response::HTTP_OK);
+        
+         return new JsonResponse($resultado,Response::HTTP_OK);
      }
     //crea un endpoint que devuelva en formato json el numero de visitas segmentado por dispositivo
      #[Route('/estadisticas_dispositivo/{id}', name: 'estadisticas_dispositivo', methods: ['GET'])]
