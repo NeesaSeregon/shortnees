@@ -1,11 +1,14 @@
-<main class="container d-flex align-items-center justify-content-center vh-100">
-  <div class="card mt-4 p-4 bg-dark rounded shadow-sm" style="width: 400px;">
+<main class="container d-flex justify-content-center vh-100">
+  <div class="card p-4 rounded shadow-sm">
     <div class="card-body">
       <h5 class="card-title text-center">Registrarse</h5>
       <form [formGroup]="formularioRegistro" (ngSubmit)="submit()">
         <div class="mb-3">
           <label for="nombre" class="form-label">Nombre</label>
           <input type="nombre" class="form-control" id="nombre" formControlName="nombre" placeholder="Usuario01" required>
+          <div *ngIf="formularioRegistro.get('nombre')?.touched && formularioRegistro.get('nombre')?.invalid">
+            <small *ngIf="formularioRegistro.get('nombre')?.errors?.['required']">El nombre es obligatorio.</small>
+          </div>
         </div>
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
@@ -17,6 +20,9 @@
         </div>
         <button class="btn btn-primary w-100 py-2" type="submit">Registrarse</button>
         <button type="button" class="btn btn-link w-100 mt-2">Ya tengo cuenta</button>
+        @if (error !== ''){
+          <p class="error fs-4">{{error}}</p>
+        }
       </form>
     </div>
   </div>

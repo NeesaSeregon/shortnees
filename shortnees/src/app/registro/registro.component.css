@@ -1,16 +1,32 @@
-:host {
+
+  :host {
     display: block;
-}
-.card-body {
-    font-family: 'Roboto', sans-serif;
-   
   }
- form .form-control {
+  .card-body {
+    font-family: 'Roboto', sans-serif;
+  }
+  form .form-control {
     background-color: #858484 !important; 
     border-color: #fff;
   }
-
   .form-label {
     color: #fff;
     font-family: 'Roboto', sans-serif;
+  }
+  .card {
+    background: var(--primary-bg);
+    max-height: fit-content;
+    margin-top: 15vh;
+    min-width: 350px;
+    max-width: 350px;
+  }
+  .card-title {
+    color: var(--color);
+  }
+  input{
+    background-color: var(--bg-main);
+    border-color: var(--color);
+  }
+  .error {
+    color: var(--color);
   }

@@ -1,5 +1,5 @@
-<main class="container d-flex align-items-center justify-content-center vh-100 ">
-  <div class="card mt-4 p-4 bg-dark rounded shadow-sm" style="width: 400px;">
+<main class="container d-flex justify-content-center vh-100 ">
+  <div class="card p-4 rounded shadow-sm">
     <div class="card-body">
       <h5 class="card-title text-center">Iniciar Sesión</h5>
       <form class="" [formGroup]="formularioLogin" (ngSubmit)="iniciarSesion()">
@@ -13,6 +13,9 @@
         </div>
         <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
         <button type="button" class="btn btn-link w-100 mt-2" (click)="registrarse()">Registrarse</button>
+        @if (error !== ''){
+          <p class="error fs-4">{{error}}</p>
+        }
       </form>
     </div>
   </div>

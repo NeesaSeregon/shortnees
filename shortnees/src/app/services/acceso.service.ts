@@ -1,9 +1,9 @@
 import { Injectable, effect, inject, signal } from '@angular/core';
 import { ResponseAcceso } from '../interfaces/ResponseAcceso';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { appsettings } from '../settings/appsettings';
 import { Usuario } from '../interfaces/Usuario';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
 import { Login } from '../interfaces/Login';
 import { ResolverTokenService } from './resolver-token.service';
 import { Router } from '@angular/router';
@@ -47,8 +47,9 @@ export class AccesoService {
       next: (data: UserData) => {
         this.userData = data;
         localStorage.setItem('userData', JSON.stringify(data));
-      }
-    });
+      } 
+    }
+  );
     return this.http.post<ResponseAcceso>(`${this.baseUrl}api/login_check`,objeto).pipe(
       map((res: any) => {
         this.authSuccess(res.access_token);
