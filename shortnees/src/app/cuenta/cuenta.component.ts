@@ -44,13 +44,21 @@ export class CuentaComponent implements OnInit{
       this.authSubscription.unsubscribe();
     }
   }
-
   //funciones para el control estetico
-  
   onThemeChange(theme: string) {
     this.seleccionarTema = theme;
     console.log(theme)
     this.temaService.setTheme(theme);
+  }
+
+  editarNombre() {
+
+  }
+  cambiarNombreUsuario (nombre:string) {
+
+  }
+  cambiarEmail (email:string) {
+
   }
 
 }

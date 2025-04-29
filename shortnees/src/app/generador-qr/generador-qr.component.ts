@@ -8,8 +8,7 @@ import QRCodeStyling, { FileExtension } from "qr-code-styling";
   styleUrl: './generador-qr.component.css'
 })
 export class GeneradorQRComponent implements OnInit{
-  title = 'QR code styling for Angular';
-  data = 'http://qr-code-styling.com';
+  data = 'https://shortnees.com';
   extension = 'svg';
   qrCode: QRCodeStyling = new QRCodeStyling;
   constructor(){}
@@ -21,7 +20,7 @@ export class GeneradorQRComponent implements OnInit{
       height: 300,
       type: 'svg',
       data: this.data,
-      image: '/favicon.ico',
+      image: '/favicon.svg',
       margin: 10,
       qrOptions: {
         typeNumber: 0,

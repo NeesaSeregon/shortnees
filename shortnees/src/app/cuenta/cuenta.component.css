@@ -7,3 +7,6 @@
     color: var(--bg-enlace);
     background-color: var(--color-enlace);
 }
+select {
+    margin-left: 20px;
+}
