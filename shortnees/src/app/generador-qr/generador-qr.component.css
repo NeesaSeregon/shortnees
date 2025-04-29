@@ -1,3 +1,33 @@
 div {
   text-align: center;
 }
+.form-control {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background: var(--color-hover); 
+  border-color: var(--bg-primary);
+  border-radius:5px;
+  box-shadow:none;
+  outline:none;
+  color:inherit;
+  text-indent:9px;
+  height:45px;
+  margin-right:10px;
+  min-width:250px;
+  font-family: 'Roboto', sans-serif;
+}
+.content {
+  margin-top: 20px;
+}
+h2 {
+  margin-bottom: 20px;
+}
+.button-enlaces {
+  margin: 2px;
+  color: var(--color-enlace);
+  background-color: var(--bg-enlace);
+}
+.button-enlaces:hover {
+  color: var(--bg-enlace);
+  background-color: var(--color-enlace);
+}
