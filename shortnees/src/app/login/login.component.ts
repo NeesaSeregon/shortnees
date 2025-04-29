@@ -14,10 +14,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { ResolverTokenService } from '../services/resolver-token.service';
 import { UsuarioService } from '../services/usuario.service';
 import { Usuario } from '../interfaces/Usuario';
+import { catchError, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterOutlet, ReactiveFormsModule, CommonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -26,6 +28,7 @@ export class LoginComponent {
   private accesoService = inject(AccesoService);
   public formBuild = inject(FormBuilder);
   public resolverToken = inject(ResolverTokenService);
+  public error:string='';
   public formularioLogin: FormGroup = this.formBuild.group({
     correo: ['',Validators.required],
     password: ['',Validators.required]
@@ -33,11 +36,16 @@ export class LoginComponent {
 
   constructor(private usuarioService: UsuarioService) {}
   iniciarSesion(){
-    if(this.formularioLogin.invalid) return;
+    if(this.formularioLogin.invalid){
+      this.error = 'Introduzca sus datos de usuario.';
+      return;
+    };
+    
     const objeto:Login= {
       username: this.formularioLogin.value.correo,
       password: this.formularioLogin.value.password
     }
+    
     this.accesoService.login(objeto).subscribe({
       next:(data)=>{
         if(data.token){
@@ -45,13 +53,10 @@ export class LoginComponent {
           this.accesoService.authSuccess(data.token);
           localStorage.setItem("token", data.token)
         }else{
-          alert("Credenciales incorrectas")
+          this.error = "Credenciales incorrectas"; 
         }
         //
         this.router.navigate(['home']);
-      },
-      error:(error) => {
-        console.log(error.message);
       }
     })
   }
