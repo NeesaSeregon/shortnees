@@ -108,14 +108,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->password;
     }
-
     public function setPassword(string $password): static
     {
         $this->password = $password;
 
         return $this;
     }
-
     /**
      * @see UserInterface
      */
@@ -124,19 +122,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-
     public function getFechaRegistro(): ?\DateTimeInterface
     {
         return $this->fecha_registro;
     }
-
     public function setFechaRegistro(\DateTimeInterface $fecha_registro): static
     {
         $this->fecha_registro = $fecha_registro;
 
         return $this;
     }
-
     /**
      * @return Collection<int, Enlaces>
      */
@@ -144,7 +139,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->enlaces;
     }
-
     public function addEnlace(Enlaces $enlace): static
     {
         if (!$this->enlaces->contains($enlace)) {
@@ -154,7 +148,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
     public function removeEnlace(Enlaces $enlace): static
     {
         if ($this->enlaces->removeElement($enlace)) {

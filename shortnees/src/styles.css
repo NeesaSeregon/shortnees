@@ -351,14 +351,14 @@
   /*Variables globales para los temas de la aplicacion*/
 
   body.theme-dark {
-    --bg-main: #858484;
-    --primary-bg:#0c0c0c ;
-    --color: #e2e2e2;
-    --color-hover: #bebebe;
-    --primary-button: #646970;
-    --bg-card: #bebebe;
-    --bg-enlace: #bebebe;
-    --color-enlace:#0c0c0c;
+    --bg-main: #858484; /*Color de fondo main*/
+    --primary-bg:#0c0c0c; /*Color de fondo header, formularios*/
+    --color: #e2e2e2; /*Color de los textos*/
+    --color-hover: #bebebe; /*Color eventos hover*/
+    --primary-button: #646970; /*Color botones fomularios*/
+    --bg-card: #bebebe; /*Color contenedor graficas de enlaces*/
+    --bg-enlace: #bebebe; /*Colo de fondo de los enlaces*/
+    --color-enlace:#0c0c0c; /*Color del texto enlaces*/
   }
   body.theme-light {
     --bg-main: #f5f5f5;

@@ -20,7 +20,7 @@ export class GeneradorQRComponent implements OnInit{
       height: 300,
       type: 'svg',
       data: this.data,
-      image: '/favicon.svg',
+      image: '/LogotipoShortneesClaro.png',
       margin: 10,
       qrOptions: {
         typeNumber: 0,

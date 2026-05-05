@@ -35,7 +35,6 @@ export class CuentaComponent implements OnInit{
         this.isLoggedIn = isAuthenticated;
       }
     );
-    console.log(this.seleccionarTema);
   }
 
   ngOnDestroy(): void {
@@ -47,7 +46,7 @@ export class CuentaComponent implements OnInit{
   //funciones para el control estetico
   onThemeChange(theme: string) {
     this.seleccionarTema = theme;
-    console.log(theme)
+    
     this.temaService.setTheme(theme);
   }
 

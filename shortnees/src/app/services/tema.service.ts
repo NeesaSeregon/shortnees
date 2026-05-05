@@ -19,7 +19,7 @@ export class TemaService {
 
 getTheme(): string {
   const savedTheme = localStorage.getItem(this.temaKey);
-  return savedTheme ? savedTheme : 'light'; // Valor por defecto controlado[5][9]
+  return savedTheme ? savedTheme : 'dark'; // Valor por defecto controlado[5][9]
 }
   initTheme() {
     this.setTheme(this.getTheme());

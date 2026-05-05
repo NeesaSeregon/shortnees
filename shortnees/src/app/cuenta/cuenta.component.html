@@ -2,9 +2,9 @@
   <div class="contenedor">
     <h3>Informacion de la cuenta</h3>
     <p class="" *ngIf="accesoService.currentUserValue as user">Nombre de usuario: {{user.nombre}}
-    <button class="button"><i class="bi bi-pencil-square"></i> Editar</button></p>
+    <!--<button class="button"><i class="bi bi-pencil-square"></i> Editar</button></p>-->
     <p *ngIf="accesoService.currentUserValue as user">Email: {{user.email}}
-    <button class="button"><i class="bi bi-pencil-square"></i> Editar</button></p>
+    <!--<button class="button"><i class="bi bi-pencil-square"></i> Editar</button></p>-->
     <h3>Interfaz</h3>
     <label for="theme-select">Tema: </label>
     <select id="theme-select"  [value]="seleccionarTema" (change)="onThemeChange($any($event.target).value)">
