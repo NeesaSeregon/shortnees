@@ -24,7 +24,7 @@ export class DashboardComponent {
   estadisticasDispositivo: EstadisticasDispositivo | null = null; // Cambiado a null para reflejar que es un único objeto
   dataBarDispositivo:any = [];
   single: any[] = [];
-  view: [number, number] =  [900, 200];
+  view: [number, number] = [500, 250];
   // options
   gradient: boolean = true;
   showLegend: boolean = true;
@@ -53,15 +53,10 @@ export class DashboardComponent {
     });
   }
   eliminarEnlace(id: number) {
-    this.linkService.eliminarEnlace(id).subscribe(
-      response => {
-        console.log('Enlace eliminado', response);
-        // Actualizar la lista de enlaces o realizar otras acciones necesarias
-      },
-      error => {
-        console.error('Error al eliminar el enlace', error);
-      }
-    );
+    this.linkService.eliminarEnlace(id).subscribe({
+      next: () => this.loadEnlaces(),
+      error: (error) => console.error('Error al eliminar el enlace', error)
+    });
   }
   verEstadisticas(id: number){
     this.linkService.obtenerEstadisticas(id).subscribe({

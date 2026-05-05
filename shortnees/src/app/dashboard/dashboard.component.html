@@ -1,73 +1,70 @@
-<main class="container mt-4  container-fluid min-vh-100">
-    @if (enlaces.length > 0) {
-     <h2 class="d-flex justify-content-center align-items-center">Mis Enlaces:</h2>
-      <div class="container ">
-          <ul class="d-flex overflow-auto row justify-content-center align-items-center ">
-          @for (enlace of enlaces; track enlace.id) {
-            <li class="col-6 col-md-3"><button  (click)="urlSeleccionada(enlace.urlCorta); verEstadisticasDispositivo(enlace.id); verEstadisticasFecha(enlace.id);
-              verEstadisticasPais(enlace.id); verEstadisticas(enlace.id)" class="button-enlaces" >{{enlace.urlCorta}}</button></li> 
-          }
-          </ul>
-      </div>
-   
-       <!-- 
-        Mostrar estadísticas si están disponibles
-        <button (click)="eliminarEnlace(enlace.id)" class="btn btn-danger btn-sm">Eliminar Enlace</button>
-    -->
-      @if (estadisticas) {
-        <div class="mt-4 contenedor">
-          <div class="alert">
-            <h3 class="mb-3 d-flex justify-content-center align-items-center">Enlace selecionado {{ urlCortaSeleccionada }}</h3>
-            <!-- <strong>Número de clics:</strong> {{ estadisticas.numeroClicks }}
-            <button (click)="eliminarEnlace(enlace.id)" class="btn btn-danger btn-sm">Eliminar Enlace</button> 
-            -->
-            
-          </div>
-          <h4 class="mt-4 mb-3">Visitas:</h4>
-          <div class="row">
-            <!--@for (detalle of estadisticas.detalles; track detalle.id) {-->
-                <div class="card col-6 overflow-auto">
-                  <div class="card-body">
-                    <ngx-charts-advanced-pie-chart
-                    [view]="view"
-                    [results]="dataBarPais"
-                    [gradient]="gradient"
-                    >
-                    </ngx-charts-advanced-pie-chart>
-                  </div>
-                </div>
-                <div class="card col-6 overflow-auto">
-                  <div class="card-body">
-                    <ngx-charts-advanced-pie-chart
-                    [view]="view"
-                    [results]="dataBarDispositivo"
-                    [gradient]="gradient"
-                    >
-                    </ngx-charts-advanced-pie-chart>
-                   <!-- <p class="card-text"><strong>Fecha Click:</strong> {{ detalle.fecha_click }}</p>
-                    <p class="card-text"><strong>IP Usuario:</strong> {{ detalle.ip_usuario }}</p>
-                    <p class="card-text"><strong>Ubicación:</strong> {{ detalle.ubicacion }}</p>
-                    <p class="card-text"><strong>Dispositivo:</strong> {{ detalle.dispositivo }}</p> 
-                    -->
-                  </div>
-                </div>
-                <div class="card col-6 overflow-auto">
-                  <div class="card-body">
-                    <ngx-charts-advanced-pie-chart
-                    [view]="view"
-                    [results]="dataBarFecha"
-                    [gradient]="gradient"
-                    >
-                    </ngx-charts-advanced-pie-chart>
-                  </div>
-                </div>
-              </div>
-            <!--}-->
-          </div>
+<main class="container-fluid px-4 mt-4">
+  @if (enlaces.length > 0) {
+    <h2 class="text-center mb-4">Mis Enlaces</h2>
+
+    <div class="row g-2 justify-content-center">
+      @for (enlace of enlaces; track enlace.id) {
+        <div class="col-6 col-sm-4 col-md-3 col-xl-2">
+          <button
+            class="button-enlaces w-100"
+            (click)="urlSeleccionada(enlace.urlCorta);
+                     verEstadisticasDispositivo(enlace.id);
+                     verEstadisticasFecha(enlace.id);
+                     verEstadisticasPais(enlace.id);
+                     verEstadisticas(enlace.id)">
+            {{ enlace.urlCorta }}
+          </button>
+        </div>
       }
-    } @else {
-      <div class="alert alert-warning mt-4" role="alert">
-        No tienes enlaces disponibles.
+    </div>
+
+    @if (estadisticas) {
+      <div class="mt-5">
+        <h3 class="text-center mb-4">{{ urlCortaSeleccionada }}</h3>
+        <div class="row g-4">
+          <div class="col-12 col-md-6">
+            <div class="card h-100">
+              <div class="card-body chart-body">
+                <h5 class="card-title">Por país</h5>
+                <ngx-charts-advanced-pie-chart
+                  [view]="view"
+                  [results]="dataBarPais"
+                  [gradient]="gradient">
+                </ngx-charts-advanced-pie-chart>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="card h-100">
+              <div class="card-body chart-body">
+                <h5 class="card-title">Por dispositivo</h5>
+                <ngx-charts-advanced-pie-chart
+                  [view]="view"
+                  [results]="dataBarDispositivo"
+                  [gradient]="gradient">
+                </ngx-charts-advanced-pie-chart>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="card h-100">
+              <div class="card-body chart-body">
+                <h5 class="card-title">Por fecha</h5>
+                <ngx-charts-advanced-pie-chart
+                  [view]="view"
+                  [results]="dataBarFecha"
+                  [gradient]="gradient">
+                </ngx-charts-advanced-pie-chart>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     }
+
+  } @else {
+    <div class="alert alert-warning mt-4" role="alert">
+      No tienes enlaces disponibles.
+    </div>
+  }
 </main>
