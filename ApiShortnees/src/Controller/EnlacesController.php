@@ -65,7 +65,7 @@ class EnlacesController extends AbstractController
         $request = $this->transformarJsonBody($request);
         $urlOriginal = $filtroUrl->limpiarCadena($request->get('urlOriginal'));
         $urlPersonalizada = $filtroUrl->limpiarCadena($request->get('urlPersonalizada'));
-        $urlPersonalizadaConDominio = 'wbt.es/'.$urlPersonalizada;
+        $urlPersonalizadaConDominio = 'shortns.com/'.$urlPersonalizada;
         if ($filtroUrl->verificarProtocolo($urlOriginal)){
             if ($urlPersonalizada == ''){
                 return new JsonResponse(
