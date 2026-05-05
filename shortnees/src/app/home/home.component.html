@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="d-grid gap-2">
-          <button class="btn btn-primary btn-lg" (click)="personalizar()" type="button">
+          <button class="btn btn-primary btn-lg" (click)="personalizar()" type="button" [disabled]="formularioPersonalizar.invalid">
             <i class="bi bi-scissors me-2"></i> Personalizar Url
           </button>
         </div>

@@ -42,17 +42,15 @@
   font-family: 'Roboto', sans-serif;
 }
 .newsletter-subscribe form .btn {
-  padding:16px 32px;
-  border:none;
-  background:none;
-  box-shadow:none;
-  text-shadow:none;
-  opacity:0.9;
-  text-transform:uppercase;
-  font-weight:bold;
-  font-size:13px;
-  letter-spacing:0.4px;
-  line-height:1;
+  padding: 16px 32px;
+  border: none;
+  background: none;
+  text-shadow: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  line-height: 1;
 }
 .newsletter-subscribe form .btn:hover {
   opacity:1;
@@ -61,9 +59,22 @@
   transform:translateY(1px);
 }
 .newsletter-subscribe form .btn-primary {
-  background-color:var(--primary-button)!important;
-  color:var(--color);
-  outline:none !important;
+  background-color: var(--primary-button) !important;
+  color: var(--color);
+  outline: none !important;
+  transition: opacity 0.25s ease, box-shadow 0.25s ease, transform 0.1s ease;
+}
+.newsletter-subscribe form .btn-primary:not(:disabled) {
+  opacity: 1;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+.newsletter-subscribe form .btn-primary:not(:disabled):hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+.newsletter-subscribe form .btn-primary:disabled {
+  opacity: 0.35;
+  box-shadow: none;
+  cursor: not-allowed;
 }
 .input-group-text{
   background-color: var(--bg-main);

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LinkService } from '../services/link.service';
 import { LinkResponse } from '../interfaces/link-response';
 
@@ -20,8 +20,8 @@ export class HomeComponent {
     private fb: FormBuilder,
   ) {
     this.formularioPersonalizar = this.fb.group({
-      urlOriginal: [''],
-      urlPersonalizada: ['']
+      urlOriginal: ['', Validators.required],
+      urlPersonalizada: ['', Validators.required]
     });
   }
 
