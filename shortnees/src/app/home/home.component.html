@@ -3,6 +3,8 @@
     <div class="intro">
       <h2 class="text-center">Shortnees</h2>
     </div>
+
+    @if (isAuthenticated) {
       <form [formGroup]="formularioPersonalizar" class="mt-4 p-4 bg-custom rounded shadow-sm">
         <div class="mb-3">
           <label for="urlOriginal" class="form-label">URL Original</label>
@@ -24,11 +26,33 @@
           </button>
         </div>
       </form>
-    @if (errorP !== ''){
-      <p class="fs-3">{{errorP}}</p>
+      @if (errorP !== '') {
+        <p class="fs-3">{{ errorP }}</p>
+      }
+      @if (shortUrlP !== '') {
+        <input class="form-control" value="{{ shortUrlP }}" type="text" readonly>
+      }
+    } @else {
+      <form [formGroup]="formulario" class="mt-4 p-4 bg-custom rounded shadow-sm">
+        <div class="mb-3">
+          <label for="url" class="form-label">URL a acortar</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
+            <input id="url" class="form-control" formControlName="url" type="text" placeholder="Ingresa la URL que deseas acortar">
+          </div>
+        </div>
+        <div class="d-grid gap-2">
+          <button class="btn btn-primary btn-lg" (click)="acortar()" type="button" [disabled]="formulario.invalid">
+            <i class="bi bi-scissors me-2"></i> Acortar URL
+          </button>
+        </div>
+      </form>
+      @if (error !== '') {
+        <p class="fs-3 text-danger mt-2">{{ error }}</p>
+      }
+      @if (shortUrl !== '') {
+        <input class="form-control mt-2" value="{{ shortUrl }}" type="text" readonly>
+      }
     }
-    @if (shortUrlP!==''){
-      <input class="form-control" value="{{shortUrlP}}" type="text" placeholder="Tu URL a acortar">     
-    }     
   </div>
 </main>
