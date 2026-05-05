@@ -31,6 +31,7 @@
                     <input class="form-control" value="{{shortUrl}}" type="text" placeholder="Tu URL a acortar">     
                 }
         } @else {
+            <input class="check" type="checkbox"> <label for="check"> Acortar / Personalizar</label>
             <form [formGroup]="formularioPersonalizar" class="mt-4 p-4 bg-custom rounded shadow-sm">
                 <div class="mb-3">
                   <label for="urlOriginal" class="form-label">URL Original</label>

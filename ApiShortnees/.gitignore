@@ -1,0 +1,26 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> node / assets ###
+/node_modules/
+/package-lock.json
+###< node / assets ###
+
+###> public build artifacts ###
+/public/bundles/
+/public/build/
+###< public build artifacts ###
+
+###> JWT keys (never commit private keys) ###
+/config/jwt/private.pem
+/config/jwt/public.pem
+###< JWT keys ###
+
+###> logs ###
+*.log
+###< logs ###
