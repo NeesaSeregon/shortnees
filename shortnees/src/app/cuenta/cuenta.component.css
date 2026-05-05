@@ -1,12 +1,109 @@
-.button {
-    margin: 2px;
-    color: var(--color-enlace);
-    background-color: var(--bg-enlace);
+.card {
+  background-color: var(--primary-bg);
+  border: none;
+  border-radius: 14px;
 }
-.button:hover {
-    color: var(--bg-enlace);
-    background-color: var(--color-enlace);
+
+/* Avatar */
+.avatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background-color: var(--primary-button);
+  color: var(--color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
+
+.user-email {
+  color: var(--color);
+  opacity: 0.65;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.badge-rol {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: var(--primary-button);
+  color: var(--color);
+}
+
+/* Stat */
+.stat-value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color);
+  line-height: 1;
+}
+
+.stat-label {
+  color: var(--color);
+  opacity: 0.65;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-ir-panel {
+  display: inline-block;
+  color: var(--color);
+  opacity: 0.8;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.btn-ir-panel:hover {
+  opacity: 1;
+}
+
+/* Settings */
+.section-title {
+  color: var(--color);
+  font-weight: 600;
+  font-size: 1rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+  padding-bottom: 8px;
+}
+
+.setting-label {
+  color: var(--color);
+  font-size: 0.95rem;
+}
+
 select {
-    margin-left: 20px;
+  background-color: var(--bg-main);
+  color: var(--color);
+  border: 1px solid var(--primary-button);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Logout */
+.btn-logout {
+  background: transparent;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  border-radius: 8px;
+  padding: 9px 28px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-logout:hover {
+  background-color: #dc3545;
+  color: #fff;
 }

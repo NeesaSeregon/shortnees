@@ -1,14 +1,56 @@
-<main class="container mt-4  container-fluid min-vh-100">
-  <div class="contenedor">
-    <h3>Informacion de la cuenta</h3>
-    <p class="" *ngIf="accesoService.currentUserValue as user">Nombre de usuario: {{user.nombre}}
-    <!--<button class="button"><i class="bi bi-pencil-square"></i> Editar</button></p>-->
-    <p *ngIf="accesoService.currentUserValue as user">Email: {{user.email}}
-    <!--<button class="button"><i class="bi bi-pencil-square"></i> Editar</button></p>-->
-    <h3>Interfaz</h3>
-    <label for="theme-select">Tema: </label>
-    <select id="theme-select"  [value]="seleccionarTema" (change)="onThemeChange($any($event.target).value)">
-    <option *ngFor="let t of temas" [value]="t.value">{{ t.label }}</option>
-    </select>
-  </div>
+<main class="container py-5">
+  @if (accesoService.currentUserValue; as user) {
+
+    <!-- Perfil -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-12 col-md-8 col-lg-5">
+        <div class="card perfil-card text-center p-4">
+          <div class="avatar mx-auto mb-3">{{ iniciales }}</div>
+          <h3 class="mb-1">{{ user.nombre }}</h3>
+          <p class="user-email mb-3">{{ user.email }}</p>
+          @if (rolLabel) {
+            <span class="badge-rol">{{ rolLabel }}</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-12 col-md-8 col-lg-5">
+        <div class="card p-4 text-center">
+          <p class="stat-label mb-1">Enlaces creados</p>
+          <p class="stat-value mb-3">{{ totalEnlaces }}</p>
+          <a href="dashboard" class="btn-ir-panel">Ver panel de control <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Configuración -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-12 col-md-8 col-lg-5">
+        <div class="card p-4">
+          <h5 class="section-title mb-3"><i class="bi bi-palette me-2"></i>Apariencia</h5>
+          <div class="d-flex align-items-center justify-content-between">
+            <label for="theme-select" class="setting-label">Tema de la interfaz</label>
+            <select id="theme-select" [value]="seleccionarTema" (change)="onThemeChange($any($event.target).value)">
+              @for (t of temas; track t.value) {
+                <option [value]="t.value" [selected]="t.value === seleccionarTema">{{ t.label }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cerrar sesión -->
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-5 text-center">
+        <button class="btn-logout" (click)="logout()">
+          <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+        </button>
+      </div>
+    </div>
+
+  }
 </main>
