@@ -1,3 +1,5 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
@@ -11,6 +13,7 @@
  html {
     line-height: 1.15; /* 1 */
     -webkit-text-size-adjust: 100%; /* 2 */
+    height: 100%;
   }
   
   /* Sections
@@ -22,6 +25,7 @@
   
   body {
     margin: 0;
+    min-height: 100%;
   }
   
   /**
