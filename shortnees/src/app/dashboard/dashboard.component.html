@@ -7,11 +7,8 @@
         <div class="col-6 col-sm-4 col-md-3 col-xl-2">
           <button
             class="button-enlaces w-100"
-            (click)="urlSeleccionada(enlace.urlCorta);
-                     verEstadisticasDispositivo(enlace.id);
-                     verEstadisticasFecha(enlace.id);
-                     verEstadisticasPais(enlace.id);
-                     verEstadisticas(enlace.id)">
+            [class.activo]="enlace.id === enlaceSeleccionadoId"
+            (click)="seleccionar(enlace)">
             {{ enlace.urlCorta }}
           </button>
         </div>
@@ -19,43 +16,50 @@
     </div>
 
     @if (estadisticas) {
-      <div class="mt-5">
-        <h3 class="text-center mb-4">{{ urlCortaSeleccionada }}</h3>
-        <div class="row g-4">
-          <div class="col-12 col-md-6">
-            <div class="card h-100">
-              <div class="card-body chart-body">
-                <h5 class="card-title">Por país</h5>
-                <ngx-charts-advanced-pie-chart
-                  [view]="view"
-                  [results]="dataBarPais"
-                  [gradient]="gradient">
-                </ngx-charts-advanced-pie-chart>
-              </div>
+      <hr class="stats-divider">
+
+      <!-- Cabecera de estadísticas -->
+      <div class="stats-header text-center">
+        <p class="stats-url"><i class="bi bi-link-45deg"></i> {{ urlCortaSeleccionada }}</p>
+        <p class="stats-num">{{ estadisticas.numeroClicks }}</p>
+        <p class="stats-label">clics totales</p>
+      </div>
+
+      <!-- Gráficas -->
+      <div class="row g-4 mt-2">
+        <div class="col-12 col-md-6">
+          <div class="card chart-card">
+            <div class="card-body chart-body">
+              <h6 class="chart-title"><i class="bi bi-globe2 me-2"></i>Por país</h6>
+              <ngx-charts-advanced-pie-chart
+                [view]="view"
+                [results]="dataBarPais"
+                [gradient]="gradient">
+              </ngx-charts-advanced-pie-chart>
             </div>
           </div>
-          <div class="col-12 col-md-6">
-            <div class="card h-100">
-              <div class="card-body chart-body">
-                <h5 class="card-title">Por dispositivo</h5>
-                <ngx-charts-advanced-pie-chart
-                  [view]="view"
-                  [results]="dataBarDispositivo"
-                  [gradient]="gradient">
-                </ngx-charts-advanced-pie-chart>
-              </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="card chart-card">
+            <div class="card-body chart-body">
+              <h6 class="chart-title"><i class="bi bi-phone me-2"></i>Por dispositivo</h6>
+              <ngx-charts-advanced-pie-chart
+                [view]="view"
+                [results]="dataBarDispositivo"
+                [gradient]="gradient">
+              </ngx-charts-advanced-pie-chart>
             </div>
           </div>
-          <div class="col-12 col-md-6">
-            <div class="card h-100">
-              <div class="card-body chart-body">
-                <h5 class="card-title">Por fecha</h5>
-                <ngx-charts-advanced-pie-chart
-                  [view]="view"
-                  [results]="dataBarFecha"
-                  [gradient]="gradient">
-                </ngx-charts-advanced-pie-chart>
-              </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="card chart-card">
+            <div class="card-body chart-body">
+              <h6 class="chart-title"><i class="bi bi-calendar3 me-2"></i>Por fecha</h6>
+              <ngx-charts-advanced-pie-chart
+                [view]="view"
+                [results]="dataBarFecha"
+                [gradient]="gradient">
+              </ngx-charts-advanced-pie-chart>
             </div>
           </div>
         </div>
