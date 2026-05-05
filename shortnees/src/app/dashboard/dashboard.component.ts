@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LinkService } from '../services/link.service';
 import { Links } from '../interfaces/Links';
 import { Estadisticas } from '../interfaces/estadisticas';
@@ -6,6 +6,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { EstadisticasPais } from '../interfaces/estadisticas-pais';
 import { EstadisticasFecha } from '../interfaces/estadisticas-fecha';
 import { EstadisticasDispositivo } from '../interfaces/estadisticas-dispositivo';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -13,118 +14,74 @@ import { EstadisticasDispositivo } from '../interfaces/estadisticas-dispositivo'
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   enlaces: Links[] = [];
-  estadisticas: Estadisticas | null = null; // Cambiado a null para reflejar que es un único objeto
-  urlCortaSeleccionada: String | null = null; // Cambiado a null para reflejar que es opcional
-  estadisticasPais: EstadisticasPais | null = null; // Cambiado a null para reflejar que es un único objeto
-  dataBarPais:any = [];
-  estadisticasFecha: EstadisticasFecha | null = null; // Cambiado a null para reflejar que es un único objeto
-  dataBarFecha:any = [];
-  estadisticasDispositivo: EstadisticasDispositivo | null = null; // Cambiado a null para reflejar que es un único objeto
-  dataBarDispositivo:any = [];
-  single: any[] = [];
-  view: [number, number] = [500, 250];
-  // options
+  enlaceSeleccionadoId: number | null = null;
+  urlCortaSeleccionada: String | null = null;
+
+  estadisticas: Estadisticas | null = null;
+  dataBarPais: any = [];
+  dataBarFecha: any = [];
+  dataBarDispositivo: any = [];
+
+  view: [number, number] = [500, 260];
   gradient: boolean = true;
-  showLegend: boolean = true;
-  showLabels: boolean = true;
-  isDoughnut: boolean = false;
-  constructor(private linkService: LinkService) { 
-   
-  }
-  //colores grafica
-  colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
-    
-  };
+
+  constructor(private linkService: LinkService) {}
+
   ngOnInit(): void {
     this.loadEnlaces();
   }
+
   loadEnlaces(): void {
     this.linkService.getUserEnlaces().subscribe({
-      next: (data: any) => {
-        // Asignar directamente los datos a la propiedad enlaces
-        this.enlaces = data; // No necesitas forEach si solo asignas el array
-      },
-      error: (error) => {
-        console.error('Error al cargar los enlaces:', error);
-      }
+      next: (data: any) => { this.enlaces = data; },
+      error: (error) => { console.error('Error al cargar los enlaces:', error); }
     });
   }
-  eliminarEnlace(id: number) {
+
+  seleccionar(enlace: Links): void {
+    this.enlaceSeleccionadoId = enlace.id;
+    this.urlCortaSeleccionada = enlace.urlCorta;
+    const id = enlace.id;
+    this.verEstadisticas(id);
+    this.verEstadisticasPais(id);
+    this.verEstadisticasFecha(id);
+    this.verEstadisticasDispositivo(id);
+  }
+
+  eliminarEnlace(id: number): void {
     this.linkService.eliminarEnlace(id).subscribe({
       next: () => this.loadEnlaces(),
-      error: (error) => console.error('Error al eliminar el enlace', error)
+      error: (error) => { console.error('Error al eliminar el enlace', error); }
     });
   }
-  verEstadisticas(id: number){
+
+  private verEstadisticas(id: number): void {
     this.linkService.obtenerEstadisticas(id).subscribe({
-      next: (data: Estadisticas) => {
-       /* data.detalles.forEach(detalle => {
-          let fechaString:String = detalle.fecha_click.toString();
-          detalle.fecha_click = "Fecha: "+fechaString.replace(' ', ' Hora: '); // Convierte la cadena a un objeto Date
-        });*/
-        this.estadisticas = data;
-      
-      },
-      error: (error) => {
-        console.error('Error al cargar las estadisticas:', error);
-      }
+      next: (data: Estadisticas) => { this.estadisticas = data; },
+      error: (error) => { console.error('Error al cargar las estadísticas:', error); }
     });
   }
-  verEstadisticasPais (id:number) {
+
+  private verEstadisticasPais(id: number): void {
     this.linkService.obtenerEstadisticasPais(id).subscribe({
-      next: (data2: EstadisticasPais) => {
-        this.estadisticasPais = data2; 
-        this.dataBarPais = this.estadisticasPais; 
-      },
-      error: (error) => {
-        console.error('Error al cargar las estadisticas:', error);
-      }
-      
+      next: (data: EstadisticasPais) => { this.dataBarPais = data; },
+      error: (error) => { console.error('Error al cargar estadísticas por país:', error); }
     });
   }
-  verEstadisticasFecha (id:number) {
+
+  private verEstadisticasFecha(id: number): void {
     this.linkService.obtenerEstadisticasFecha(id).subscribe({
-      next: (data3: EstadisticasFecha) => {
-        console.log(id)
-        this.estadisticasFecha = data3; 
-        this.dataBarFecha = this.estadisticasFecha; 
-        console.log(this.dataBarFecha)
-      },
-      error: (error) => {
-        console.log(id)
-        console.error('Error al cargar las estadisticas de FECHA:', error);
-      }
+      next: (data: EstadisticasFecha) => { this.dataBarFecha = data; },
+      error: (error) => { console.error('Error al cargar estadísticas por fecha:', error); }
     });
   }
-  verEstadisticasDispositivo (id:number) {
+
+  private verEstadisticasDispositivo(id: number): void {
     this.linkService.obtenerEstadisticasDispositivo(id).subscribe({
-      next: (data4: EstadisticasDispositivo) => {
-        this.estadisticasDispositivo = data4; 
-        this.dataBarDispositivo = this.estadisticasDispositivo; 
-      },
-      error: (error) => {
-        console.error('Error al cargar las estadisticas:', error);
-      }
+      next: (data: EstadisticasDispositivo) => { this.dataBarDispositivo = data; },
+      error: (error) => { console.error('Error al cargar estadísticas por dispositivo:', error); }
     });
   }
-  urlSeleccionada (url:String){
-    this.urlCortaSeleccionada=url;
-  }
-  
-  // ngx xhars
-/*
-  onSelect(): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(this.dataBar)));
-  }
-
-  onActivate(): void {
-    console.log('Activate', JSON.parse(JSON.stringify(this.dataBar)));
-  }
-
-  onDeactivate(): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(this.dataBar)));
-  }*/
 }

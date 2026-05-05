@@ -4,17 +4,7 @@ ul {
   margin: 0;
 }
 
-.card {
-  background-color: var(--bg-card);
-}
-
-.chart-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: auto;
-}
-
+/* ── Botones de enlace ───────────────────────────────────── */
 .button-enlaces {
   padding: 8px 12px;
   border-radius: 6px;
@@ -24,10 +14,82 @@ ul {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
 .button-enlaces:hover {
   color: var(--bg-enlace);
   background-color: var(--color-enlace);
+}
+
+.button-enlaces.activo {
+  color: var(--bg-enlace);
+  background-color: var(--color-enlace);
+  box-shadow: 0 0 0 2px var(--color-enlace), 0 0 0 4px var(--bg-enlace);
+  font-weight: 600;
+}
+
+/* ── Separador ───────────────────────────────────────────── */
+.stats-divider {
+  border: none;
+  border-top: 1px solid rgba(128, 128, 128, 0.25);
+  margin: 2.5rem 0 2rem;
+}
+
+/* ── Cabecera de estadísticas ────────────────────────────── */
+.stats-header {
+  margin-bottom: 2rem;
+}
+
+.stats-url {
+  color: var(--color);
+  opacity: 0.6;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  margin-bottom: 0.25rem;
+}
+
+.stats-num {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color);
+  margin-bottom: 0.2rem;
+}
+
+.stats-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--color);
+  opacity: 0.5;
+  margin: 0;
+}
+
+/* ── Tarjetas de gráficas ────────────────────────────────── */
+.card {
+  background-color: var(--bg-card);
+  border: none;
+  border-radius: 12px;
+}
+
+.chart-card {
+  overflow: auto;
+}
+
+.chart-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.25rem;
+}
+
+.chart-title {
+  align-self: flex-start;
+  color: var(--color);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.7;
+  margin-bottom: 1rem;
 }
