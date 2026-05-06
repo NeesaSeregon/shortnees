@@ -1,20 +1,28 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { ResolverTokenService } from '../services/resolver-token.service';  // Asegúrate de que la ruta sea correcta
+import { AccesoService } from '../services/acceso.service';
+import { ResolverTokenService } from '../services/resolver-token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutenticacionGuard implements CanActivate {
 
-  constructor(private ResolverTokenService: ResolverTokenService, private router: Router) {}
+  constructor(
+    private accesoService: AccesoService,
+    private resolverTokenService: ResolverTokenService,
+    private router: Router
+  ) {}
 
   canActivate(): boolean {
-    const isAuthenticated = this.ResolverTokenService.isLoggedIn(); // Verifica si el usuario está autenticado
-    if (!isAuthenticated) {
-      this.router.navigate(['/login']); // Redirige al login si no está autenticado
+    if (!this.accesoService.isAuthenticated) {
+      this.router.navigate(['/login']);
       return false;
     }
-    return true; // Permite el acceso si está autenticado
+    if (this.resolverTokenService.isTokenExpired()) {
+      this.accesoService.logout();
+      return false;
+    }
+    return true;
   }
 }

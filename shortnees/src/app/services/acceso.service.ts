@@ -34,7 +34,7 @@ export class AccesoService {
   }
   //inicializamos la informacion
   private initializeFromLocalStorage(): void {
-    const token = localStorage.getItem('jwt_token');
+    const token = localStorage.getItem('token');
     if (token) {
       this.authToken = token;
     }
@@ -73,13 +73,18 @@ export class AccesoService {
     this.isAuthenticatedSubject.next(true);
   }
   logout(): void {
-    localStorage.removeItem("token"); // Elimina el token del localStorage
+    localStorage.removeItem("token");
     localStorage.removeItem('email');
     localStorage.removeItem('rol');
     localStorage.removeItem('userData');
     this.userData = null;
+    this.isAuthenticatedSubject.next(false);
     this.router.navigate(['login']);
   }
+  get isAuthenticated(): boolean {
+    return this.isAuthenticatedSubject.getValue();
+  }
+
   get currentUserValue() {
     return this.userData;
   }
