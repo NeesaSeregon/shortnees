@@ -3,8 +3,9 @@ import { jwtDecode } from 'jwt-decode';
 
 interface DecodedToken {
     nombre: string;
-    email:string;
+    email: string;
     rol: string[];
+    exp: number;
 }
 
 @Injectable({
@@ -38,5 +39,17 @@ export class ResolverTokenService {
 
     getRoles(): string[] | undefined {
         return this.user?.rol;
+    }
+
+    isTokenExpired(): boolean {
+        const token = localStorage.getItem('token');
+        if (!token) return true;
+        try {
+            const decoded = jwtDecode<DecodedToken>(token);
+            if (!decoded.exp) return true;
+            return decoded.exp * 1000 < Date.now();
+        } catch {
+            return true;
+        }
     }
 }
