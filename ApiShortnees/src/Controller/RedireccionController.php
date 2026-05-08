@@ -26,8 +26,7 @@ class RedireccionController extends AbstractController
     EnlacesRepository $enlaceRepository, Request $request): RedirectResponse
     {
         if($enlaceRepository->findOneByUrlCorta(SELF::DOMINIO.$urlCorta)==null) {
-            //Si no existe 404  crear pagina
-            return $this->redirect('http://localhost:8000/');
+            return $this->redirect('http://localhost:4200/not-found');
         }else {
             $enlace = new Enlaces();
             $enlace = $enlaceRepository->findOneByUrlCorta(SELF::DOMINIO.$urlCorta);
