@@ -29,7 +29,7 @@ class EnlacesController extends AbstractController
             );}    
         if ($filtroUrl->verificarProtocolo($urlOriginal)){
                 //comienzo la creacion del enlace
-                $enlace = new Enlaces(); 
+                $enlace = new Enlaces();
                 $fechaActual = new \DateTime();
                 $fechaExpiracion = clone $fechaActual;
                 $fechaExpiracion->modify('+1 year');
@@ -55,7 +55,7 @@ class EnlacesController extends AbstractController
                 'urlCorta' => 'protocolo'],
                 200
             );
-        }   
+        }
     }
 
     #[Route('/personalizarUrl', name: 'app_enlaces', methods: ['POST'])]
