@@ -1,24 +1,24 @@
-<header class="custom-bg d-flex justify-content-center align-items-center">
-  <div class="d-flex">
-    <ul class="navbar col-12 col-lg-auto me-lg-auto mb-2 mb-md-0 no-points">
-      <li class="nav-item"><a href="home" class="nav-link px-2 link-secondary custom-hover"><p class="custom-txt">Acortador</p></a></li>
+<header class="header-wrapper">
+  <div class="header-content container">
+    <a href="home" class="header-brand">Shortnees</a>
+    <nav class="header-nav">
+      <a href="home" class="header-link">Acortador</a>
       @if (!isLoggedIn) {
-        <li class="nav-item"><a href="registro" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt-off">Panel de control</p></a></li>
-        <li class="nav-item"><a href="registro" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt-off">QR</p></a></li>
-        <div class="vr mx-3"></div>
-        <li class="nav-item"><a href="login" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">Login</p></a></li>
-        <li class="nav-item"><a href="registro" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">Registro</p></a></li>
+        <a href="registro" class="header-link header-link--muted">Panel de control</a>
+        <a href="registro" class="header-link header-link--muted">QR</a>
+        <div class="header-vr"></div>
+        <a href="login" class="header-link">Login</a>
+        <a href="registro" class="header-link">Registro</a>
       } @else {
-        <li class="nav-item"><a href="dashboard" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">Panel de control</p></a></li>
-        <li class="nav-item"><a href="generador" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">QR</p></a></li>
-        <div class="vr mx-3"></div>
-        <li class="nav-item" *ngIf="accesoService.currentUserValue as user">
-          <a href="cuenta" class="nav-link px-2 link-body-emphasis custom-hover">
-            <p class="custom-txt"><span class="avatar">{{user.nombre.slice(0, 2).toUpperCase()}}</span></p>
-          </a>
-        </li>
-        <li class="nav-item"><a href="login" (click)="logout()" class="nav-link px-2 link-body-emphasis custom-hover"><p class="custom-txt">Cerrar Sesion</p></a></li>
+        <a href="dashboard" class="header-link">Panel de control</a>
+        <a href="generador" class="header-link">QR</a>
+        <div class="header-vr"></div>
+        <a href="cuenta" class="header-link" *ngIf="accesoService.currentUserValue as user">
+          <span class="header-avatar">{{user.nombre.slice(0, 2).toUpperCase()}}</span>
+        </a>
+        <a href="login" (click)="logout()" class="header-link">Cerrar sesión</a>
       }
-    </ul>
+    </nav>
   </div>
+  <div class="header-bottom-line"></div>
 </header>
