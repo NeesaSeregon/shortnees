@@ -11,7 +11,7 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\EstadisticasEnlaces;
 use Doctrine\ORM\EntityManagerInterface;
-#[Route('/wbt.es', name: 'app_redireccion')]
+#[Route('/shortns.com', name: 'app_redireccion')]
 class RedireccionController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
@@ -20,7 +20,7 @@ class RedireccionController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-    const DOMINIO = 'wbt.es/';
+    const DOMINIO = 'shortns.com/';
     #[Route('/{urlCorta}', name: 'app_redireccion')]
     public function redirectToOriginalUrl(string $urlCorta, 
     EnlacesRepository $enlaceRepository, Request $request): RedirectResponse
