@@ -1,55 +1,43 @@
 import { Injectable } from '@angular/core';
-import { jwtDecode } from 'jwt-decode';
 
-interface DecodedToken {
-    nombre: string;
-    email: string;
-    rol: string[];
-    exp: number;
+interface UserData {
+  nombre: string;
+  email: string;
+  rol: string[];
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResolverTokenService {
-    private user: DecodedToken | null = null;
+  private user: UserData | null = null;
 
-    constructor() {
-        const token = localStorage.getItem("token");
-        if (token) {
-            this.setUser(token);
-        }
+  constructor() {
+    const stored = localStorage.getItem('userData');
+    if (stored) {
+      this.user = JSON.parse(stored);
     }
+  }
 
-    private setUser(token: string): void {
-        this.user = jwtDecode(token);
-    }
+  getUser(): UserData | null {
+    return this.user;
+  }
 
-    getUser(): DecodedToken | null {
-        return this.user;
-    }
+  isLoggedIn(): boolean {
+    return !!this.user;
+  }
 
-    isLoggedIn(): boolean {
-        return !!this.user; // Verifica si hay un usuario almacenado
-    }
+  getUsername(): string | undefined {
+    return this.user?.nombre;
+  }
 
-    getUsername(): string | undefined {
-        return this.user?.nombre;
-    }
+  getRoles(): string[] | undefined {
+    return this.user?.rol;
+  }
 
-    getRoles(): string[] | undefined {
-        return this.user?.rol;
-    }
-
-    isTokenExpired(): boolean {
-        const token = localStorage.getItem('token');
-        if (!token) return true;
-        try {
-            const decoded = jwtDecode<DecodedToken>(token);
-            if (!decoded.exp) return true;
-            return decoded.exp * 1000 < Date.now();
-        } catch {
-            return true;
-        }
-    }
+  isTokenExpired(): boolean {
+    const exp = localStorage.getItem('tokenExp');
+    if (!exp) return true;
+    return parseInt(exp) * 1000 < Date.now();
+  }
 }

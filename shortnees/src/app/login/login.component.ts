@@ -47,16 +47,11 @@ export class LoginComponent {
     }
     
     this.accesoService.login(objeto).subscribe({
-      next:(data)=>{
-        if(data.token){
-          //aqui se esta grabando el token por que aqui esta llegando la respuesta de la api
-          this.accesoService.authSuccess(data.token);
-          localStorage.setItem("token", data.token)
-        }else{
-          this.error = "Credenciales incorrectas"; 
-        }
-        //
+      next: () => {
         this.router.navigate(['home']);
+      },
+      error: () => {
+        this.error = 'Credenciales incorrectas';
       }
     })
   }
