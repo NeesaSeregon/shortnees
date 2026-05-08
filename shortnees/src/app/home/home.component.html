@@ -1,58 +1,73 @@
-<main class="newsletter-subscribe h-100">
-  <div class="container">
-    <div class="intro">
-      <h2 class="text-center">Shortnees</h2>
+<main class="home-main">
+  <div class="container home-container">
+
+    <div class="home-intro">
+      <h1 class="home-title">Acorta tu URL</h1>
+      <p class="home-subtitle">Rápido, personalizable y con estadísticas</p>
     </div>
 
     @if (isAuthenticated) {
-      <form [formGroup]="formularioPersonalizar" class="mt-4 p-4 bg-custom rounded shadow-sm">
-        <div class="mb-3">
-          <label for="urlOriginal" class="form-label">URL Original</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
-            <input id="urlOriginal" class="form-control" formControlName="urlOriginal" type="text" placeholder="Ingresa la URL que deseas acortar">
-          </div>
-        </div>
-        <div class="mb-3">
-          <label for="urlPersonalizada" class="form-label">URL Personalizada</label>
-            <div class="input-group">
-              <span class="input-group-text">shortns.com/</span>
-              <input id="urlPersonalizada" class="form-control" formControlName="urlPersonalizada" type="text" placeholder="Crea tu nueva URL corta">
+      <div class="home-card">
+        <div class="home-card-line"></div>
+        <form [formGroup]="formularioPersonalizar" class="home-form">
+          <div class="home-field">
+            <label for="urlOriginal" class="home-label">URL Original</label>
+            <div class="home-input-group">
+              <span class="home-input-prefix"><i class="bi bi-link-45deg"></i></span>
+              <input id="urlOriginal" class="home-input" formControlName="urlOriginal" type="text" placeholder="Ingresa la URL que deseas acortar">
             </div>
-        </div>
-        <div class="d-grid gap-2">
-          <button class="btn btn-primary btn-lg" (click)="personalizar()" type="button" [disabled]="formularioPersonalizar.invalid">
-            <i class="bi bi-scissors me-2"></i> Personalizar Url
+          </div>
+          <div class="home-field">
+            <label for="urlPersonalizada" class="home-label">URL Personalizada</label>
+            <div class="home-input-group">
+              <span class="home-input-prefix">shortns.com/</span>
+              <input id="urlPersonalizada" class="home-input" formControlName="urlPersonalizada" type="text" placeholder="Crea tu nueva URL corta">
+            </div>
+          </div>
+          <button class="home-btn" (click)="personalizar()" type="button" [disabled]="formularioPersonalizar.invalid">
+            <i class="bi bi-scissors"></i> Personalizar URL
           </button>
-        </div>
-      </form>
+        </form>
+      </div>
       @if (errorP !== '') {
-        <p class="fs-3">{{ errorP }}</p>
+        <div class="home-error">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          {{ errorP }}
+        </div>
       }
       @if (shortUrlP !== '') {
-        <input class="form-control" value="{{ shortUrlP }}" type="text" readonly>
+        <div class="home-result">
+          <input class="home-result-input" value="{{ shortUrlP }}" type="text" readonly>
+        </div>
       }
     } @else {
-      <form [formGroup]="formulario" class="mt-4 p-4 bg-custom rounded shadow-sm">
-        <div class="mb-3">
-          <label for="url" class="form-label">URL a acortar</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
-            <input id="url" class="form-control" formControlName="url" type="text" placeholder="Ingresa la URL que deseas acortar">
+      <div class="home-card">
+        <div class="home-card-line"></div>
+        <form [formGroup]="formulario" class="home-form">
+          <div class="home-field">
+            <label for="url" class="home-label">URL a acortar</label>
+            <div class="home-input-group">
+              <span class="home-input-prefix"><i class="bi bi-link-45deg"></i></span>
+              <input id="url" class="home-input" formControlName="url" type="text" placeholder="Ingresa la URL que deseas acortar">
+            </div>
           </div>
-        </div>
-        <div class="d-grid gap-2">
-          <button class="btn btn-primary btn-lg" (click)="acortar()" type="button" [disabled]="formulario.invalid">
-            <i class="bi bi-scissors me-2"></i> Acortar URL
+          <button class="home-btn" (click)="acortar()" type="button" [disabled]="formulario.invalid">
+            <i class="bi bi-scissors"></i> Acortar URL
           </button>
-        </div>
-      </form>
+        </form>
+      </div>
       @if (error !== '') {
-        <p class="fs-3 text-danger mt-2">{{ error }}</p>
+        <div class="home-error">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          {{ error }}
+        </div>
       }
       @if (shortUrl !== '') {
-        <input class="form-control mt-2" value="{{ shortUrl }}" type="text" readonly>
+        <div class="home-result">
+          <input class="home-result-input" value="{{ shortUrl }}" type="text" readonly>
+        </div>
       }
     }
+
   </div>
 </main>
