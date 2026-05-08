@@ -1,3 +1,5 @@
+import { environment } from '../../environments/environment';
+
 export const appsettings = {
-    apiUrl: 'http://127.0.0.1:8000/'
-}
+    apiUrl: environment.url
+};
