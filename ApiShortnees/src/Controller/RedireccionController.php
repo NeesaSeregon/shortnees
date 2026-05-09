@@ -11,7 +11,6 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\EstadisticasEnlaces;
 use Doctrine\ORM\EntityManagerInterface;
-#[Route('/shortns.com', name: 'app_redireccion')]
 class RedireccionController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
@@ -26,7 +25,7 @@ class RedireccionController extends AbstractController
     EnlacesRepository $enlaceRepository, Request $request): RedirectResponse
     {
         if($enlaceRepository->findOneByUrlCorta(SELF::DOMINIO.$urlCorta)==null) {
-            return $this->redirect('http://localhost:4200/not-found');
+            return $this->redirect('https://shortnees.com/not-found');
         }else {
             $enlace = new Enlaces();
             $enlace = $enlaceRepository->findOneByUrlCorta(SELF::DOMINIO.$urlCorta);
