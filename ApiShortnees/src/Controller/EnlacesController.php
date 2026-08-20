@@ -41,7 +41,13 @@ class EnlacesController extends AbstractController
                 $enlace->setFechaExpiracion($fechaExpiracion);
                 $enlace->setPersonalizado(false);
                 $enlace->setCodigoQr('soy un Qr');
-                $enlacesRepository->guardarEnlace($enlace, $entityManager);
+                if (!$enlacesRepository->guardarEnlace($enlace, $entityManager)) {
+                    return new JsonResponse(
+                        ['mensaje' => 'No se pudo guardar el enlace, intentelo de nuevo',
+                        'urlCorta' => ''],
+                        500
+                    );
+                }
                 return new JsonResponse(
                     ['mensaje' => 'Enlace creado',
                     'urlCorta' => $enlace->getUrlCorta()],
@@ -107,7 +113,13 @@ class EnlacesController extends AbstractController
                 $enlace->setFechaExpiracion($fechaExpiracion);
                 $enlace->setPersonalizado(true);
                 $enlace->setCodigoQr('soy un Qr');
-                $enlacesRepository->guardarEnlace($enlace, $entityManager);
+                if (!$enlacesRepository->guardarEnlace($enlace, $entityManager)) {
+                    return new JsonResponse(
+                        ['mensaje' => 'No se pudo guardar el enlace, intentelo de nuevo',
+                        'urlCorta' => ''],
+                        500
+                    );
+                }
                 return new JsonResponse(
                     ['mensaje' => 'Enlace creado',
                     'urlCorta' => $enlace->getUrlCorta()],
@@ -160,15 +172,12 @@ class EnlacesController extends AbstractController
             return new JsonResponse(['error' => 'No autenticado'], Response::HTTP_UNAUTHORIZED);
         }
 
+        // Un enlace ajeno responde igual que uno inexistente: asi un usuario
+        // registrado no puede sondear que ids existen recorriendolos.
         $enlace = $entityManager->getRepository(Enlaces::class)->find($id);
 
-        if (!$enlace) {
+        if (!$enlace || $enlace->getUsuario()?->getId() !== $usuario->getId()) {
             return new JsonResponse(['error' => 'Enlace no encontrado'], Response::HTTP_NOT_FOUND);
-        }
-
-        // Solo el propietario del enlace puede eliminarlo
-        if ($enlace->getUsuario()?->getId() !== $usuario->getId()) {
-            return new JsonResponse(['error' => 'No tiene permiso sobre este enlace'], Response::HTTP_FORBIDDEN);
         }
 
         // Buscar y eliminar las estadísticas asociadas

@@ -32,12 +32,11 @@ class EstadisticasEnlacesController extends AbstractController
             return new JsonResponse(['error' => 'No autenticado'], Response::HTTP_UNAUTHORIZED);
         }
 
+        // Un enlace ajeno responde igual que uno inexistente: asi un usuario
+        // registrado no puede sondear que ids existen recorriendolos.
         $enlace = $entityManager->getRepository(Enlaces::class)->find($id);
-        if (!$enlace) {
+        if (!$enlace || $enlace->getUsuario()?->getId() !== $usuario->getId()) {
             return new JsonResponse(['error' => 'Enlace no encontrado'], Response::HTTP_NOT_FOUND);
-        }
-        if ($enlace->getUsuario()?->getId() !== $usuario->getId()) {
-            return new JsonResponse(['error' => 'No tiene permiso sobre este enlace'], Response::HTTP_FORBIDDEN);
         }
 
         return $enlace;

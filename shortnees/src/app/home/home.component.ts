@@ -53,6 +53,10 @@ export class HomeComponent {
             this.error = data.mensaje;
             this.shortUrl = '';
           }
+        },
+        error: () => {
+          this.error = 'No se pudo acortar el enlace. Intentelo de nuevo.';
+          this.shortUrl = '';
         }
       });
     }
@@ -70,6 +74,10 @@ export class HomeComponent {
           } else {
             this.errorP = data.mensaje;
           }
+        },
+        error: () => {
+          this.errorP = 'No se pudo crear el enlace. Intentelo de nuevo.';
+          this.shortUrlP = '';
         }
       });
     }
