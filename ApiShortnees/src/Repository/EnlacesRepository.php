@@ -27,15 +27,6 @@ class EnlacesRepository extends ServiceEntityRepository
 
         return true;
     }
-    public function findOneByUrlOriginal($url_original): ?Enlaces
-        {
-            return $this->createQueryBuilder('e')
-                ->andWhere('e.url_original = :val')
-                ->setParameter('val', $url_original)
-                ->getQuery()
-                ->getOneOrNullResult()
-            ;
-    }
     public function findOneByUrlCorta($url_corta): ?Enlaces
         {
             return $this->createQueryBuilder('e')
@@ -45,39 +36,4 @@ class EnlacesRepository extends ServiceEntityRepository
                 ->getOneOrNullResult()
             ;
     }
-        public function findOneById($id): ?Enlaces
-        {
-            return $this->createQueryBuilder('e')
-                ->andWhere('e.id = :val')
-                ->setParameter('val', $id)
-                ->getQuery()
-                ->getOneOrNullResult()
-            ;
-        }
-    
-    
-        //    /**
-    //     * @return Enlaces[] Returns an array of Enlaces objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('e.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Enlaces
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }
