@@ -1,0 +1,65 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  frontend:
+    name: Angular
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: shortnees
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Angular 18 admite Node ^18.19 || ^20.11 || ^22
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: shortnees/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      # Karma necesita saber donde esta el navegador. Se resuelve aqui en vez de
+      # dar por hecha una ruta, que cambia entre imagenes del runner.
+      - name: Localizar Chrome
+        run: |
+          RUTA="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium-browser || true)"
+          if [ -z "$RUTA" ]; then
+            echo "No se ha encontrado ningun Chrome en el runner" >&2
+            exit 1
+          fi
+          echo "CHROME_BIN=$RUTA" >> "$GITHUB_ENV"
+          echo "Usando $RUTA"
+
+      - name: Tests
+        run: npm test -- --watch=false --browsers=ChromeHeadless
+
+      - name: Build de produccion
+        run: npm run build
+
+  backend:
+    name: Symfony
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ApiShortnees
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # No hay suite de tests en el backend todavia: de momento se comprueba que
+      # todo el PHP compila y que composer.json y composer.lock estan en sintonia.
+      - name: Comprobar sintaxis de PHP
+        run: find src migrations -name '*.php' -print0 | xargs -0 -n1 -P4 php -l
+
+      - name: Validar composer.json
+        run: composer validate --no-check-publish

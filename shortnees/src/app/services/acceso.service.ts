@@ -52,7 +52,9 @@ export class AccesoService {
   private hasSession(): boolean {
     const exp = localStorage.getItem('tokenExp');
     if (!exp) return false;
-    return parseInt(exp) * 1000 > Date.now();
+    const caducidad = parseInt(exp, 10);
+    if (Number.isNaN(caducidad)) return false;
+    return caducidad * 1000 > Date.now();
   }
 
   registrarse(objeto: Usuario): Observable<any> {

@@ -38,6 +38,10 @@ export class ResolverTokenService {
   isTokenExpired(): boolean {
     const exp = localStorage.getItem('tokenExp');
     if (!exp) return true;
-    return parseInt(exp) * 1000 < Date.now();
+    const caducidad = parseInt(exp, 10);
+    // Sin esta comprobacion, un valor corrupto da NaN y la comparacion siguiente
+    // seria false, es decir, "no ha caducado": el guardia dejaria pasar.
+    if (Number.isNaN(caducidad)) return true;
+    return caducidad * 1000 < Date.now();
   }
 }
