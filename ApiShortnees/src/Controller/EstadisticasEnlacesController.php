@@ -67,7 +67,6 @@ class EstadisticasEnlacesController extends AbstractController
             $resultadoEstadisticas['detalles'][] = [
                 'id' => $estadistica->getId(),
                 'fecha_click' => $estadistica->getFechaClick()->format('Y-m-d H:i:s'),
-                'ip_usuario' => $estadistica->getIpUsuario(),
                 'ubicacion' => $estadistica->getUbicacion(),
                 'dispositivo' => $estadistica->getDispositivo(),
             ];

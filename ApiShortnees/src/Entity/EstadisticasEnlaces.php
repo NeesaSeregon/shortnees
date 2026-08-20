@@ -16,9 +16,6 @@ class EstadisticasEnlaces
     #[ORM\Column]
     private ?\DateTimeImmutable $fecha_click = null;
 
-    #[ORM\Column(length: 40, nullable: true)]
-    private ?string $ip_usuario = null;
-
     #[ORM\Column(length: 150, nullable: true)]
     private ?string $ubicacion = null;
 
@@ -41,18 +38,6 @@ class EstadisticasEnlaces
     public function setFechaClick(\DateTimeImmutable $fecha_click): static
     {
         $this->fecha_click = $fecha_click;
-
-        return $this;
-    }
-
-    public function getIpUsuario(): ?string
-    {
-        return $this->ip_usuario;
-    }
-
-    public function setIpUsuario(?string $ip_usuario): static
-    {
-        $this->ip_usuario = $ip_usuario;
 
         return $this;
     }

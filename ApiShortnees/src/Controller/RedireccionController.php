@@ -33,10 +33,13 @@ class RedireccionController extends AbstractController
             $enlace = $enlaceRepository->findOneByUrlCorta(SELF::DOMINIO.$urlCorta);
 
             //registro las estadisticas del click
+            // La IP solo vive dentro de esta peticion, el tiempo necesario para
+            // deducir el pais. No se persiste: es dato personal (RGPD art. 5.1.c,
+            // minimizacion) y la aplicacion no la necesita para nada mas.
             $ipUsuario = $request->getClientIp();
             $ubicacion = $this->getCountryByIp($ipUsuario);
             $userAgent = $request->headers->get('User-Agent');
-            $this->registrarEstadistica($enlace, $ipUsuario, $ubicacion, $userAgent);
+            $this->registrarEstadistica($enlace, $ubicacion, $userAgent);
             return $this->redirect($enlace->getUrlOriginal());
         }
     }
@@ -58,12 +61,11 @@ class RedireccionController extends AbstractController
 
         return null; // Retornar null si no se pudo obtener el país
     }
-    private function registrarEstadistica($enlace, $ipUsuario, $country, $userAgent)
+    private function registrarEstadistica($enlace, $country, $userAgent)
 {
     $estadistica = new EstadisticasEnlaces();
     $estadistica->setEnlace($enlace);
     $estadistica->setFechaClick(new \DateTimeImmutable());
-    $estadistica->setIpUsuario($ipUsuario);
     
     // Establecer el país obtenido
     if ($country) {
