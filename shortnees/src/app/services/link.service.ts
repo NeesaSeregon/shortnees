@@ -13,6 +13,7 @@ import { Estadisticas } from '../interfaces/estadisticas';
 import { EstadisticasPais } from '../interfaces/estadisticas-pais';
 import { EstadisticasFecha } from '../interfaces/estadisticas-fecha';
 import { EstadisticasDispositivo } from '../interfaces/estadisticas-dispositivo';
+import { EstadisticasHora } from '../interfaces/estadisticas-hora';
 @Injectable({
   providedIn: 'root'
 })
@@ -44,5 +45,8 @@ export class LinkService {
   }
   obtenerEstadisticasDispositivo(id: number): Observable<EstadisticasDispositivo> {
     return this.http.get<EstadisticasDispositivo>(`${this.baseUrl}estadisticas_dispositivo/${id}`);
+  }
+  obtenerEstadisticasHora(id: number): Observable<EstadisticasHora[]> {
+    return this.http.get<EstadisticasHora[]>(`${this.baseUrl}estadisticas_hora/${id}`);
   }
 }

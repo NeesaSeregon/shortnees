@@ -47,7 +47,7 @@ security:
         - { path: '^/personalizarUrl$',                            roles: ROLE_USER }
         - { path: '^/enlaces-usuario$',                            roles: ROLE_USER }
         - { path: '^/eliminar-enlace/',                            roles: ROLE_USER }
-        - { path: '^/estadisticas(_pais|_fecha|_dispositivo)?/',   roles: ROLE_USER }
+        - { path: '^/estadisticas(_pais|_fecha|_dispositivo|_hora)?/', roles: ROLE_USER }
 
 when@test:
     security:

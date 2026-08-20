@@ -63,6 +63,24 @@
             </div>
           </div>
         </div>
+        <div class="col-12">
+          <div class="card chart-card">
+            <div class="card-body chart-body">
+              <h6 class="chart-title">
+                <i class="bi bi-clock me-2"></i>Por hora del día
+                <span class="chart-nota">hora del servidor</span>
+              </h6>
+              <ngx-charts-bar-vertical
+                [view]="viewHora"
+                [results]="dataBarHora"
+                [xAxis]="true"
+                [yAxis]="true"
+                [roundDomains]="true"
+                [gradient]="gradient">
+              </ngx-charts-bar-vertical>
+            </div>
+          </div>
+        </div>
       </div>
     }
 

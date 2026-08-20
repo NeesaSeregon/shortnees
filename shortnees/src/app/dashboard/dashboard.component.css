@@ -84,6 +84,15 @@ ul {
   padding: 1.25rem;
 }
 
+.chart-nota {
+  font-weight: 400;
+  font-size: 0.68rem;
+  letter-spacing: 0;
+  opacity: 0.6;
+  text-transform: none;
+  margin-left: 0.5rem;
+}
+
 .chart-title {
   align-self: flex-start;
   color: var(--color);

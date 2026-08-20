@@ -6,6 +6,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { EstadisticasPais } from '../interfaces/estadisticas-pais';
 import { EstadisticasFecha } from '../interfaces/estadisticas-fecha';
 import { EstadisticasDispositivo } from '../interfaces/estadisticas-dispositivo';
+import { EstadisticasHora } from '../interfaces/estadisticas-hora';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,8 +24,10 @@ export class DashboardComponent implements OnInit {
   dataBarPais: any = [];
   dataBarFecha: any = [];
   dataBarDispositivo: any = [];
+  dataBarHora: EstadisticasHora[] = [];
 
   view: [number, number] = [500, 260];
+  viewHora: [number, number] = [980, 280];
   gradient: boolean = true;
 
   constructor(private linkService: LinkService) {}
@@ -48,6 +51,7 @@ export class DashboardComponent implements OnInit {
     this.verEstadisticasPais(id);
     this.verEstadisticasFecha(id);
     this.verEstadisticasDispositivo(id);
+    this.verEstadisticasHora(id);
   }
 
   eliminarEnlace(id: number): void {
@@ -82,6 +86,13 @@ export class DashboardComponent implements OnInit {
     this.linkService.obtenerEstadisticasDispositivo(id).subscribe({
       next: (data: EstadisticasDispositivo) => { this.dataBarDispositivo = data; },
       error: (error) => { console.error('Error al cargar estadísticas por dispositivo:', error); }
+    });
+  }
+
+  private verEstadisticasHora(id: number): void {
+    this.linkService.obtenerEstadisticasHora(id).subscribe({
+      next: (data: EstadisticasHora[]) => { this.dataBarHora = data; },
+      error: (error) => { console.error('Error al cargar estadísticas por hora:', error); }
     });
   }
 }

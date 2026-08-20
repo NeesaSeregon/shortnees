@@ -42,6 +42,31 @@ class EstadisticasEnlacesController extends AbstractController
         return $enlace;
     }
 
+    /**
+     * Cloudflare entrega el pais como codigo ISO ('ES'). Se guarda asi, neutro
+     * respecto al idioma, y se traduce al mostrarlo.
+     */
+    private function nombrePais(?string $codigo): string
+    {
+        if (!$codigo) {
+            return 'Desconocido';
+        }
+
+        // Registros anteriores a CF-IPCountry: guardaban el nombre completo.
+        if (strlen($codigo) !== 2) {
+            return $codigo;
+        }
+
+        if (class_exists(\Locale::class)) {
+            $nombre = \Locale::getDisplayRegion('-' . $codigo, 'es');
+            if ($nombre !== '' && $nombre !== $codigo) {
+                return $nombre;
+            }
+        }
+
+        return $codigo;
+    }
+
     #[Route('/estadisticas/{id}', name: 'obtener_estadisticas', methods: ['GET'])]
     public function obtenerEstadisticas(int $id, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -67,7 +92,7 @@ class EstadisticasEnlacesController extends AbstractController
             $resultadoEstadisticas['detalles'][] = [
                 'id' => $estadistica->getId(),
                 'fecha_click' => $estadistica->getFechaClick()->format('Y-m-d H:i:s'),
-                'ubicacion' => $estadistica->getUbicacion(),
+                'ubicacion' => $this->nombrePais($estadistica->getUbicacion()),
                 'dispositivo' => $estadistica->getDispositivo(),
             ];
         }
@@ -89,10 +114,7 @@ class EstadisticasEnlacesController extends AbstractController
         $numeroClicks = count($estadisticas);
         $clicsPorPais = [];
         foreach ($estadisticas as $estadistica) {
-            $pais = $estadistica->getUbicacion(); // Obtener el país del registro
-            if ($pais === null || $pais === '') {
-                $pais = 'Desconocido'; // Asignar un valor predeterminado si no hay información del país
-            }
+            $pais = $this->nombrePais($estadistica->getUbicacion());
             if (!isset($clicsPorPais[$pais])) {
                 $clicsPorPais[$pais] = 0;
             }
@@ -142,6 +164,35 @@ class EstadisticasEnlacesController extends AbstractController
          return new JsonResponse($resultado,Response::HTTP_OK);
      }
     //crea un endpoint que devuelva en formato json el numero de visitas segmentado por dispositivo
+     //reparto de los clics por hora del dia, con los datos que ya se guardaban
+     #[Route('/estadisticas_hora/{id}', name: 'estadisticas_hora', methods: ['GET'])]
+     public function obtenerEstadisticasPorHora(int $id, EntityManagerInterface $entityManager): JsonResponse
+     {
+         $enlace = $this->buscarEnlacePropio($id, $entityManager);
+         if ($enlace instanceof JsonResponse) {
+             return $enlace;
+         }
+
+         $estadisticas = $entityManager->getRepository(EstadisticasEnlaces::class)->findBy(['enlace' => $enlace]);
+
+         // Se devuelven las 24 franjas aunque esten a cero: una grafica con
+         // huecos se lee peor que una con valles.
+         // Ojo: la hora es la del servidor, no la del visitante.
+         $clicsPorHora = array_fill(0, 24, 0);
+         foreach ($estadisticas as $estadistica) {
+             $clicsPorHora[(int) $estadistica->getFechaClick()->format('G')]++;
+         }
+
+         $resultado = [];
+         foreach ($clicsPorHora as $hora => $numeroClics) {
+             $resultado[] = [
+                 'name' => sprintf('%02d:00', $hora),
+                 'value' => $numeroClics
+             ];
+         }
+
+         return new JsonResponse($resultado, Response::HTTP_OK);
+     }
      #[Route('/estadisticas_dispositivo/{id}', name: 'estadisticas_dispositivo', methods: ['GET'])]
      public function obtenerEstadisticasPorDispositivo(int $id, EntityManagerInterface $entityManager): JsonResponse
      {
