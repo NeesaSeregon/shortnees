@@ -20,7 +20,9 @@ class RedireccionController extends AbstractController
         $this->entityManager = $entityManager;
     }
     const DOMINIO = 'shortns.com/';
-    #[Route('/{urlCorta}', name: 'app_redireccion')]
+    // priority negativa: este catch-all debe evaluarse el ULTIMO. Sin ella tapa
+    // a /registro, /login y /session, que se cargan despues por orden alfabetico.
+    #[Route('/{urlCorta}', name: 'app_redireccion', priority: -100)]
     public function redirectToOriginalUrl(string $urlCorta, 
     EnlacesRepository $enlaceRepository, Request $request): RedirectResponse
     {

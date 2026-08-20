@@ -34,9 +34,9 @@ class RegistroController extends AbstractController
         $ahora = new DatePoint();
         $user->setFechaRegistro($ahora);
         if($usuarioRepository->crearUsuario($user, $entityManager)){
-            return new JsonResponse(['message' => 'usuario registrado'], 200);
+            return new JsonResponse(['message' => 'usuario registrado'], 201);
         }else{
-            return new JsonResponse(['message' => 'Error al crear usuario']);
+            return new JsonResponse(['message' => 'Error al crear usuario'], 400);
         }
     }
     #[Route('/login', name: 'app_login', methods: ['POST'])]

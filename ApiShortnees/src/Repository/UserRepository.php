@@ -19,13 +19,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         parent::__construct($registry, User::class);
     }
 
-    public function crearUsuario (User $usuario, EntityManagerInterface $em) 
+    public function crearUsuario (User $usuario, EntityManagerInterface $em): bool
     {
-        $em->persist($usuario);
-        if($em->flush()){
-            return true;
+        try {
+            $em->persist($usuario);
+            $em->flush();
+        } catch (\Throwable $e) {
+            // Email duplicado o cualquier otro fallo de persistencia
+            return false;
         }
-        return false;
+
+        return true;
     }
     /**
      * Used to upgrade (rehash) the user's password automatically over time.

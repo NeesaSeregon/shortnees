@@ -21,15 +21,34 @@ use App\Services\FechasService;
 
 class EstadisticasEnlacesController extends AbstractController
 {
+    /**
+     * Busca un enlace y comprueba que pertenece al usuario autenticado.
+     * Devuelve el enlace, o la JsonResponse de error que el endpoint debe devolver tal cual.
+     */
+    private function buscarEnlacePropio(int $id, EntityManagerInterface $entityManager): Enlaces|JsonResponse
+    {
+        $usuario = $this->getUser();
+        if (!$usuario instanceof User) {
+            return new JsonResponse(['error' => 'No autenticado'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $enlace = $entityManager->getRepository(Enlaces::class)->find($id);
+        if (!$enlace) {
+            return new JsonResponse(['error' => 'Enlace no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+        if ($enlace->getUsuario()?->getId() !== $usuario->getId()) {
+            return new JsonResponse(['error' => 'No tiene permiso sobre este enlace'], Response::HTTP_FORBIDDEN);
+        }
+
+        return $enlace;
+    }
+
     #[Route('/estadisticas/{id}', name: 'obtener_estadisticas', methods: ['GET'])]
     public function obtenerEstadisticas(int $id, EntityManagerInterface $entityManager): JsonResponse
     {
-        // Buscar el enlace por su ID
-        $enlace = $entityManager->getRepository(Enlaces::class)->find($id);
-    
-        // Verificar si el enlace existe
-        if (!$enlace) {
-            return new JsonResponse(['error' => 'Enlace no encontrado'], Response::HTTP_NOT_FOUND);
+        $enlace = $this->buscarEnlacePropio($id, $entityManager);
+        if ($enlace instanceof JsonResponse) {
+            return $enlace;
         }
     
         // Obtener todas las estadísticas asociadas al enlace
@@ -62,11 +81,9 @@ class EstadisticasEnlacesController extends AbstractController
     #[Route('/estadisticas_pais/{id}', name: 'estadisticas_pais', methods: ['GET'])]
     public function obtenerEstadisticasPorPais(int $id, EntityManagerInterface $entityManager): JsonResponse
     {
-        // Buscar el enlace por su ID
-        $enlace = $entityManager->getRepository(Enlaces::class)->find($id);
-        // Verificar si el enlace existe
-        if (!$enlace) {
-            return new JsonResponse(['error' => 'Enlace no encontrado'], Response::HTTP_NOT_FOUND);
+        $enlace = $this->buscarEnlacePropio($id, $entityManager);
+        if ($enlace instanceof JsonResponse) {
+            return $enlace;
         }
         // Obtener todas las estadísticas asociadas al enlace
         $estadisticas = $entityManager->getRepository(EstadisticasEnlaces::class)->findBy(['enlace' => $enlace]);
@@ -83,6 +100,7 @@ class EstadisticasEnlacesController extends AbstractController
             }
             $clicsPorPais[$pais]++;
         }
+        $resultado = [];
         foreach ($clicsPorPais as $pais => $numeroClics) {
             $resultado[] = [
                 'name' => $pais,
@@ -95,15 +113,14 @@ class EstadisticasEnlacesController extends AbstractController
     #[Route('/estadisticas_fecha/{id}', name: 'estadisticas_fecha', methods: ['GET'])]
      public function obtenerEstadisticasPorFecha(int $id, EntityManagerInterface $entityManager, FechasService $servicio_fechas): JsonResponse
      {
-         // Buscar el enlace por su ID
-         $enlace = $entityManager->getRepository(Enlaces::class)->find($id);
-         // Verificar si el enlace existe
-         if (!$enlace) {
-             return new JsonResponse(['error' => 'Enlace no encontrado'], Response::HTTP_NOT_FOUND);
+         $enlace = $this->buscarEnlacePropio($id, $entityManager);
+         if ($enlace instanceof JsonResponse) {
+             return $enlace;
          }
          // Obtener todas las estadísticas asociadas al enlace
          $estadisticas = $entityManager->getRepository(EstadisticasEnlaces::class)->findBy(['enlace' => $enlace]);
          // Contar los clics 
+         $clicksPorAnoyMes = [];
          foreach ($estadisticas as $estadistica) {
             $fecha = $estadistica->getFechaClick(); //probablemente con formatear aqui, lo tengas 1*
             if ($fecha === null || $fecha === '') {
@@ -115,6 +132,7 @@ class EstadisticasEnlacesController extends AbstractController
             }
             $clicksPorAnoyMes[$fecha]++;
           }  
+        $resultado = [];
         foreach ($clicksPorAnoyMes as $anoyMes => $numeroClics) {
             $resultado[] = [
                 'name' => $anoyMes,
@@ -129,12 +147,13 @@ class EstadisticasEnlacesController extends AbstractController
      #[Route('/estadisticas_dispositivo/{id}', name: 'estadisticas_dispositivo', methods: ['GET'])]
      public function obtenerEstadisticasPorDispositivo(int $id, EntityManagerInterface $entityManager): JsonResponse
      {
-         $enlace = $entityManager->getRepository(Enlaces::class)->find($id);
-         if (!$enlace) {
-             return new JsonResponse(['error' => 'Enlace no encontrado'], Response::HTTP_NOT_FOUND);
+         $enlace = $this->buscarEnlacePropio($id, $entityManager);
+         if ($enlace instanceof JsonResponse) {
+             return $enlace;
          }
          $estadisticas = $entityManager->getRepository(EstadisticasEnlaces::class)->findBy(['enlace' => $enlace]);
          $numeroClicks = count($estadisticas);
+         $clicsPorDispositivo = [];
          foreach ($estadisticas as $estadistica) {
             $dispositivo = $estadistica->getDispositivo(); 
             if ($dispositivo === null || $dispositivo === '') {
@@ -145,6 +164,7 @@ class EstadisticasEnlacesController extends AbstractController
             }
             $clicsPorDispositivo[$dispositivo]++;
         }
+        $resultado = [];
         foreach ($clicsPorDispositivo as $dispositivo => $numeroClics) {
             $resultado[] = [
                 'name' => $dispositivo,

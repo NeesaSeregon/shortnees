@@ -16,13 +16,16 @@ class EnlacesRepository extends ServiceEntityRepository
         parent::__construct($registry, Enlaces::class);
     }
 
-    public function guardarEnlace (Enlaces $enlace, EntityManagerInterface $em) 
+    public function guardarEnlace (Enlaces $enlace, EntityManagerInterface $em): bool
     {
-        $em->persist($enlace);
-        if($em->flush()){
-            return true;
+        try {
+            $em->persist($enlace);
+            $em->flush();
+        } catch (\Throwable $e) {
+            return false;
         }
-        return false;
+
+        return true;
     }
     public function findOneByUrlOriginal($url_original): ?Enlaces
         {

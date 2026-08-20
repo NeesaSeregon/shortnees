@@ -155,10 +155,20 @@ class EnlacesController extends AbstractController
     #[Route('/eliminar-enlace/{id}', name: 'eliminar_enlace', methods: ['DELETE'])]
     public function eliminarEnlace(int $id, EntityManagerInterface $entityManager): JsonResponse
     {
+        $usuario = $this->getUser();
+        if (!$usuario instanceof User) {
+            return new JsonResponse(['error' => 'No autenticado'], Response::HTTP_UNAUTHORIZED);
+        }
+
         $enlace = $entityManager->getRepository(Enlaces::class)->find($id);
 
         if (!$enlace) {
             return new JsonResponse(['error' => 'Enlace no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        // Solo el propietario del enlace puede eliminarlo
+        if ($enlace->getUsuario()?->getId() !== $usuario->getId()) {
+            return new JsonResponse(['error' => 'No tiene permiso sobre este enlace'], Response::HTTP_FORBIDDEN);
         }
 
         // Buscar y eliminar las estadísticas asociadas
