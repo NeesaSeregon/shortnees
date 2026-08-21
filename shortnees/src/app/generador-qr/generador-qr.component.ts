@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import QRCodeStyling, { FileExtension } from "qr-code-styling";
 @Component({
   selector: 'app-generador-qr',
@@ -11,9 +12,16 @@ export class GeneradorQRComponent implements OnInit{
   data = 'https://shortnees.com';
   extension = 'svg';
   qrCode: QRCodeStyling = new QRCodeStyling;
-  constructor(){}
+  constructor(private ruta: ActivatedRoute){}
   @ViewChild('canvas', { static: true }) canvas!: ElementRef;
   ngOnInit(): void {
+    // El panel de control enlaza aqui con ?url=..., para no obligar al usuario
+    // a copiar a mano su propio enlace corto.
+    const urlRecibida = this.ruta.snapshot.queryParamMap.get('url');
+    if (urlRecibida) {
+      this.data = urlRecibida;
+    }
+
     this.qrCode = new QRCodeStyling({
       width: 300,
       height: 300,

@@ -5,6 +5,32 @@ ul {
 }
 
 /* ── Botones de enlace ───────────────────────────────────── */
+.enlace-fila {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.enlace-fila .button-enlaces {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.button-qr {
+  flex: 0 0 auto;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--bg-enlace);
+  color: var(--color-enlace);
+  background-color: var(--bg-enlace);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.button-qr:hover {
+  color: var(--bg-enlace);
+  background-color: var(--color-enlace);
+}
+
 .button-enlaces {
   padding: 8px 12px;
   border-radius: 6px;

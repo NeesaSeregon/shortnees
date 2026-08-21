@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
 import { DashboardComponent } from './dashboard.component';
@@ -21,6 +22,7 @@ describe('DashboardComponent', () => {
   let fixture: ComponentFixture<DashboardComponent>;
   let component: DashboardComponent;
   let linkService: any;
+  let router: { navigate: jasmine.Spy };
 
   async function montar(enlaces: Links[] | null = ENLACES): Promise<void> {
     linkService = {
@@ -35,11 +37,14 @@ describe('DashboardComponent', () => {
       eliminarEnlace: jasmine.createSpy('eliminarEnlace').and.returnValue(of({})),
     };
 
+    router = { navigate: jasmine.createSpy('navigate') };
+
     TestBed.resetTestingModule();
     await TestBed.configureTestingModule({
       imports: [DashboardComponent],
       providers: [
         { provide: LinkService, useValue: linkService },
+        { provide: Router, useValue: router },
         provideNoopAnimations(),
       ],
     }).compileComponents();
@@ -100,6 +105,46 @@ describe('DashboardComponent', () => {
     expect(component.enlaceSeleccionadoId).toBe(1);
     expect(component.urlCortaSeleccionada).toBe('shortns.com/uno');
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('clics totales');
+  });
+
+  describe('boton de QR', () => {
+    it('pinta un boton de QR por enlace', async () => {
+      await montar();
+      const botones = (fixture.nativeElement as HTMLElement).querySelectorAll('button.button-qr');
+
+      expect(botones.length).toBe(2);
+    });
+
+    it('lleva al generador con la url corta del enlace', async () => {
+      await montar();
+
+      component.verQr(ENLACES[0]);
+
+      expect(router.navigate).toHaveBeenCalledOnceWith(
+        ['/generador'],
+        { queryParams: { url: 'https://shortns.com/uno' } },
+      );
+    });
+
+    it('anade el protocolo, que url_corta no lo guarda', async () => {
+      await montar();
+
+      component.verQr(ENLACES[0]);
+      const parametros = router.navigate.calls.mostRecent().args[1];
+
+      expect(parametros.queryParams.url.startsWith('https://')).toBeTrue();
+    });
+
+    it('no duplica el protocolo si la url ya lo trae', async () => {
+      await montar();
+
+      component.verQr({ ...ENLACES[0], urlCorta: 'https://shortns.com/uno' });
+
+      expect(router.navigate).toHaveBeenCalledOnceWith(
+        ['/generador'],
+        { queryParams: { url: 'https://shortns.com/uno' } },
+      );
+    });
   });
 
   it('eliminar un enlace recarga la lista', async () => {

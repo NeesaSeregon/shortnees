@@ -40,7 +40,6 @@ class EnlacesController extends AbstractController
                 $enlace->setFechaCreacion($fechaActual);
                 $enlace->setFechaExpiracion($fechaExpiracion);
                 $enlace->setPersonalizado(false);
-                $enlace->setCodigoQr('soy un Qr');
                 if (!$enlacesRepository->guardarEnlace($enlace, $entityManager)) {
                     return new JsonResponse(
                         ['mensaje' => 'No se pudo guardar el enlace, intentelo de nuevo',
@@ -112,7 +111,6 @@ class EnlacesController extends AbstractController
                 $enlace->setFechaCreacion($fechaActual);
                 $enlace->setFechaExpiracion($fechaExpiracion);
                 $enlace->setPersonalizado(true);
-                $enlace->setCodigoQr('soy un Qr');
                 if (!$enlacesRepository->guardarEnlace($enlace, $entityManager)) {
                     return new JsonResponse(
                         ['mensaje' => 'No se pudo guardar el enlace, intentelo de nuevo',

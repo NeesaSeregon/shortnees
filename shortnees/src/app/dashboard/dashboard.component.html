@@ -5,12 +5,22 @@
     <div class="row g-2 justify-content-center">
       @for (enlace of enlaces; track enlace.id) {
         <div class="col-6 col-sm-4 col-md-3 col-xl-2">
-          <button
-            class="button-enlaces w-100"
-            [class.activo]="enlace.id === enlaceSeleccionadoId"
-            (click)="seleccionar(enlace)">
-            {{ enlace.urlCorta }}
-          </button>
+          <div class="enlace-fila">
+            <button
+              class="button-enlaces"
+              [class.activo]="enlace.id === enlaceSeleccionadoId"
+              (click)="seleccionar(enlace)">
+              {{ enlace.urlCorta }}
+            </button>
+            <button
+              class="button-qr"
+              type="button"
+              (click)="verQr(enlace)"
+              [attr.aria-label]="'Generar código QR de ' + enlace.urlCorta"
+              [title]="'Generar código QR de ' + enlace.urlCorta">
+              <i class="bi bi-qr-code" aria-hidden="true"></i>
+            </button>
+          </div>
         </div>
       }
     </div>

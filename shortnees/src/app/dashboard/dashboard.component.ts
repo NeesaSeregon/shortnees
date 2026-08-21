@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LinkService } from '../services/link.service';
 import { Links } from '../interfaces/Links';
 import { Estadisticas } from '../interfaces/estadisticas';
@@ -30,7 +31,7 @@ export class DashboardComponent implements OnInit {
   viewHora: [number, number] = [980, 280];
   gradient: boolean = true;
 
-  constructor(private linkService: LinkService) {}
+  constructor(private linkService: LinkService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadEnlaces();
@@ -52,6 +53,21 @@ export class DashboardComponent implements OnInit {
     this.verEstadisticasFecha(id);
     this.verEstadisticasDispositivo(id);
     this.verEstadisticasHora(id);
+  }
+
+  /**
+   * Abre el generador de QR con este enlace ya cargado. El QR se sigue
+   * generando en cliente: no hay nada que pedir ni que guardar en el servidor.
+   */
+  verQr(enlace: Links): void {
+    this.router.navigate(['/generador'], { queryParams: { url: this.urlAbsoluta(enlace.urlCorta) } });
+  }
+
+  /** url_corta se guarda sin protocolo ('shortns.com/abc'), y un QR sin
+   *  esquema no abre el navegador al escanearlo. */
+  private urlAbsoluta(urlCorta: String): string {
+    const url = String(urlCorta);
+    return /^https?:\/\//i.test(url) ? url : `https://${url}`;
   }
 
   eliminarEnlace(id: number): void {

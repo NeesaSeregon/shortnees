@@ -25,8 +25,6 @@ class Enlaces
     private ?\DateTimeInterface $fecha_expiracion = null;
     #[ORM\Column]
     private ?bool $personalizado = null;
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $codigo_qr = null;
     #[ORM\ManyToOne(inversedBy: 'enlaces')]
     private ?User $usuario = null;
     /**
@@ -101,18 +99,6 @@ class Enlaces
     public function setPersonalizado(bool $personalizado): static
     {
         $this->personalizado = $personalizado;
-
-        return $this;
-    }
-
-    public function getCodigoQr(): ?string
-    {
-        return $this->codigo_qr;
-    }
-
-    public function setCodigoQr(?string $codigo_qr): static
-    {
-        $this->codigo_qr = $codigo_qr;
 
         return $this;
     }
