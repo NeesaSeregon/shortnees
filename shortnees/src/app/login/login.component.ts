@@ -7,10 +7,6 @@ import { inject } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { AccesoService } from '../services/acceso.service';
 import { Login } from '../interfaces/Login';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { ResolverTokenService } from '../services/resolver-token.service';
 import { UsuarioService } from '../services/usuario.service';
 import { Usuario } from '../interfaces/Usuario';
@@ -19,7 +15,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
