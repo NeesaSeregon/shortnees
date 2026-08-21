@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 
 import { HomeComponent } from './home.component';
@@ -35,6 +36,7 @@ describe('HomeComponent', () => {
       providers: [
         { provide: LinkService, useValue: linkService },
         { provide: AccesoService, useValue: { isAuthenticated$: autenticado } },
+        provideRouter([]),
       ],
     }).compileComponents();
 

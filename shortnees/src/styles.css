@@ -363,6 +363,7 @@
     --bg-card: #bebebe; /*Color contenedor graficas de enlaces*/
     --bg-enlace: #bebebe; /*Colo de fondo de los enlaces*/
     --color-enlace:#0c0c0c; /*Color del texto enlaces*/
+    --color-peligro: #c9302c; /*Acciones destructivas: borrar*/
   }
   body.theme-light {
     --bg-main: #f5f5f5;
@@ -373,6 +374,7 @@
     --bg-card: #e7e7e7;
     --bg-enlace: #8D8C8C;
     --color-enlace:#f5f5f5;
+    --color-peligro: #c0392b;
   }
   body.theme-blue {
     --bg-main: #00CDCD;
@@ -383,4 +385,5 @@
     --bg-card: #0095a0c7;
     --bg-enlace: #007171;
     --color-enlace:#00FFFF;
+    --color-peligro: #c62828;
   }

@@ -129,3 +129,52 @@ ul {
   opacity: 1;
   margin-bottom: 1rem;
 }
+
+/* Fila de acciones: borrar y su confirmacion en dos pasos. */
+.button-borrar {
+  flex: 0 0 auto;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--bg-enlace);
+  color: var(--color-enlace);
+  background-color: var(--bg-enlace);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.button-borrar:hover {
+  color: #fff;
+  border-color: var(--color-peligro);
+  background-color: var(--color-peligro);
+}
+
+.button-borrar-si,
+.button-borrar-no {
+  flex: 0 0 auto;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  line-height: 1;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.button-borrar-si {
+  color: #fff;
+  border: 1px solid var(--color-peligro);
+  background-color: var(--color-peligro);
+}
+
+.button-borrar-si:hover {
+  color: var(--color-peligro);
+  background-color: transparent;
+}
+
+.button-borrar-no {
+  color: var(--color-enlace);
+  border: 1px solid var(--bg-enlace);
+  background-color: transparent;
+}
+
+.button-borrar-no:hover {
+  color: var(--bg-enlace);
+  background-color: var(--color-enlace);
+}

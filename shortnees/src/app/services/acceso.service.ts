@@ -9,9 +9,17 @@ import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 
 interface UserData {
-  nombre: any;
-  email: any;
-  rol: any;
+  nombre: string;
+  email: string;
+  rol: string[];
+}
+
+/** Lo que el backend mete en el payload del JWT. Ver AnadirNombreAlJwt. */
+interface PayloadJwt {
+  exp?: number;
+  username?: string;
+  roles?: string[];
+  nombre?: string;
 }
 
 @Injectable({
@@ -29,17 +37,12 @@ export class AccesoService {
     this.userData = storedUser ? JSON.parse(storedUser) : null;
   }
 
-  private getUserFromAPI(objeto: Login): any | null {
-    return this.http.post<UserData>(`${this.baseUrl}login`, objeto);
-  }
-
+  /**
+   * Una sola peticion: el firewall valida las credenciales, emite el JWT en la
+   * cookie BEARER y lo devuelve tambien en el cuerpo. Nombre, email y roles
+   * salen del propio payload, asi que no hace falta preguntarlos aparte.
+   */
   login(objeto: Login): Observable<ResponseAcceso> {
-    this.getUserFromAPI(objeto).subscribe({
-      next: (data: UserData) => {
-        this.userData = data;
-        localStorage.setItem('userData', JSON.stringify(data));
-      }
-    });
     return this.http.post<ResponseAcceso>(`${this.baseUrl}api/login_check`, objeto).pipe(
       map((res: any) => {
         this.authSuccess(res.token);
@@ -61,13 +64,25 @@ export class AccesoService {
     return this.http.post<any>(`${this.baseUrl}registro`, objeto);
   }
 
-  // Decodifica el token solo para extraer exp; el token nunca se guarda en localStorage
+  // Decodifica el token para extraer exp y el perfil; el token nunca se guarda en localStorage
   authSuccess(token: string) {
     try {
-      const decoded: any = jwtDecode(token);
+      const decoded = jwtDecode<PayloadJwt>(token);
       localStorage.setItem('tokenExp', String(decoded.exp));
+      this.guardarPerfil(decoded);
     } catch {}
     this.isAuthenticatedSubject.next(true);
+  }
+
+  /** El payload es la unica fuente del perfil desde que se elimino /login. */
+  private guardarPerfil(payload: PayloadJwt): void {
+    const datos: UserData = {
+      nombre: payload.nombre ?? '',
+      email: payload.username ?? '',
+      rol: payload.roles ?? [],
+    };
+    this.userData = datos;
+    localStorage.setItem('userData', JSON.stringify(datos));
   }
 
   logout(): void {

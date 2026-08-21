@@ -42,7 +42,7 @@ class RedireccionController extends AbstractController
     ];
 
     // priority negativa: este catch-all debe evaluarse el ULTIMO. Sin ella tapa
-    // a /registro, /login y /session, que se cargan despues por orden alfabetico.
+    // a /registro, que se carga despues por orden alfabetico de fichero.
     #[Route('/{urlCorta}', name: 'app_redireccion', priority: -100)]
     public function redirectToOriginalUrl(string $urlCorta,
     EnlacesRepository $enlaceRepository, Request $request): RedirectResponse

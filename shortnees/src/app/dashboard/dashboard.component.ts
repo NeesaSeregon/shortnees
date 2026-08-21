@@ -4,10 +4,7 @@ import { LinkService } from '../services/link.service';
 import { Links } from '../interfaces/Links';
 import { Estadisticas } from '../interfaces/estadisticas';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { EstadisticasPais } from '../interfaces/estadisticas-pais';
-import { EstadisticasFecha } from '../interfaces/estadisticas-fecha';
-import { EstadisticasDispositivo } from '../interfaces/estadisticas-dispositivo';
-import { EstadisticasHora } from '../interfaces/estadisticas-hora';
+import { SerieGrafica } from '../interfaces/serie-grafica';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,13 +16,15 @@ import { EstadisticasHora } from '../interfaces/estadisticas-hora';
 export class DashboardComponent implements OnInit {
   enlaces: Links[] = [];
   enlaceSeleccionadoId: number | null = null;
-  urlCortaSeleccionada: String | null = null;
+  urlCortaSeleccionada: string | null = null;
+  /** Id del enlace cuya fila esta pidiendo confirmacion de borrado, si hay alguna. */
+  confirmandoBorradoId: number | null = null;
 
   estadisticas: Estadisticas | null = null;
-  dataBarPais: any = [];
-  dataBarFecha: any = [];
-  dataBarDispositivo: any = [];
-  dataBarHora: EstadisticasHora[] = [];
+  dataBarPais: SerieGrafica[] = [];
+  dataBarFecha: SerieGrafica[] = [];
+  dataBarDispositivo: SerieGrafica[] = [];
+  dataBarHora: SerieGrafica[] = [];
 
   view: [number, number] = [500, 260];
   viewHora: [number, number] = [980, 280];
@@ -39,7 +38,7 @@ export class DashboardComponent implements OnInit {
 
   loadEnlaces(): void {
     this.linkService.getUserEnlaces().subscribe({
-      next: (data: any) => { this.enlaces = data; },
+      next: (data: Links[]) => { this.enlaces = data; },
       error: (error) => { console.error('Error al cargar los enlaces:', error); }
     });
   }
@@ -65,16 +64,45 @@ export class DashboardComponent implements OnInit {
 
   /** url_corta se guarda sin protocolo ('shortns.com/abc'), y un QR sin
    *  esquema no abre el navegador al escanearlo. */
-  private urlAbsoluta(urlCorta: String): string {
-    const url = String(urlCorta);
-    return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+  private urlAbsoluta(urlCorta: string): string {
+    return /^https?:\/\//i.test(urlCorta) ? urlCorta : `https://${urlCorta}`;
+  }
+
+  /** Primer paso del borrado: la fila cambia a "¿Si / No?". */
+  pedirConfirmacion(enlace: Links): void {
+    this.confirmandoBorradoId = enlace.id;
+  }
+
+  cancelarBorrado(): void {
+    this.confirmandoBorradoId = null;
   }
 
   eliminarEnlace(id: number): void {
     this.linkService.eliminarEnlace(id).subscribe({
-      next: () => this.loadEnlaces(),
-      error: (error) => { console.error('Error al eliminar el enlace', error); }
+      next: () => {
+        this.confirmandoBorradoId = null;
+        // Si el borrado era el enlace seleccionado, sus graficas se quedarian
+        // en pantalla describiendo algo que ya no existe.
+        if (this.enlaceSeleccionadoId === id) {
+          this.limpiarSeleccion();
+        }
+        this.loadEnlaces();
+      },
+      error: (error) => {
+        this.confirmandoBorradoId = null;
+        console.error('Error al eliminar el enlace', error);
+      }
     });
+  }
+
+  private limpiarSeleccion(): void {
+    this.enlaceSeleccionadoId = null;
+    this.urlCortaSeleccionada = null;
+    this.estadisticas = null;
+    this.dataBarPais = [];
+    this.dataBarFecha = [];
+    this.dataBarDispositivo = [];
+    this.dataBarHora = [];
   }
 
   private verEstadisticas(id: number): void {
@@ -86,28 +114,28 @@ export class DashboardComponent implements OnInit {
 
   private verEstadisticasPais(id: number): void {
     this.linkService.obtenerEstadisticasPais(id).subscribe({
-      next: (data: EstadisticasPais) => { this.dataBarPais = data; },
+      next: (data: SerieGrafica[]) => { this.dataBarPais = data; },
       error: (error) => { console.error('Error al cargar estadísticas por país:', error); }
     });
   }
 
   private verEstadisticasFecha(id: number): void {
     this.linkService.obtenerEstadisticasFecha(id).subscribe({
-      next: (data: EstadisticasFecha) => { this.dataBarFecha = data; },
+      next: (data: SerieGrafica[]) => { this.dataBarFecha = data; },
       error: (error) => { console.error('Error al cargar estadísticas por fecha:', error); }
     });
   }
 
   private verEstadisticasDispositivo(id: number): void {
     this.linkService.obtenerEstadisticasDispositivo(id).subscribe({
-      next: (data: EstadisticasDispositivo) => { this.dataBarDispositivo = data; },
+      next: (data: SerieGrafica[]) => { this.dataBarDispositivo = data; },
       error: (error) => { console.error('Error al cargar estadísticas por dispositivo:', error); }
     });
   }
 
   private verEstadisticasHora(id: number): void {
     this.linkService.obtenerEstadisticasHora(id).subscribe({
-      next: (data: EstadisticasHora[]) => { this.dataBarHora = data; },
+      next: (data: SerieGrafica[]) => { this.dataBarHora = data; },
       error: (error) => { console.error('Error al cargar estadísticas por hora:', error); }
     });
   }

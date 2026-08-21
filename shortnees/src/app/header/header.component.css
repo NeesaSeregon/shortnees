@@ -75,9 +75,30 @@
   transform: scaleX(1);
 }
 
+/* Apagados a proposito: la seccion existe pero necesita cuenta. Siguen siendo
+   enlaces navegables; llevan al registro. Antes tenian pointer-events: none,
+   que los hacia inertes para el raton pero no para el teclado. */
 .header-link--muted {
-  opacity: 0.3;
-  pointer-events: none;
+  opacity: 0.35;
+}
+
+/* Seccion en la que estas ahora mismo (routerLinkActive). */
+.header-link--activo {
+  opacity: 1;
+  color: var(--color-hover);
+}
+
+.header-link--activo::after {
+  transform: scaleX(1);
+}
+
+/* Cerrar sesion es un <button>, pero debe verse igual que el resto del nav. */
+.header-link--boton {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .header-vr {

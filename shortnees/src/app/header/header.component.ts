@@ -1,20 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { AccesoService } from '../services/acceso.service';
-import { Router } from '@angular/router';
-import { inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CommonModule } from '@angular/common';
+
+import { AccesoService } from '../services/acceso.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent implements OnInit {
-  private router = inject(Router);
-  public isLoggedIn: any = false;
+export class HeaderComponent implements OnInit, OnDestroy {
+  public isLoggedIn = false;
   private authSubscription: Subscription | undefined;
 
   constructor(public accesoService: AccesoService) {}
@@ -27,9 +25,9 @@ export class HeaderComponent implements OnInit {
     );
   }
 
+  /** AccesoService.logout() ya navega a /login; no hay que navegar otra vez. */
   logout() {
     this.accesoService.logout();
-    this.router.navigate(['/login']);
   }
 
   ngOnDestroy(): void {

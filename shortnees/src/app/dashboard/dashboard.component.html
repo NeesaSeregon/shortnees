@@ -12,14 +12,43 @@
               (click)="seleccionar(enlace)">
               {{ enlace.urlCorta }}
             </button>
-            <button
-              class="button-qr"
-              type="button"
-              (click)="verQr(enlace)"
-              [attr.aria-label]="'Generar código QR de ' + enlace.urlCorta"
-              [title]="'Generar código QR de ' + enlace.urlCorta">
-              <i class="bi bi-qr-code" aria-hidden="true"></i>
-            </button>
+            @if (confirmandoBorradoId === enlace.id) {
+              <!-- El borrado es definitivo y ademas el enlace deja de resolver
+                   para todo el que ya lo tenga compartido: se confirma. -->
+              <button
+                class="button-borrar-si"
+                type="button"
+                (click)="eliminarEnlace(enlace.id)"
+                [attr.aria-label]="'Confirmar el borrado de ' + enlace.urlCorta"
+                [title]="'Confirmar el borrado de ' + enlace.urlCorta">
+                Sí
+              </button>
+              <button
+                class="button-borrar-no"
+                type="button"
+                (click)="cancelarBorrado()"
+                [attr.aria-label]="'Cancelar el borrado de ' + enlace.urlCorta"
+                [title]="'Cancelar el borrado de ' + enlace.urlCorta">
+                No
+              </button>
+            } @else {
+              <button
+                class="button-qr"
+                type="button"
+                (click)="verQr(enlace)"
+                [attr.aria-label]="'Generar código QR de ' + enlace.urlCorta"
+                [title]="'Generar código QR de ' + enlace.urlCorta">
+                <i class="bi bi-qr-code" aria-hidden="true"></i>
+              </button>
+              <button
+                class="button-borrar"
+                type="button"
+                (click)="pedirConfirmacion(enlace)"
+                [attr.aria-label]="'Eliminar ' + enlace.urlCorta"
+                [title]="'Eliminar ' + enlace.urlCorta">
+                <i class="bi bi-trash" aria-hidden="true"></i>
+              </button>
+            }
           </div>
         </div>
       }

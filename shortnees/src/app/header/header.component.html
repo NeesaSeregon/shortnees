@@ -1,22 +1,33 @@
 <header class="header-wrapper">
   <div class="header-content container">
-    <a href="home" class="header-brand">Shortnees</a>
+    <a routerLink="/home" class="header-brand">Shortnees</a>
     <nav class="header-nav">
-      <a href="home" class="header-link">Acortador</a>
+      <a routerLink="/home" routerLinkActive="header-link--activo" class="header-link">Acortador</a>
       @if (!isLoggedIn) {
-        <a href="registro" class="header-link header-link--muted">Panel de control</a>
-        <a href="registro" class="header-link header-link--muted">QR</a>
+        <!-- Sin sesion estas dos secciones se enseñan pero llevan al registro:
+             son el escaparate de lo que se consigue creando una cuenta. -->
+        <a routerLink="/registro" class="header-link header-link--muted"
+           title="Regístrate para usar el panel de control">Panel de control</a>
+        <a routerLink="/registro" class="header-link header-link--muted"
+           title="Regístrate para generar códigos QR">QR</a>
         <div class="header-vr"></div>
-        <a href="login" class="header-link">Login</a>
-        <a href="registro" class="header-link">Registro</a>
+        <a routerLink="/login" routerLinkActive="header-link--activo" class="header-link">Login</a>
+        <a routerLink="/registro" routerLinkActive="header-link--activo" class="header-link">Registro</a>
       } @else {
-        <a href="dashboard" class="header-link">Panel de control</a>
-        <a href="generador" class="header-link">QR</a>
+        <a routerLink="/dashboard" routerLinkActive="header-link--activo" class="header-link">Panel de control</a>
+        <a routerLink="/generador" routerLinkActive="header-link--activo" class="header-link">QR</a>
         <div class="header-vr"></div>
-        <a href="cuenta" class="header-link" *ngIf="accesoService.currentUserValue as user">
-          <span class="header-avatar">{{user.nombre.slice(0, 2).toUpperCase()}}</span>
-        </a>
-        <a href="login" (click)="logout()" class="header-link">Cerrar sesión</a>
+        @if (accesoService.currentUserValue; as user) {
+          <a routerLink="/cuenta" routerLinkActive="header-link--activo" class="header-link"
+             [title]="'Cuenta de ' + user.nombre">
+            <span class="header-avatar">{{ user.nombre.slice(0, 2).toUpperCase() }}</span>
+          </a>
+        }
+        <!-- Boton, no enlace: cerrar sesion es una accion, no una navegacion.
+             De la navegacion a /login ya se encarga AccesoService.logout(). -->
+        <button type="button" (click)="logout()" class="header-link header-link--boton">
+          Cerrar sesión
+        </button>
       }
     </nav>
   </div>

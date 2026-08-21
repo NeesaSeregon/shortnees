@@ -1,5 +1,5 @@
 <?php
-// ...
+
 namespace App\Controller;
 
 use App\Entity\User;
@@ -12,8 +12,17 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Clock\DatePoint;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
+/**
+ * Aqui solo queda el alta de usuarios.
+ *
+ * El inicio de sesion es cosa del firewall: /api/login_check (json_login de
+ * Lexik) comprueba las credenciales y emite el JWT en la cookie BEARER.
+ * Habia ademas un /login que repetia esa comprobacion a mano y un /session
+ * que leia una sesion que nunca existe (todos los firewalls son stateless);
+ * los dos se eliminaron. El nombre del usuario, que era lo unico que /login
+ * aportaba, viaja ahora en el payload del token (ver AnadirNombreAlJwt).
+ */
 class RegistroController extends AbstractController
 {
     #[Route('/registro', name: 'app_registro', methods: ['POST'])]
@@ -39,39 +48,7 @@ class RegistroController extends AbstractController
             return new JsonResponse(['message' => 'Error al crear usuario'], 400);
         }
     }
-    #[Route('/login', name: 'app_login', methods: ['POST'])]
-    public function login(Request $request, UserPasswordHasherInterface $passwordHasher, UserRepository $usuarioRepository,
-    ):Response
-    {
-        try {
-            $request = $this->transformarJsonBody($request);
-            $user = new User();
-            $user = $usuarioRepository->findOneByEmail($request->get('username'));
-            //Si el usuario no esta o la contraseña no es valida, devuelvo un mensaje de credenciales incorrectas
-            if (!$user || !$passwordHasher->isPasswordValid($user, $request->get('password'))){
-                return new JsonResponse(['message' => 'Invalid credentials'], 401);
-            }
-            if ($passwordHasher->isPasswordValid($user, $request->get('password'))){        
-                return new JsonResponse(['nombre' => $user->getNombre(),
-                                        'email' => $user->getEmail(),
-                                        'rol' => $user->getRoles()], 200);
-            }
-        } catch (\InvalidArgumentException $e){
-            return new JsonResponse(['error' => $e->getMessage()], 400);
-        }
-        return new JsonResponse(['message' => 'Error desconocido'], 401);
-    }
-    #[Route('/session', name: 'app_session', methods: ['GET'])]
-    public function getSessionData(SessionInterface $session): JsonResponse
-    {
-        if ($session->isStarted()){
-            return new JsonResponse([
-                'isLogged' => true,
-                'email' => $session->get('email'),
-            ], 200);
-        }
-        return new JsonResponse(['isLogged' => false],200);
-    }
+
     public function transformarJsonBody (Request $request) {
         $data = json_decode($request->getContent(), true);
         if(json_last_error() !== JSON_ERROR_NONE){
@@ -84,5 +61,3 @@ class RegistroController extends AbstractController
         return $request;
     }
 }
-
-

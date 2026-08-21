@@ -16,8 +16,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
       // Un 401 al iniciar sesion significa credenciales incorrectas, no sesion
       // caducada: lo gestiona LoginComponent. Si cerraramos sesion aqui,
       // navegariamos a /login y el mensaje de error nunca llegaria a verse.
-      const esPeticionDeLogin =
-        req.url.includes('login_check') || req.url.endsWith('/login');
+      const esPeticionDeLogin = req.url.includes('login_check');
 
       if (error.status === 401 && !esPeticionDeLogin && acceso.isAuthenticated) {
         acceso.logout();

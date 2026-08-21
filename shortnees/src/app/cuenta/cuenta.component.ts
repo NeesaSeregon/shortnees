@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AccesoService } from '../services/acceso.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TemaService } from '../services/tema.service';
@@ -9,7 +9,7 @@ import { LinkService } from '../services/link.service';
 @Component({
   selector: 'app-cuenta',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './cuenta.component.html',
   styleUrl: './cuenta.component.css'
 })

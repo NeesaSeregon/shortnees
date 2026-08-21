@@ -41,7 +41,7 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-    # Publicas: /acortarUrl, /registro, /login, /api/login_check y la
+    # Publicas: /acortarUrl, /registro, /api/login_check y la
     # redireccion /{urlCorta}. Todo lo demas exige un JWT valido.
     access_control:
         - { path: '^/personalizarUrl$',                            roles: ROLE_USER }

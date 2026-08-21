@@ -7,14 +7,15 @@ import { DashboardComponent } from './dashboard.component';
 import { LinkService } from '../services/link.service';
 import { Links } from '../interfaces/Links';
 
+// Las fechas son cadenas 'Y-m-d', que es lo que serializa el backend.
 const ENLACES: Links[] = [
   {
     id: 1, urlOriginal: 'https://ejemplo.com', urlCorta: 'shortns.com/uno',
-    fechaCreacion: new Date('2026-01-01'), fechaExpiracion: new Date('2027-01-01'),
+    fechaCreacion: '2026-01-01', fechaExpiracion: '2027-01-01',
   },
   {
     id: 2, urlOriginal: 'https://otro.com', urlCorta: 'shortns.com/dos',
-    fechaCreacion: new Date('2026-02-01'), fechaExpiracion: new Date('2027-02-01'),
+    fechaCreacion: '2026-02-01', fechaExpiracion: '2027-02-01',
   },
 ];
 
@@ -147,12 +148,97 @@ describe('DashboardComponent', () => {
     });
   });
 
-  it('eliminar un enlace recarga la lista', async () => {
-    await montar();
+  describe('boton de eliminar', () => {
+    it('pinta un boton de borrar por enlace', async () => {
+      await montar();
+      const botones = (fixture.nativeElement as HTMLElement).querySelectorAll('button.button-borrar');
 
-    component.eliminarEnlace(1);
+      expect(botones.length).toBe(2);
+    });
 
-    expect(linkService.eliminarEnlace).toHaveBeenCalledOnceWith(1);
-    expect(linkService.getUserEnlaces).toHaveBeenCalledTimes(2);
+    it('el primer clic pregunta en vez de borrar', async () => {
+      await montar();
+
+      component.pedirConfirmacion(ENLACES[0]);
+      fixture.detectChanges();
+
+      expect(linkService.eliminarEnlace).not.toHaveBeenCalled();
+      const html = fixture.nativeElement as HTMLElement;
+      expect(html.querySelector('button.button-borrar-si')).toBeTruthy();
+      expect(html.querySelector('button.button-borrar-no')).toBeTruthy();
+    });
+
+    it('solo pregunta en la fila de su enlace', async () => {
+      await montar();
+
+      component.pedirConfirmacion(ENLACES[0]);
+      fixture.detectChanges();
+      const html = fixture.nativeElement as HTMLElement;
+
+      expect(html.querySelectorAll('button.button-borrar-si').length).toBe(1);
+      // La otra fila conserva sus botones normales.
+      expect(html.querySelectorAll('button.button-borrar').length).toBe(1);
+      expect(html.querySelectorAll('button.button-qr').length).toBe(1);
+    });
+
+    it('cancelar deja el enlace intacto', async () => {
+      await montar();
+
+      component.pedirConfirmacion(ENLACES[0]);
+      component.cancelarBorrado();
+      fixture.detectChanges();
+
+      expect(linkService.eliminarEnlace).not.toHaveBeenCalled();
+      expect((fixture.nativeElement as HTMLElement).querySelector('button.button-borrar-si')).toBeNull();
+    });
+
+    it('confirmar borra y recarga la lista', async () => {
+      await montar();
+
+      component.pedirConfirmacion(ENLACES[0]);
+      component.eliminarEnlace(1);
+
+      expect(linkService.eliminarEnlace).toHaveBeenCalledOnceWith(1);
+      expect(linkService.getUserEnlaces).toHaveBeenCalledTimes(2);
+      expect(component.confirmandoBorradoId).toBeNull();
+    });
+
+    it('borrar el enlace seleccionado retira sus estadisticas de la pantalla', async () => {
+      await montar();
+      component.seleccionar(ENLACES[0]);
+      fixture.detectChanges();
+      expect(component.estadisticas).not.toBeNull();
+
+      component.eliminarEnlace(1);
+      fixture.detectChanges();
+
+      // Sin esto, las graficas se quedaban describiendo un enlace inexistente.
+      expect(component.estadisticas).toBeNull();
+      expect(component.enlaceSeleccionadoId).toBeNull();
+      expect(component.urlCortaSeleccionada).toBeNull();
+      expect(component.dataBarPais).toEqual([]);
+      expect((fixture.nativeElement as HTMLElement).textContent).not.toContain('clics totales');
+    });
+
+    it('borrar otro enlace no toca la seleccion actual', async () => {
+      await montar();
+      component.seleccionar(ENLACES[0]);
+
+      component.eliminarEnlace(2);
+
+      expect(component.enlaceSeleccionadoId).toBe(1);
+      expect(component.estadisticas).not.toBeNull();
+    });
+
+    it('un fallo al borrar cierra la confirmacion en vez de dejarla colgada', async () => {
+      await montar();
+      linkService.eliminarEnlace.and.returnValue(throwError(() => new Error('sin red')));
+
+      component.pedirConfirmacion(ENLACES[0]);
+      component.eliminarEnlace(1);
+
+      expect(component.confirmandoBorradoId).toBeNull();
+      expect(component.enlaces.length).toBe(2);
+    });
   });
 });

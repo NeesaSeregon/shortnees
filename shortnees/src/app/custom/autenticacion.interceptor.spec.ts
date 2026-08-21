@@ -49,13 +49,6 @@ describe('jwtInterceptor', () => {
     expect(acceso.logout).not.toHaveBeenCalled();
   });
 
-  it('no cierra sesion si el 401 viene de /login', () => {
-    http.post('https://shortns.com/login', {}).subscribe({ next: () => {}, error: () => {} });
-    httpMock.expectOne('https://shortns.com/login')
-      .flush('credenciales', { status: 401, statusText: 'Unauthorized' });
-    expect(acceso.logout).not.toHaveBeenCalled();
-  });
-
   it('no cierra sesion si no habia sesion iniciada', () => {
     acceso.isAuthenticated = false;
     http.get('/estadisticas/1').subscribe({ next: () => {}, error: () => {} });
