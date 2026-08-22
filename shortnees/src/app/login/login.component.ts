@@ -1,17 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { FormGroup, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { inject } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { AccesoService } from '../services/acceso.service';
 import { Login } from '../interfaces/Login';
-import { ResolverTokenService } from '../services/resolver-token.service';
-import { UsuarioService } from '../services/usuario.service';
-import { Usuario } from '../interfaces/Usuario';
-import { catchError, throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -23,14 +17,12 @@ export class LoginComponent {
   private router = inject(Router);
   private accesoService = inject(AccesoService);
   public formBuild = inject(FormBuilder);
-  public resolverToken = inject(ResolverTokenService);
   public error:string='';
   public formularioLogin: FormGroup = this.formBuild.group({
     correo: ['',Validators.required],
     password: ['',Validators.required]
   });
 
-  constructor(private usuarioService: UsuarioService) {}
   iniciarSesion(){
     if(this.formularioLogin.invalid){
       this.error = 'Introduzca sus datos de usuario.';

@@ -60,9 +60,15 @@ describe('AccesoService', () => {
     it('autentica con una sola peticion', () => {
       service.login(credenciales).subscribe();
 
-      // Si alguien reintroduce un endpoint de perfil aparte, verify() lo caza.
-      httpMock.expectOne(`${appsettings.apiUrl}api/login_check`)
-        .flush({ token: tokenCon(EN_UNA_HORA, PERFIL) });
+      // Se cuentan todas las peticiones, no solo la esperada: si alguien
+      // reintroduce un endpoint de perfil aparte, este test lo caza.
+      const peticiones = httpMock.match(() => true);
+
+      expect(peticiones.length).toBe(1);
+      expect(peticiones[0].request.url).toBe(`${appsettings.apiUrl}api/login_check`);
+      expect(peticiones[0].request.method).toBe('POST');
+
+      peticiones[0].flush({ token: tokenCon(EN_UNA_HORA, PERFIL) });
     });
 
     it('guarda solo la caducidad del token, nunca el token', () => {
