@@ -43,7 +43,7 @@ abstract class BaseFuncional extends WebTestCase
         $usuario->setRoles(['ROLE_USER']);
         // No hace falta hashear: ningun test de estos pasa por el login.
         $usuario->setPassword('irrelevante-para-el-test');
-        $usuario->setFechaRegistro(new \DateTime());
+        $usuario->setFechaRegistro(new \DateTimeImmutable());
 
         $this->em->persist($usuario);
         $this->em->flush();

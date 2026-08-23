@@ -32,8 +32,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $fecha_registro = null;
+    // Inmutable, igual que EstadisticasEnlaces::$fecha_click. RegistroController
+    // asigna un DatePoint, que extiende DateTimeImmutable, y DBAL 4 ya no acepta
+    // un inmutable en una columna declarada mutable.
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $fecha_registro = null;
     /**
      * @var Collection<int, Enlaces>
      */
@@ -122,11 +125,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-    public function getFechaRegistro(): ?\DateTimeInterface
+    public function getFechaRegistro(): ?\DateTimeImmutable
     {
         return $this->fecha_registro;
     }
-    public function setFechaRegistro(\DateTimeInterface $fecha_registro): static
+    public function setFechaRegistro(\DateTimeImmutable $fecha_registro): static
     {
         $this->fecha_registro = $fecha_registro;
 
