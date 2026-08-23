@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { NotFoundComponent } from './not-found.component';
@@ -10,19 +11,19 @@ describe('NotFoundComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NotFoundComponent],
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), provideZonelessChangeDetection()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NotFoundComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
-  it('se crea y su plantilla compila', () => {
+  it('se crea y su plantilla compila', async () => {
     expect(component).toBeTruthy();
   });
 
-  it('ofrece la vuelta al inicio sin recargar la SPA', () => {
+  it('ofrece la vuelta al inicio sin recargar la SPA', async () => {
     const enlace = (fixture.nativeElement as HTMLElement).querySelector('a.btn-home');
 
     expect(enlace).toBeTruthy();

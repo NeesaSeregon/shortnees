@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 
 import { GeneradorQRComponent } from './generador-qr.component';
@@ -12,6 +13,7 @@ describe('GeneradorQRComponent', () => {
     await TestBed.configureTestingModule({
       imports: [GeneradorQRComponent],
       providers: [
+        provideZonelessChangeDetection(),
         {
           provide: ActivatedRoute,
           useValue: { snapshot: { queryParamMap: convertToParamMap(parametros) } },
@@ -21,7 +23,7 @@ describe('GeneradorQRComponent', () => {
 
     fixture = TestBed.createComponent(GeneradorQRComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    await fixture.whenStable();
   }
 
   it('sin parametros usa la url por defecto', async () => {

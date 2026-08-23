@@ -5,7 +5,7 @@ import QRCodeStyling, { FileExtension } from "qr-code-styling";
   selector: 'app-generador-qr',
   imports: [],
   templateUrl: './generador-qr.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './generador-qr.component.css'
 })
 export class GeneradorQRComponent implements OnInit{

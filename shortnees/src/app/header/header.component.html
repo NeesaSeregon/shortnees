@@ -3,7 +3,7 @@
     <a routerLink="/home" class="header-brand">Shortnees</a>
     <nav class="header-nav">
       <a routerLink="/home" routerLinkActive="header-link--activo" class="header-link">Acortador</a>
-      @if (!isLoggedIn) {
+      @if (!isLoggedIn()) {
         <!-- Sin sesion estas dos secciones se enseñan pero llevan al registro:
              son el escaparate de lo que se consigue creando una cuenta. -->
         <a routerLink="/registro" class="header-link header-link--muted"

@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
@@ -15,6 +16,7 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
+        provideZonelessChangeDetection(),
         provideHttpClient(withXhr()),
         provideHttpClientTesting(),
         provideRouter([]),
@@ -23,9 +25,9 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
-  it('monta la aplicacion con cabecera, pie y router-outlet', () => {
+  it('monta la aplicacion con cabecera, pie y router-outlet', async () => {
     const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
+    await fixture.whenStable();
     const html = fixture.nativeElement as HTMLElement;
 
     expect(html.querySelector('app-header')).toBeTruthy();

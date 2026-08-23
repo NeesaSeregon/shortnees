@@ -20,7 +20,7 @@
       <div class="col-12 col-md-8 col-lg-5">
         <div class="card p-4 text-center">
           <p class="stat-label mb-1">Enlaces creados</p>
-          <p class="stat-value mb-3">{{ totalEnlaces }}</p>
+          <p class="stat-value mb-3">{{ totalEnlaces() }}</p>
           <a routerLink="/dashboard" class="btn-ir-panel">Ver panel de control <i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
@@ -33,9 +33,9 @@
           <h5 class="section-title mb-3"><i class="bi bi-palette me-2"></i>Apariencia</h5>
           <div class="d-flex align-items-center justify-content-between">
             <label for="theme-select" class="setting-label">Tema de la interfaz</label>
-            <select id="theme-select" [value]="seleccionarTema" (change)="onThemeChange($any($event.target).value)">
+            <select id="theme-select" [value]="seleccionarTema()" (change)="onThemeChange($any($event.target).value)">
               @for (t of temas; track t.value) {
-                <option [value]="t.value" [selected]="t.value === seleccionarTema">{{ t.label }}</option>
+                <option [value]="t.value" [selected]="t.value === seleccionarTema()">{{ t.label }}</option>
               }
             </select>
           </div>

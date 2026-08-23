@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-wellcome',
   imports: [RouterLink],
   templateUrl: './wellcome.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './wellcome.component.css'
 })
 export class WellcomeComponent {

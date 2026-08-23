@@ -1,24 +1,26 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AccesoService } from '../services/acceso.service';
 import { Router, RouterLink } from '@angular/router';
-import { inject } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { TemaService } from '../services/tema.service';
+import { Links } from '../interfaces/Links';
 import { LinkService } from '../services/link.service';
 
 @Component({
   selector: 'app-cuenta',
   imports: [RouterLink],
   templateUrl: './cuenta.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './cuenta.component.css'
 })
-export class CuentaComponent implements OnInit, OnDestroy {
+export class CuentaComponent implements OnInit {
   private router = inject(Router);
-  private authSubscription: Subscription | undefined;
+  private destroyRef = inject(DestroyRef);
 
-  totalEnlaces: number = 0;
-  seleccionarTema: string = 'dark';
+  // Signals: cada set() avisa a Angular, que es lo que hace segura la
+  // estrategia OnPush de este componente.
+  readonly totalEnlaces = signal(0);
+  readonly seleccionarTema = signal('dark');
 
   temas = [
     { value: 'dark',  label: 'Oscuro' },
@@ -33,18 +35,23 @@ export class CuentaComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.seleccionarTema = this.temaService.getTheme();
-    this.authSubscription = this.accesoService.isAuthenticated$.subscribe(
-      (isAuthenticated) => { if (!isAuthenticated) this.router.navigate(['/login']); }
-    );
-    this.linkService.getUserEnlaces().subscribe({
-      next: (data: any) => { this.totalEnlaces = data.length; },
-      error: () => {}
-    });
-  }
+    this.seleccionarTema.set(this.temaService.getTheme());
 
-  ngOnDestroy(): void {
-    this.authSubscription?.unsubscribe();
+    // takeUntilDestroyed sustituye a la Subscription guardada a mano y al
+    // ngOnDestroy que la cancelaba. Esta suscripcion no pinta nada: solo echa
+    // al visitante si pierde la sesion.
+    this.accesoService.isAuthenticated$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((isAuthenticated) => {
+        if (!isAuthenticated) { this.router.navigate(['/login']); }
+      });
+
+    this.linkService.getUserEnlaces()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data: Links[]) => { this.totalEnlaces.set(data.length); },
+        error: () => {}
+      });
   }
 
   get iniciales(): string {
@@ -60,7 +67,7 @@ export class CuentaComponent implements OnInit, OnDestroy {
   }
 
   onThemeChange(theme: string) {
-    this.seleccionarTema = theme;
+    this.seleccionarTema.set(theme);
     this.temaService.setTheme(theme);
   }
 
