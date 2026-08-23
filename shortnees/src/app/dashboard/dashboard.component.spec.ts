@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
@@ -19,6 +20,12 @@ const ENLACES: Links[] = [
   },
 ];
 
+/**
+ * Modo zoneless y sin forzar el repintado: ver la seccion Tests de CLAUDE.md.
+ * El dashboard rellena nueve campos desde callbacks de RxJS, asi que es el
+ * componente con mas papeletas para quedarse congelado si alguno dejara de ser
+ * un signal. Aqui eso se cae en vez de pasar desapercibido.
+ */
 describe('DashboardComponent', () => {
   let fixture: ComponentFixture<DashboardComponent>;
   let component: DashboardComponent;
@@ -47,19 +54,20 @@ describe('DashboardComponent', () => {
         { provide: LinkService, useValue: linkService },
         { provide: Router, useValue: router },
         provideNoopAnimations(),
+        provideZonelessChangeDetection(),
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    await fixture.whenStable();
   }
 
   it('pide los enlaces del usuario al iniciarse', async () => {
     await montar();
 
     expect(linkService.getUserEnlaces).toHaveBeenCalledTimes(1);
-    expect(component.enlaces.length).toBe(2);
+    expect(component.enlaces().length).toBe(2);
   });
 
   it('pinta un boton por enlace', async () => {
@@ -80,7 +88,7 @@ describe('DashboardComponent', () => {
   it('no rompe si la carga de enlaces falla', async () => {
     await montar(null);
 
-    expect(component.enlaces).toEqual([]);
+    expect(component.enlaces()).toEqual([]);
     expect((fixture.nativeElement as HTMLElement).textContent)
       .toContain('No tienes enlaces disponibles');
   });
@@ -101,10 +109,10 @@ describe('DashboardComponent', () => {
     await montar();
 
     component.seleccionar(ENLACES[0]);
-    fixture.detectChanges();
+    await fixture.whenStable();
 
-    expect(component.enlaceSeleccionadoId).toBe(1);
-    expect(component.urlCortaSeleccionada).toBe('shortns.com/uno');
+    expect(component.enlaceSeleccionadoId()).toBe(1);
+    expect(component.urlCortaSeleccionada()).toBe('shortns.com/uno');
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('clics totales');
   });
 
@@ -160,7 +168,7 @@ describe('DashboardComponent', () => {
       await montar();
 
       component.pedirConfirmacion(ENLACES[0]);
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       expect(linkService.eliminarEnlace).not.toHaveBeenCalled();
       const html = fixture.nativeElement as HTMLElement;
@@ -172,7 +180,7 @@ describe('DashboardComponent', () => {
       await montar();
 
       component.pedirConfirmacion(ENLACES[0]);
-      fixture.detectChanges();
+      await fixture.whenStable();
       const html = fixture.nativeElement as HTMLElement;
 
       expect(html.querySelectorAll('button.button-borrar-si').length).toBe(1);
@@ -186,7 +194,7 @@ describe('DashboardComponent', () => {
 
       component.pedirConfirmacion(ENLACES[0]);
       component.cancelarBorrado();
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       expect(linkService.eliminarEnlace).not.toHaveBeenCalled();
       expect((fixture.nativeElement as HTMLElement).querySelector('button.button-borrar-si')).toBeNull();
@@ -200,23 +208,40 @@ describe('DashboardComponent', () => {
 
       expect(linkService.eliminarEnlace).toHaveBeenCalledOnceWith(1);
       expect(linkService.getUserEnlaces).toHaveBeenCalledTimes(2);
-      expect(component.confirmandoBorradoId).toBeNull();
+      expect(component.confirmandoBorradoId()).toBeNull();
+    });
+
+    it('tras borrar, la lista que se ve en pantalla se actualiza sola', async () => {
+      // Este test existe por lo que NO cubrian los demas: comprueban que se
+      // llama al servicio, no que el resultado llegue al DOM. Sin el, 'enlaces'
+      // podria dejar de ser un signal y con OnPush la fila borrada seguiria
+      // pintada mientras los 18 tests restantes pasaban en verde.
+      await montar();
+      const filas = () => (fixture.nativeElement as HTMLElement)
+        .querySelectorAll('button.button-enlaces').length;
+      expect(filas()).toBe(2);
+
+      linkService.getUserEnlaces.and.returnValue(of([ENLACES[1]]));
+      component.eliminarEnlace(1);
+      await fixture.whenStable();
+
+      expect(filas()).toBe(1);
     });
 
     it('borrar el enlace seleccionado retira sus estadisticas de la pantalla', async () => {
       await montar();
       component.seleccionar(ENLACES[0]);
-      fixture.detectChanges();
-      expect(component.estadisticas).not.toBeNull();
+      await fixture.whenStable();
+      expect(component.estadisticas()).not.toBeNull();
 
       component.eliminarEnlace(1);
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       // Sin esto, las graficas se quedaban describiendo un enlace inexistente.
-      expect(component.estadisticas).toBeNull();
-      expect(component.enlaceSeleccionadoId).toBeNull();
-      expect(component.urlCortaSeleccionada).toBeNull();
-      expect(component.dataBarPais).toEqual([]);
+      expect(component.estadisticas()).toBeNull();
+      expect(component.enlaceSeleccionadoId()).toBeNull();
+      expect(component.urlCortaSeleccionada()).toBeNull();
+      expect(component.dataBarPais()).toEqual([]);
       expect((fixture.nativeElement as HTMLElement).textContent).not.toContain('clics totales');
     });
 
@@ -226,8 +251,8 @@ describe('DashboardComponent', () => {
 
       component.eliminarEnlace(2);
 
-      expect(component.enlaceSeleccionadoId).toBe(1);
-      expect(component.estadisticas).not.toBeNull();
+      expect(component.enlaceSeleccionadoId()).toBe(1);
+      expect(component.estadisticas()).not.toBeNull();
     });
 
     it('un fallo al borrar cierra la confirmacion en vez de dejarla colgada', async () => {
@@ -237,8 +262,8 @@ describe('DashboardComponent', () => {
       component.pedirConfirmacion(ENLACES[0]);
       component.eliminarEnlace(1);
 
-      expect(component.confirmandoBorradoId).toBeNull();
-      expect(component.enlaces.length).toBe(2);
+      expect(component.confirmandoBorradoId()).toBeNull();
+      expect(component.enlaces().length).toBe(2);
     });
   });
 });

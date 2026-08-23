@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { LinkService } from '../services/link.service';
 import { Links } from '../interfaces/Links';
@@ -10,42 +11,51 @@ import { SerieGrafica } from '../interfaces/serie-grafica';
   selector: 'app-dashboard',
   imports: [NgxChartsModule],
   templateUrl: './dashboard.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
-  enlaces: Links[] = [];
-  enlaceSeleccionadoId: number | null = null;
-  urlCortaSeleccionada: string | null = null;
+  private readonly linkService = inject(LinkService);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+
+  // Todo el estado que se pinta va en signals. Cada set() avisa a Angular por su
+  // cuenta, que es lo que permite usar OnPush: este componente rellena nueve
+  // campos desde callbacks de RxJS, y un callback no marca la vista como sucia.
+  // Con campos normales, los datos llegarian y la pantalla no se enteraria.
+  readonly enlaces = signal<Links[]>([]);
+  readonly enlaceSeleccionadoId = signal<number | null>(null);
+  readonly urlCortaSeleccionada = signal<string | null>(null);
   /** Id del enlace cuya fila esta pidiendo confirmacion de borrado, si hay alguna. */
-  confirmandoBorradoId: number | null = null;
+  readonly confirmandoBorradoId = signal<number | null>(null);
 
-  estadisticas: Estadisticas | null = null;
-  dataBarPais: SerieGrafica[] = [];
-  dataBarFecha: SerieGrafica[] = [];
-  dataBarDispositivo: SerieGrafica[] = [];
-  dataBarHora: SerieGrafica[] = [];
+  readonly estadisticas = signal<Estadisticas | null>(null);
+  readonly dataBarPais = signal<SerieGrafica[]>([]);
+  readonly dataBarFecha = signal<SerieGrafica[]>([]);
+  readonly dataBarDispositivo = signal<SerieGrafica[]>([]);
+  readonly dataBarHora = signal<SerieGrafica[]>([]);
 
-  view: [number, number] = [500, 260];
-  viewHora: [number, number] = [980, 280];
-  gradient: boolean = true;
-
-  constructor(private linkService: LinkService, private router: Router) {}
+  // Constantes de presentacion: no cambian nunca, no necesitan ser signals.
+  readonly view: [number, number] = [500, 260];
+  readonly viewHora: [number, number] = [980, 280];
+  readonly gradient = true;
 
   ngOnInit(): void {
     this.loadEnlaces();
   }
 
   loadEnlaces(): void {
-    this.linkService.getUserEnlaces().subscribe({
-      next: (data: Links[]) => { this.enlaces = data; },
-      error: (error) => { console.error('Error al cargar los enlaces:', error); }
-    });
+    this.linkService.getUserEnlaces()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data: Links[]) => { this.enlaces.set(data); },
+        error: (error) => { console.error('Error al cargar los enlaces:', error); }
+      });
   }
 
   seleccionar(enlace: Links): void {
-    this.enlaceSeleccionadoId = enlace.id;
-    this.urlCortaSeleccionada = enlace.urlCorta;
+    this.enlaceSeleccionadoId.set(enlace.id);
+    this.urlCortaSeleccionada.set(enlace.urlCorta);
     const id = enlace.id;
     this.verEstadisticas(id);
     this.verEstadisticasPais(id);
@@ -70,73 +80,85 @@ export class DashboardComponent implements OnInit {
 
   /** Primer paso del borrado: la fila cambia a "¿Si / No?". */
   pedirConfirmacion(enlace: Links): void {
-    this.confirmandoBorradoId = enlace.id;
+    this.confirmandoBorradoId.set(enlace.id);
   }
 
   cancelarBorrado(): void {
-    this.confirmandoBorradoId = null;
+    this.confirmandoBorradoId.set(null);
   }
 
   eliminarEnlace(id: number): void {
-    this.linkService.eliminarEnlace(id).subscribe({
-      next: () => {
-        this.confirmandoBorradoId = null;
-        // Si el borrado era el enlace seleccionado, sus graficas se quedarian
-        // en pantalla describiendo algo que ya no existe.
-        if (this.enlaceSeleccionadoId === id) {
-          this.limpiarSeleccion();
+    this.linkService.eliminarEnlace(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.confirmandoBorradoId.set(null);
+          // Si el borrado era el enlace seleccionado, sus graficas se quedarian
+          // en pantalla describiendo algo que ya no existe.
+          if (this.enlaceSeleccionadoId() === id) {
+            this.limpiarSeleccion();
+          }
+          this.loadEnlaces();
+        },
+        error: (error) => {
+          this.confirmandoBorradoId.set(null);
+          console.error('Error al eliminar el enlace', error);
         }
-        this.loadEnlaces();
-      },
-      error: (error) => {
-        this.confirmandoBorradoId = null;
-        console.error('Error al eliminar el enlace', error);
-      }
-    });
+      });
   }
 
   private limpiarSeleccion(): void {
-    this.enlaceSeleccionadoId = null;
-    this.urlCortaSeleccionada = null;
-    this.estadisticas = null;
-    this.dataBarPais = [];
-    this.dataBarFecha = [];
-    this.dataBarDispositivo = [];
-    this.dataBarHora = [];
+    this.enlaceSeleccionadoId.set(null);
+    this.urlCortaSeleccionada.set(null);
+    this.estadisticas.set(null);
+    this.dataBarPais.set([]);
+    this.dataBarFecha.set([]);
+    this.dataBarDispositivo.set([]);
+    this.dataBarHora.set([]);
   }
 
   private verEstadisticas(id: number): void {
-    this.linkService.obtenerEstadisticas(id).subscribe({
-      next: (data: Estadisticas) => { this.estadisticas = data; },
-      error: (error) => { console.error('Error al cargar las estadísticas:', error); }
-    });
+    this.linkService.obtenerEstadisticas(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data: Estadisticas) => { this.estadisticas.set(data); },
+        error: (error) => { console.error('Error al cargar las estadísticas:', error); }
+      });
   }
 
   private verEstadisticasPais(id: number): void {
-    this.linkService.obtenerEstadisticasPais(id).subscribe({
-      next: (data: SerieGrafica[]) => { this.dataBarPais = data; },
-      error: (error) => { console.error('Error al cargar estadísticas por país:', error); }
-    });
+    this.linkService.obtenerEstadisticasPais(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data: SerieGrafica[]) => { this.dataBarPais.set(data); },
+        error: (error) => { console.error('Error al cargar estadísticas por país:', error); }
+      });
   }
 
   private verEstadisticasFecha(id: number): void {
-    this.linkService.obtenerEstadisticasFecha(id).subscribe({
-      next: (data: SerieGrafica[]) => { this.dataBarFecha = data; },
-      error: (error) => { console.error('Error al cargar estadísticas por fecha:', error); }
-    });
+    this.linkService.obtenerEstadisticasFecha(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data: SerieGrafica[]) => { this.dataBarFecha.set(data); },
+        error: (error) => { console.error('Error al cargar estadísticas por fecha:', error); }
+      });
   }
 
   private verEstadisticasDispositivo(id: number): void {
-    this.linkService.obtenerEstadisticasDispositivo(id).subscribe({
-      next: (data: SerieGrafica[]) => { this.dataBarDispositivo = data; },
-      error: (error) => { console.error('Error al cargar estadísticas por dispositivo:', error); }
-    });
+    this.linkService.obtenerEstadisticasDispositivo(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data: SerieGrafica[]) => { this.dataBarDispositivo.set(data); },
+        error: (error) => { console.error('Error al cargar estadísticas por dispositivo:', error); }
+      });
   }
 
   private verEstadisticasHora(id: number): void {
-    this.linkService.obtenerEstadisticasHora(id).subscribe({
-      next: (data: SerieGrafica[]) => { this.dataBarHora = data; },
-      error: (error) => { console.error('Error al cargar estadísticas por hora:', error); }
-    });
+    this.linkService.obtenerEstadisticasHora(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data: SerieGrafica[]) => { this.dataBarHora.set(data); },
+        error: (error) => { console.error('Error al cargar estadísticas por hora:', error); }
+      });
   }
 }

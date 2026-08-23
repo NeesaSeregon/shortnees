@@ -1,18 +1,18 @@
 <main class="container-fluid px-4 mt-4">
-  @if (enlaces.length > 0) {
+  @if (enlaces().length > 0) {
     <h2 class="text-center mb-4">Mis Enlaces</h2>
 
     <div class="row g-2 justify-content-center">
-      @for (enlace of enlaces; track enlace.id) {
+      @for (enlace of enlaces(); track enlace.id) {
         <div class="col-6 col-sm-4 col-md-3 col-xl-2">
           <div class="enlace-fila">
             <button
               class="button-enlaces"
-              [class.activo]="enlace.id === enlaceSeleccionadoId"
+              [class.activo]="enlace.id === enlaceSeleccionadoId()"
               (click)="seleccionar(enlace)">
               {{ enlace.urlCorta }}
             </button>
-            @if (confirmandoBorradoId === enlace.id) {
+            @if (confirmandoBorradoId() === enlace.id) {
               <!-- El borrado es definitivo y ademas el enlace deja de resolver
                    para todo el que ya lo tenga compartido: se confirma. -->
               <button
@@ -54,13 +54,13 @@
       }
     </div>
 
-    @if (estadisticas) {
+    @if (estadisticas(); as stats) {
       <hr class="stats-divider">
 
       <!-- Cabecera de estadísticas -->
       <div class="stats-header text-center">
-        <p class="stats-url"><i class="bi bi-link-45deg"></i> {{ urlCortaSeleccionada }}</p>
-        <p class="stats-num">{{ estadisticas.numeroClicks }}</p>
+        <p class="stats-url"><i class="bi bi-link-45deg"></i> {{ urlCortaSeleccionada() }}</p>
+        <p class="stats-num">{{ stats.numeroClicks }}</p>
         <p class="stats-label">clics totales</p>
       </div>
 
@@ -72,7 +72,7 @@
               <h6 class="chart-title"><i class="bi bi-globe2 me-2"></i>Por país</h6>
               <ngx-charts-advanced-pie-chart
                 [view]="view"
-                [results]="dataBarPais"
+                [results]="dataBarPais()"
                 [gradient]="gradient">
               </ngx-charts-advanced-pie-chart>
             </div>
@@ -84,7 +84,7 @@
               <h6 class="chart-title"><i class="bi bi-phone me-2"></i>Por dispositivo</h6>
               <ngx-charts-advanced-pie-chart
                 [view]="view"
-                [results]="dataBarDispositivo"
+                [results]="dataBarDispositivo()"
                 [gradient]="gradient">
               </ngx-charts-advanced-pie-chart>
             </div>
@@ -96,7 +96,7 @@
               <h6 class="chart-title"><i class="bi bi-calendar3 me-2"></i>Por fecha</h6>
               <ngx-charts-advanced-pie-chart
                 [view]="view"
-                [results]="dataBarFecha"
+                [results]="dataBarFecha()"
                 [gradient]="gradient">
               </ngx-charts-advanced-pie-chart>
             </div>
@@ -111,7 +111,7 @@
               </h6>
               <ngx-charts-bar-vertical
                 [view]="viewHora"
-                [results]="dataBarHora"
+                [results]="dataBarHora()"
                 [xAxis]="true"
                 [yAxis]="true"
                 [roundDomains]="true"
