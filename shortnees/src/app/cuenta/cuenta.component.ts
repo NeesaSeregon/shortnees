@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { AccesoService } from '../services/acceso.service';
 import { Router, RouterLink } from '@angular/router';
 import { inject } from '@angular/core';
@@ -8,9 +8,9 @@ import { LinkService } from '../services/link.service';
 
 @Component({
   selector: 'app-cuenta',
-  standalone: true,
   imports: [RouterLink],
   templateUrl: './cuenta.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './cuenta.component.css'
 })
 export class CuentaComponent implements OnInit, OnDestroy {

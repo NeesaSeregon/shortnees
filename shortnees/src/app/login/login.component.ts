@@ -1,16 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { inject } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { AccesoService } from '../services/acceso.service';
 import { Login } from '../interfaces/Login';
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './login.component.css'
 })
 export class LoginComponent {

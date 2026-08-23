@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LinkService } from '../services/link.service';
 import { LinkResponse } from '../interfaces/link-response';
@@ -7,9 +7,9 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './home.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './home.component.css'
 })
 export class HomeComponent {

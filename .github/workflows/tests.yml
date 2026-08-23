@@ -18,10 +18,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Angular 18 admite Node ^18.19 || ^20.11 || ^22
+      # Angular 22 exige ^22.22.3 || ^24.15.0 || >=26. Se fija la 24 para que el
+      # CI use la misma linea que la maquina de desarrollo.
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: shortnees/package-lock.json
 

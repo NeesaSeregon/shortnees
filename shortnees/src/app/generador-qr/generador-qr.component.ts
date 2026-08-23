@@ -1,11 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import QRCodeStyling, { FileExtension } from "qr-code-styling";
 @Component({
   selector: 'app-generador-qr',
-  standalone: true,
   imports: [],
   templateUrl: './generador-qr.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './generador-qr.component.css'
 })
 export class GeneradorQRComponent implements OnInit{

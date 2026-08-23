@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { LinkService } from '../services/link.service';
 import { Links } from '../interfaces/Links';
@@ -8,9 +8,9 @@ import { SerieGrafica } from '../interfaces/serie-grafica';
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
   imports: [NgxChartsModule],
   templateUrl: './dashboard.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {

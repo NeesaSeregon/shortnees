@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RouterOutlet, Router } from '@angular/router';
 import { AccesoService } from '../services/acceso.service';
@@ -7,9 +7,9 @@ import { Usuario } from '../interfaces/Usuario';
 
 @Component({
   selector: 'app-registro',
-  standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './registro.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './registro.component.css'
 })
 export class RegistroComponent implements OnInit {

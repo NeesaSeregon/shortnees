@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptors, withXhr } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { jwtInterceptor } from './autenticacion.interceptor';
 import { AccesoService } from '../services/acceso.service';
@@ -13,7 +13,7 @@ describe('jwtInterceptor', () => {
     acceso = { logout: jasmine.createSpy('logout'), isAuthenticated: true };
     TestBed.configureTestingModule({
       providers: [
-        provideHttpClient(withInterceptors([jwtInterceptor])),
+        provideHttpClient(withXhr(), withInterceptors([jwtInterceptor])),
         provideHttpClientTesting(),
         { provide: AccesoService, useValue: acceso },
       ],
