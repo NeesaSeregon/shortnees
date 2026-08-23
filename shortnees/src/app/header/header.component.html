@@ -1,6 +1,14 @@
 <header class="header-wrapper">
   <div class="header-content container">
-    <a routerLink="/home" class="header-brand">Shortnees</a>
+    <a routerLink="/home" class="header-brand">
+      <span class="header-marca" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+          <path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/>
+          <path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>
+        </svg>
+      </span>
+      Shortnees
+    </a>
     <nav class="header-nav">
       <a routerLink="/home" routerLinkActive="header-link--activo" class="header-link">Acortador</a>
       @if (!isLoggedIn()) {
@@ -11,14 +19,14 @@
         <a routerLink="/registro" class="header-link header-link--muted"
            title="Regístrate para generar códigos QR">QR</a>
         <div class="header-vr"></div>
-        <a routerLink="/login" routerLinkActive="header-link--activo" class="header-link">Login</a>
-        <a routerLink="/registro" routerLinkActive="header-link--activo" class="header-link">Registro</a>
+        <a routerLink="/login" routerLinkActive="header-link--activo" class="header-link">Entrar</a>
+        <a routerLink="/registro" routerLinkActive="header-link--activo" class="header-link header-link--cta">Crear cuenta</a>
       } @else {
         <a routerLink="/dashboard" routerLinkActive="header-link--activo" class="header-link">Panel de control</a>
         <a routerLink="/generador" routerLinkActive="header-link--activo" class="header-link">QR</a>
         <div class="header-vr"></div>
         @if (accesoService.currentUserValue; as user) {
-          <a routerLink="/cuenta" routerLinkActive="header-link--activo" class="header-link"
+          <a routerLink="/cuenta" routerLinkActive="header-link--activo" class="header-link header-link--avatar"
              [title]="'Cuenta de ' + user.nombre">
             <span class="header-avatar">{{ user.nombre.slice(0, 2).toUpperCase() }}</span>
           </a>
@@ -31,5 +39,4 @@
       }
     </nav>
   </div>
-  <div class="header-bottom-line"></div>
 </header>

@@ -1,17 +1,50 @@
-<main class="min-vh-100">
-  <div class="content" role="main">
-    <h2>Genera un código Qr</h2>
-    <div #canvas></div>
-    <label>
-      <input class="form-control" (keyup)="onKey($event)" value={{this.data}}>
-      <p>Elija el tipo de archivo</p>
-      <select (change)="onChange($event)" value={{this.extension}}>
-        <option value="svg">SVG</option>
-        <option value="png">PNG</option>
-        <option value="jpeg">JPEG</option>
-        <option value="webp">WEBP</option>
-      </select>
-      <button class="button-enlaces" (click)="download()">Descargar</button>
-    </label>
+<main class="qr-main">
+  <div class="container qr-container">
+
+    <div class="qr-intro">
+      <h1 class="qr-title">Genera un código QR</h1>
+      <p class="qr-subtitle">Se actualiza mientras escribes. Descárgalo en el formato que necesites.</p>
+    </div>
+
+    <div class="qr-card">
+
+      <!-- Placa clara: el QR se lee por contraste y el tema oscuro no puede
+           llegar hasta aquí sin dejarlo inservible. -->
+      <div class="qr-preview">
+        <div class="qr-plate">
+          <div #canvas class="qr-lienzo"></div>
+        </div>
+        <p class="qr-nota">Fondo claro y margen de silencio: así el QR se lee también con el tema oscuro activo.</p>
+      </div>
+
+      <div class="qr-controles">
+
+        <div class="qr-field">
+          <label for="qr-data" class="qr-label">Contenido del QR</label>
+          <input id="qr-data" class="qr-input" type="text" (keyup)="onKey($event)" value={{this.data}}
+                 placeholder="https://…" autocomplete="off" spellcheck="false">
+        </div>
+
+        <div class="qr-field">
+          <span class="qr-label" id="qr-formato-label">Formato del archivo</span>
+          <!-- Control segmentado en lugar del <select> nativo: son cuatro
+               opciones y se ven todas de un vistazo. -->
+          <div class="qr-segmento" role="group" aria-labelledby="qr-formato-label">
+            @for (ext of extensiones; track ext) {
+              <button type="button" class="qr-seg" [class.qr-seg--activo]="extension() === ext"
+                      [attr.aria-pressed]="extension() === ext"
+                      (click)="seleccionarExtension(ext)">{{ ext.toUpperCase() }}</button>
+            }
+          </div>
+          <p class="qr-ayuda">SVG escala sin perder nitidez: es el que quieres para imprimir.</p>
+        </div>
+
+        <button class="qr-btn" type="button" (click)="download()">
+          <i class="bi bi-download" aria-hidden="true"></i> Descargar QR
+        </button>
+
+      </div>
+    </div>
+
   </div>
 </main>

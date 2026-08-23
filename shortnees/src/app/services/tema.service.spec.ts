@@ -25,9 +25,9 @@ describe('TemaService', () => {
 
   it('quita el tema anterior al aplicar uno nuevo', () => {
     service.setTheme('light');
-    service.setTheme('blue');
+    service.setTheme('dark');
 
-    expect(document.body.classList.contains('theme-blue')).toBeTrue();
+    expect(document.body.classList.contains('theme-dark')).toBeTrue();
     expect(document.body.classList.contains('theme-light')).toBeFalse();
   });
 
@@ -40,9 +40,9 @@ describe('TemaService', () => {
   });
 
   it('guarda la preferencia en localStorage', () => {
-    service.setTheme('blue');
+    service.setTheme('light');
 
-    expect(localStorage.getItem('app-theme')).toBe('blue');
+    expect(localStorage.getItem('app-theme')).toBe('light');
   });
 
   it('usa el tema oscuro cuando no hay preferencia guardada', () => {
@@ -56,10 +56,10 @@ describe('TemaService', () => {
   });
 
   it('initTheme aplica la preferencia guardada', () => {
-    localStorage.setItem('app-theme', 'blue');
+    localStorage.setItem('app-theme', 'light');
 
     service.initTheme();
 
-    expect(document.body.classList.contains('theme-blue')).toBeTrue();
+    expect(document.body.classList.contains('theme-light')).toBeTrue();
   });
 });

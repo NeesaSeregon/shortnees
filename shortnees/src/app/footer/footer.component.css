@@ -1,70 +1,61 @@
 :host {
   display: block;
-  background-color: var(--primary-bg);
-  font-family: 'Roboto', sans-serif;
+  background-color: var(--bg-main);
+  border-top: 1px solid var(--border-sutil);
 }
 
 .footer-wrapper {
-  padding: 0 0 0.75rem 0;
-}
-
-.footer-top-line {
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--color-hover), transparent);
-  margin-bottom: 1.5rem;
-  opacity: 0.5;
+  padding: 2.125rem 0 1.75rem 0;
 }
 
 .footer-content {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1rem;
-  padding-bottom: 1rem;
+  gap: 1.5rem;
 }
 
 .footer-brand {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.5rem;
 }
 
 .footer-logo {
-  font-size: 1.15rem;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: 0.9375rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: -0.01em;
   color: var(--color);
 }
 
 .footer-tagline {
-  font-size: 0.75rem;
-  color: var(--color);
-  opacity: 0.45;
-  letter-spacing: 0.03em;
+  font-size: 0.8125rem;
+  color: var(--text-subtle);
 }
 
 .footer-links {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.625rem;
   flex-wrap: wrap;
 }
 
+/* Color propio en lugar de opacity: los enlaces del pie eran ilegibles. */
 .footer-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  color: var(--color);
-  opacity: 0.65;
+  gap: 0.4375rem;
+  color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.85rem;
-  transition: opacity 0.2s ease, color 0.2s ease;
+  font-size: 0.84375rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
 .footer-link:hover {
-  opacity: 1;
-  color: var(--color-hover);
+  color: var(--color);
 }
 
 .footer-link svg {
@@ -72,12 +63,12 @@
 }
 
 .footer-bottom {
-  border-top: 1px solid var(--color-hover);
-  padding-top: 0.65rem;
-  opacity: 0.25;
+  margin-top: 1.625rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-sutil);
 }
 
 .footer-bottom span {
-  font-size: 0.75rem;
-  color: var(--color);
+  font-size: 0.78125rem;
+  color: var(--text-apagado);
 }

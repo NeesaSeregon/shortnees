@@ -1,131 +1,172 @@
-<main class="container-fluid px-4 mt-4">
-  @if (enlaces().length > 0) {
-    <h2 class="text-center mb-4">Mis Enlaces</h2>
+<main class="panel-main">
+  <div class="container-fluid panel-container">
+    @if (enlaces().length > 0) {
 
-    <div class="row g-2 justify-content-center">
-      @for (enlace of enlaces(); track enlace.id) {
-        <div class="col-6 col-sm-4 col-md-3 col-xl-2">
-          <div class="enlace-fila">
-            <button
-              class="button-enlaces"
-              [class.activo]="enlace.id === enlaceSeleccionadoId()"
-              (click)="seleccionar(enlace)">
-              {{ enlace.urlCorta }}
-            </button>
-            @if (confirmandoBorradoId() === enlace.id) {
-              <!-- El borrado es definitivo y ademas el enlace deja de resolver
-                   para todo el que ya lo tenga compartido: se confirma. -->
-              <button
-                class="button-borrar-si"
-                type="button"
-                (click)="eliminarEnlace(enlace.id)"
-                [attr.aria-label]="'Confirmar el borrado de ' + enlace.urlCorta"
-                [title]="'Confirmar el borrado de ' + enlace.urlCorta">
-                Sí
-              </button>
-              <button
-                class="button-borrar-no"
-                type="button"
-                (click)="cancelarBorrado()"
-                [attr.aria-label]="'Cancelar el borrado de ' + enlace.urlCorta"
-                [title]="'Cancelar el borrado de ' + enlace.urlCorta">
-                No
-              </button>
-            } @else {
-              <button
-                class="button-qr"
-                type="button"
-                (click)="verQr(enlace)"
-                [attr.aria-label]="'Generar código QR de ' + enlace.urlCorta"
-                [title]="'Generar código QR de ' + enlace.urlCorta">
-                <i class="bi bi-qr-code" aria-hidden="true"></i>
-              </button>
-              <button
-                class="button-borrar"
-                type="button"
-                (click)="pedirConfirmacion(enlace)"
-                [attr.aria-label]="'Eliminar ' + enlace.urlCorta"
-                [title]="'Eliminar ' + enlace.urlCorta">
-                <i class="bi bi-trash" aria-hidden="true"></i>
-              </button>
-            }
+      <div class="panel-layout">
+
+        <!-- ── Raíl de enlaces ───────────────────────────────────────────
+             Antes era una rejilla de columnas Bootstrap con tres botones
+             apretados en cada celda; las filas quedaban desiguales y las URLs
+             cortadas. Ahora es una lista de una columna. -->
+        <aside class="panel-rail">
+          <div class="rail-cabecera">
+            <h2 class="rail-titulo">Mis enlaces</h2>
+            <span class="rail-total">{{ enlaces().length }} en total</span>
           </div>
-        </div>
-      }
-    </div>
 
-    @if (estadisticas(); as stats) {
-      <hr class="stats-divider">
+          <ul class="rail-lista">
+            @for (enlace of enlaces(); track enlace.id) {
+              <li class="enlace-fila"
+                  [class.enlace-fila--activa]="enlace.id === enlaceSeleccionadoId()"
+                  [class.enlace-fila--borrando]="confirmandoBorradoId() === enlace.id">
 
-      <!-- Cabecera de estadísticas -->
-      <div class="stats-header text-center">
-        <p class="stats-url"><i class="bi bi-link-45deg"></i> {{ urlCortaSeleccionada() }}</p>
-        <p class="stats-num">{{ stats.numeroClicks }}</p>
-        <p class="stats-label">clics totales</p>
+                <button
+                  class="button-enlaces"
+                  [class.activo]="enlace.id === enlaceSeleccionadoId()"
+                  type="button"
+                  [attr.aria-pressed]="enlace.id === enlaceSeleccionadoId()"
+                  (click)="seleccionar(enlace)">
+                  <span class="enlace-corta">{{ enlace.urlCorta }}</span>
+                  <span class="enlace-original">{{ enlace.urlOriginal }}</span>
+                </button>
+
+                <div class="enlace-acciones">
+                  @if (confirmandoBorradoId() === enlace.id) {
+                    <!-- El borrado es definitivo y ademas el enlace deja de resolver
+                         para todo el que ya lo tenga compartido: se confirma. -->
+                    <span class="enlace-aviso">¿Eliminar?</span>
+                    <button
+                      class="button-borrar-si"
+                      type="button"
+                      (click)="eliminarEnlace(enlace.id)"
+                      [attr.aria-label]="'Confirmar el borrado de ' + enlace.urlCorta"
+                      [title]="'Confirmar el borrado de ' + enlace.urlCorta">
+                      Sí
+                    </button>
+                    <button
+                      class="button-borrar-no"
+                      type="button"
+                      (click)="cancelarBorrado()"
+                      [attr.aria-label]="'Cancelar el borrado de ' + enlace.urlCorta"
+                      [title]="'Cancelar el borrado de ' + enlace.urlCorta">
+                      No
+                    </button>
+                  } @else {
+                    <button
+                      class="button-qr"
+                      type="button"
+                      (click)="verQr(enlace)"
+                      [attr.aria-label]="'Generar código QR de ' + enlace.urlCorta"
+                      [title]="'Generar código QR de ' + enlace.urlCorta">
+                      <i class="bi bi-qr-code" aria-hidden="true"></i>
+                    </button>
+                    <button
+                      class="button-borrar"
+                      type="button"
+                      (click)="pedirConfirmacion(enlace)"
+                      [attr.aria-label]="'Eliminar ' + enlace.urlCorta"
+                      [title]="'Eliminar ' + enlace.urlCorta">
+                      <i class="bi bi-trash" aria-hidden="true"></i>
+                    </button>
+                  }
+                </div>
+              </li>
+            }
+          </ul>
+        </aside>
+
+        <!-- ── Estadísticas ──────────────────────────────────────────── -->
+        <section class="panel-stats">
+          @if (estadisticas(); as stats) {
+
+            <div class="stats-header">
+              <div class="stats-identidad">
+                <span class="stats-label">Estadísticas de</span>
+                <span class="stats-url fuente-mono">{{ urlCortaSeleccionada() }}</span>
+              </div>
+              <div class="stats-total">
+                <span class="stats-num">{{ stats.numeroClicks }}</span>
+                <span class="stats-label">clics totales</span>
+              </div>
+            </div>
+
+            <div class="stats-grid" #graficas>
+              <div class="chart-card">
+                <h3 class="chart-title"><i class="bi bi-globe2" aria-hidden="true"></i>Por país</h3>
+                <!-- Barras horizontales, no tarta: los nombres de país son
+                     largos y lo que se compara es magnitud, no proporción. -->
+                <ngx-charts-bar-horizontal
+                  [view]="vistaPais()"
+                  [results]="dataBarPais()"
+                  [scheme]="esquemaMono"
+                  [xAxis]="true"
+                  [yAxis]="true"
+                  [roundEdges]="true"
+                  [gradient]="gradient">
+                </ngx-charts-bar-horizontal>
+              </div>
+
+              <div class="chart-card">
+                <h3 class="chart-title"><i class="bi bi-phone" aria-hidden="true"></i>Por dispositivo</h3>
+                <!-- La única de las cuatro que reparte un total entre categorías,
+                     y la única que usa color por categoría. Su leyenda lleva
+                     nombre y cifra: el color nunca es el único indicio. -->
+                <ngx-charts-advanced-pie-chart
+                  [view]="vistaDispositivo()"
+                  [results]="dataBarDispositivo()"
+                  [scheme]="esquemaDispositivo"
+                  [gradient]="gradient">
+                </ngx-charts-advanced-pie-chart>
+              </div>
+
+              <div class="chart-card chart-card--ancha">
+                <h3 class="chart-title"><i class="bi bi-calendar3" aria-hidden="true"></i>Por mes</h3>
+                <!-- Era una tarta, que escondía que esto es una serie temporal. -->
+                <ngx-charts-bar-vertical
+                  [view]="vistaMes()"
+                  [results]="dataBarFecha()"
+                  [scheme]="esquemaMono"
+                  [xAxis]="true"
+                  [yAxis]="true"
+                  [roundDomains]="true"
+                  [roundEdges]="true"
+                  [gradient]="gradient">
+                </ngx-charts-bar-vertical>
+              </div>
+
+              <div class="chart-card chart-card--ancha">
+                <h3 class="chart-title">
+                  <i class="bi bi-clock" aria-hidden="true"></i>Por hora del día
+                  <span class="chart-nota">hora del servidor</span>
+                </h3>
+                <ngx-charts-bar-vertical
+                  [view]="vistaHora()"
+                  [results]="dataBarHora()"
+                  [scheme]="esquemaMono"
+                  [xAxis]="true"
+                  [yAxis]="true"
+                  [roundDomains]="true"
+                  [roundEdges]="true"
+                  [gradient]="gradient">
+                </ngx-charts-bar-vertical>
+              </div>
+            </div>
+
+          } @else {
+            <div class="stats-vacio">
+              <span class="stats-vacio-icono" aria-hidden="true"><i class="bi bi-bar-chart-line"></i></span>
+              <p class="stats-vacio-texto">Elige un enlace de la lista para ver sus estadísticas.</p>
+            </div>
+          }
+        </section>
+
       </div>
 
-      <!-- Gráficas -->
-      <div class="row g-4 mt-2">
-        <div class="col-12 col-md-6">
-          <div class="card chart-card">
-            <div class="card-body chart-body">
-              <h6 class="chart-title"><i class="bi bi-globe2 me-2"></i>Por país</h6>
-              <ngx-charts-advanced-pie-chart
-                [view]="view"
-                [results]="dataBarPais()"
-                [gradient]="gradient">
-              </ngx-charts-advanced-pie-chart>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6">
-          <div class="card chart-card">
-            <div class="card-body chart-body">
-              <h6 class="chart-title"><i class="bi bi-phone me-2"></i>Por dispositivo</h6>
-              <ngx-charts-advanced-pie-chart
-                [view]="view"
-                [results]="dataBarDispositivo()"
-                [gradient]="gradient">
-              </ngx-charts-advanced-pie-chart>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6">
-          <div class="card chart-card">
-            <div class="card-body chart-body">
-              <h6 class="chart-title"><i class="bi bi-calendar3 me-2"></i>Por fecha</h6>
-              <ngx-charts-advanced-pie-chart
-                [view]="view"
-                [results]="dataBarFecha()"
-                [gradient]="gradient">
-              </ngx-charts-advanced-pie-chart>
-            </div>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="card chart-card">
-            <div class="card-body chart-body">
-              <h6 class="chart-title">
-                <i class="bi bi-clock me-2"></i>Por hora del día
-                <span class="chart-nota">hora del servidor</span>
-              </h6>
-              <ngx-charts-bar-vertical
-                [view]="viewHora"
-                [results]="dataBarHora()"
-                [xAxis]="true"
-                [yAxis]="true"
-                [roundDomains]="true"
-                [gradient]="gradient">
-              </ngx-charts-bar-vertical>
-            </div>
-          </div>
-        </div>
+    } @else {
+      <div class="panel-sin-enlaces" role="status">
+        <span class="stats-vacio-icono" aria-hidden="true"><i class="bi bi-link-45deg"></i></span>
+        <p class="stats-vacio-texto">No tienes enlaces disponibles.</p>
       </div>
     }
-
-  } @else {
-    <div class="alert alert-warning mt-4" role="alert">
-      No tienes enlaces disponibles.
-    </div>
-  }
+  </div>
 </main>

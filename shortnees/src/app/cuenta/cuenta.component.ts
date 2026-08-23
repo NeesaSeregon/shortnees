@@ -22,10 +22,11 @@ export class CuentaComponent implements OnInit {
   readonly totalEnlaces = signal(0);
   readonly seleccionarTema = signal('dark');
 
+  // El tema azul se retiro: su combinacion (#00FFFF sobre #007171) no llegaba
+  // al contraste minimo y no encajaba con el resto del sistema visual.
   temas = [
     { value: 'dark',  label: 'Oscuro' },
     { value: 'light', label: 'Claro'  },
-    { value: 'blue',  label: 'Azul'   },
   ];
 
   constructor(

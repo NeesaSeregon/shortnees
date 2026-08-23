@@ -53,6 +53,42 @@ describe('GeneradorQRComponent', () => {
     expect((fixture.nativeElement as HTMLElement).querySelector('svg, canvas')).toBeTruthy();
   });
 
+  describe('formato del archivo', () => {
+    function segmentos(): HTMLButtonElement[] {
+      return Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('.qr-seg'));
+    }
+
+    it('ofrece los cuatro formatos y arranca en SVG', async () => {
+      await montar({});
+
+      expect(segmentos().map((b) => b.textContent!.trim()))
+        .toEqual(['SVG', 'PNG', 'JPEG', 'WEBP']);
+      expect(component.extension()).toBe('svg');
+      expect(segmentos()[0].getAttribute('aria-pressed')).toBe('true');
+    });
+
+    it('elegir otro formato lo marca en pantalla sin forzar el repintado', async () => {
+      await montar({});
+
+      segmentos()[1].click();
+      await fixture.whenStable();
+
+      expect(component.extension()).toBe('png');
+      expect(segmentos()[1].classList).toContain('qr-seg--activo');
+      expect(segmentos()[0].classList).not.toContain('qr-seg--activo');
+    });
+
+    it('descarga en el formato elegido', async () => {
+      await montar({});
+      spyOn(component.qrCode, 'download');
+
+      component.seleccionarExtension('webp');
+      component.download();
+
+      expect(component.qrCode.download).toHaveBeenCalledWith({ extension: 'webp' });
+    });
+  });
+
   it('al escribir otra url actualiza el codigo', async () => {
     await montar({});
     spyOn(component.qrCode, 'update');

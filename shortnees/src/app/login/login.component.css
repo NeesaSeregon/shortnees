@@ -2,15 +2,15 @@
   display: block;
 }
 .card-body {
-  font-family: 'Roboto', sans-serif;
+  font-family: inherit;
 }
 form .form-control {
-  background-color: #858484 !important; 
-  border-color: #fff;
+  background-color: var(--surface-2) !important; 
+  border-color: var(--border-campo);
 }
 .form-label {
-  color: #fff;
-  font-family: 'Roboto', sans-serif;
+  color: var(--text-subtle);
+  font-family: inherit;
 }
 .card {
   background: var(--primary-bg);
@@ -24,8 +24,8 @@ form .form-control {
 }
 input{
   background-color: var(--bg-main);
-  border-color: var(--color);
+  border-color: var(--border-campo);
 }
 .error {
-  color: var(--color);
+  color: var(--color-peligro);
 }

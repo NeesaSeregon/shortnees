@@ -352,38 +352,121 @@
     display: none;
   }
 
-  /*Variables globales para los temas de la aplicacion*/
+/* ─────────────────────────────────────────────────────────────────────────
+   Sistema visual: variables de tema
+   ─────────────────────────────────────────────────────────────────────────
+   Los ratios anotados son de contraste contra --bg-main. El texto atenuado
+   tiene ahora color propio en vez de resolverse con opacity, que era lo que
+   dejaba etiquetas y pies por debajo del minimo AA.
 
-  body.theme-dark {
-    --bg-main: #858484; /*Color de fondo main*/
-    --primary-bg:#0c0c0c; /*Color de fondo header, formularios*/
-    --color: #e2e2e2; /*Color de los textos*/
-    --color-hover: #bebebe; /*Color eventos hover*/
-    --primary-button: #646970; /*Color botones fomularios*/
-    --bg-card: #bebebe; /*Color contenedor graficas de enlaces*/
-    --bg-enlace: #bebebe; /*Colo de fondo de los enlaces*/
-    --color-enlace:#0c0c0c; /*Color del texto enlaces*/
-    --color-peligro: #c9302c; /*Acciones destructivas: borrar*/
-  }
-  body.theme-light {
-    --bg-main: #f5f5f5;
-    --primary-bg:#e7e7e7;
-    --color: #6b6b6b;
-    --color-hover: #8D8C8C;
-    --primary-button: #b3b3b3;
-    --bg-card: #e7e7e7;
-    --bg-enlace: #8D8C8C;
-    --color-enlace:#f5f5f5;
-    --color-peligro: #c0392b;
-  }
-  body.theme-blue {
-    --bg-main: #00CDCD;
-    --primary-bg: #007171;
-    --color: #00FFFF;
-    --color-hover: #00FFFF;
-    --primary-button: #0095a0c7;
-    --bg-card: #0095a0c7;
-    --bg-enlace: #007171;
-    --color-enlace:#00FFFF;
-    --color-peligro: #c62828;
-  }
+   --text-tenue y --text-apagado quedan por debajo de 4,5:1 a proposito: valen
+   para ejes, pies y secciones que exigen cuenta, nunca para texto que el
+   usuario tenga que leer.
+   ───────────────────────────────────────────────────────────────────────── */
+
+body.theme-dark {
+  /* Superficies */
+  --bg-main: #0a0a0b;          /* Lienzo de pagina */
+  --primary-bg: #141416;       /* Header, footer, tarjetas, formularios */
+  --bg-card: #141416;          /* Contenedor de las graficas */
+  --surface-2: #1c1c20;        /* Campos de formulario */
+
+  /* Bordes: tres papeles distintos, no tres formas de decir lo mismo */
+  --border-sutil: #1e1e23;     /* Divisores horizontales, a ras del fondo */
+  --border: #26262c;           /* Borde de tarjeta */
+  --border-campo: #2e2e35;     /* Borde de campo y de boton neutro */
+
+  /* Texto */
+  --color: #ececee;            /* Principal          16,8:1 */
+  --color-hover: #ffffff;      /* Estado hover       18,4:1 */
+  --text-muted: #a1a1ac;       /* Secundario          7,7:1 */
+  --text-subtle: #7b7b87;      /* Etiquetas y ayudas  4,7:1 */
+  --text-tenue: #6a6a75;       /* Ejes y pies         3,6:1 */
+  --text-apagado: #5f5f6a;     /* Secciones que exigen cuenta */
+
+  /* Acento */
+  --primary-button: #35c8bc;   /* Boton, foco, seccion activa   9,6:1 */
+  --acento-hover: #6fdcd2;
+  --sobre-acento: #08100f;     /* Texto sobre el acento */
+  --bg-enlace: #1ba598;        /* Marca de datos e insignias    6,5:1 */
+  --color-enlace: #08100f;
+
+  /* Estados */
+  --color-peligro: #f2555f;    /* 5,9:1. El #c9302c anterior daba 3,2:1 */
+  --peligro-bg: #1c1315;
+  --peligro-borde: #4a2226;
+  --exito-bg: #101a19;
+  --exito-borde: #1d3d3a;
+  --exito-color: #6a9d97;
+  --sel-bg: #16211f;           /* Fila seleccionada en el panel */
+  --sel-borde: #23423e;
+
+  /* Forma */
+  --radio: 12px;
+  --radio-grande: 16px;
+  --sombra-card: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
+  --sombra-acento: 0 8px 24px -8px rgba(53, 200, 188, 0.5);
+}
+
+body.theme-light {
+  --bg-main: #f7f6f3;
+  --primary-bg: #ffffff;
+  --bg-card: #ffffff;
+  --surface-2: #f0efec;
+
+  --border-sutil: #eceae4;
+  --border: #e2e0da;
+  --border-campo: #d5d2c9;
+
+  --color: #17171a;            /* 16,6:1 */
+  --color-hover: #000000;
+  --text-muted: #5c5c66;       /*  6,1:1 */
+  --text-subtle: #6b6b76;      /*  4,8:1 */
+  --text-tenue: #7a7a85;
+  --text-apagado: #8f8f99;
+
+  --primary-button: #0f7c72;   /*  4,7:1 */
+  --acento-hover: #0b615a;
+  --sobre-acento: #ffffff;
+  --bg-enlace: #0b615a;        /*  6,8:1 */
+  --color-enlace: #ffffff;
+
+  --color-peligro: #c0392b;    /*  5,0:1 */
+  --peligro-bg: #fdf1ef;
+  --peligro-borde: #f0cfc9;
+  --exito-bg: #eef7f5;
+  --exito-borde: #c9e4de;
+  --exito-color: #0b615a;
+  --sel-bg: #eef7f5;
+  --sel-borde: #0f7c72;
+
+  --radio: 12px;
+  --radio-grande: 16px;
+  --sombra-card: 0 18px 44px -20px rgba(23, 23, 26, 0.22);
+  --sombra-acento: 0 8px 24px -10px rgba(15, 124, 114, 0.45);
+}
+
+/* Tipografia del sistema. Las tres se cargan en index.html; los stacks de
+   respaldo cubren el caso de que fonts.googleapis.com no llegue a responder. */
+body {
+  font-family: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Para URLs, codigos cortos y cifras en columna. */
+.fuente-mono {
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+}
+
+/* Un unico anillo de foco visible para toda la aplicacion: sin el, los campos
+   con el borde repintado a mano se quedaban sin indicacion de foco. */
+:focus-visible {
+  outline: 2px solid var(--primary-button);
+  outline-offset: 2px;
+}

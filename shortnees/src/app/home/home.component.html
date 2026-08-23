@@ -2,13 +2,18 @@
   <div class="container home-container">
 
     <div class="home-intro">
+      @if (!isAuthenticated()) {
+        <span class="home-badge">
+          <span class="home-badge-punto" aria-hidden="true"></span>
+          Sin registro para empezar
+        </span>
+      }
       <h1 class="home-title">Acorta tu URL</h1>
-      <p class="home-subtitle">Rápido, personalizable y con estadísticas</p>
+      <p class="home-subtitle">Rápido, personalizable y con estadísticas de cada clic.</p>
     </div>
 
     @if (isAuthenticated()) {
       <div class="home-card">
-        <div class="home-card-line"></div>
         <form [formGroup]="formularioPersonalizar" class="home-form">
           <div class="home-field">
             <label for="urlOriginal" class="home-label">URL Original</label>
@@ -20,7 +25,7 @@
           <div class="home-field">
             <label for="urlPersonalizada" class="home-label">URL Personalizada</label>
             <div class="home-input-group">
-              <span class="home-input-prefix">shortns.com/</span>
+              <span class="home-input-prefix home-input-prefix--texto">shortns.com/</span>
               <input id="urlPersonalizada" class="home-input" formControlName="urlPersonalizada" type="text" placeholder="Crea tu nueva URL corta">
             </div>
           </div>
@@ -29,7 +34,7 @@
           </button>
         </form>
       </div>
-      @if (errorP() !== '') {
+      @if (errorP() !== '' && shortUrlP() === '') {
         <div class="home-error">
           <i class="bi bi-exclamation-circle-fill"></i>
           {{ errorP() }}
@@ -37,12 +42,28 @@
       }
       @if (shortUrlP() !== '') {
         <div class="home-result">
-          <input class="home-result-input" value="{{ shortUrlP() }}" type="text" readonly>
+          <span class="home-result-icono" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
+          <div class="home-result-datos">
+            <span class="home-result-label">Enlace creado</span>
+            <input class="home-result-input" value="{{ shortUrlP() }}" type="text" readonly aria-label="Tu URL corta">
+          </div>
+          <div class="home-result-acciones">
+            <button type="button" class="home-result-btn" (click)="copiar(shortUrlP())"
+                    [attr.aria-label]="'Copiar ' + shortUrlP()" title="Copiar al portapapeles">
+              <i class="bi" [class.bi-clipboard]="!copiado()" [class.bi-clipboard-check]="copiado()" aria-hidden="true"></i>
+            </button>
+            <a class="home-result-btn" routerLink="/generador" [queryParams]="{ url: urlAbsoluta(shortUrlP()) }"
+               [attr.aria-label]="'Generar código QR de ' + shortUrlP()" title="Generar código QR">
+              <i class="bi bi-qr-code" aria-hidden="true"></i>
+            </a>
+          </div>
         </div>
+        @if (copiado()) {
+          <p class="home-copiado" role="status">Copiado al portapapeles</p>
+        }
       }
     } @else {
       <div class="home-card">
-        <div class="home-card-line"></div>
         <form [formGroup]="formulario" class="home-form">
           <div class="home-field">
             <label for="url" class="home-label">URL a acortar</label>
@@ -64,19 +85,39 @@
       }
       @if (shortUrl() !== '') {
         <div class="home-result">
-          <input class="home-result-input" value="{{ shortUrl() }}" type="text" readonly>
+          <span class="home-result-icono" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
+          <div class="home-result-datos">
+            <span class="home-result-label">Enlace creado</span>
+            <input class="home-result-input" value="{{ shortUrl() }}" type="text" readonly aria-label="Tu URL corta">
+          </div>
+          <div class="home-result-acciones">
+            <button type="button" class="home-result-btn" (click)="copiar(shortUrl())"
+                    [attr.aria-label]="'Copiar ' + shortUrl()" title="Copiar al portapapeles">
+              <i class="bi" [class.bi-clipboard]="!copiado()" [class.bi-clipboard-check]="copiado()" aria-hidden="true"></i>
+            </button>
+          </div>
         </div>
+        @if (copiado()) {
+          <p class="home-copiado" role="status">Copiado al portapapeles</p>
+        }
       }
       <div class="home-promo">
-        <div class="home-promo-icons">
-          <i class="bi bi-pencil-square"></i>
-          <i class="bi bi-bar-chart-line"></i>
+        <div class="home-promo-grid">
+          <div class="home-promo-item">
+            <span class="home-promo-icono" aria-hidden="true"><i class="bi bi-pencil-square"></i></span>
+            <span class="home-promo-titulo">Enlaces con tu nombre</span>
+            <span class="home-promo-texto">Elige tú el código: <span class="fuente-mono">shortns.com/oferta</span> en vez de una cadena aleatoria.</span>
+          </div>
+          <div class="home-promo-item">
+            <span class="home-promo-icono" aria-hidden="true"><i class="bi bi-bar-chart-line"></i></span>
+            <span class="home-promo-titulo">Estadísticas de cada clic</span>
+            <span class="home-promo-texto">País, dispositivo, fecha y hora. Sin rastrear la IP de nadie.</span>
+          </div>
         </div>
-        <p class="home-promo-text">
-          <strong>¿Quieres más control?</strong> Regístrate para personalizar tus enlaces y acceder a estadísticas detalladas de cada clic.
-        </p>
         <div class="home-promo-actions">
-          <a routerLink="/registro" class="home-promo-btn">Crear cuenta</a>
+          <a routerLink="/registro" class="home-promo-btn">
+            Crear cuenta gratis <i class="bi bi-arrow-right" aria-hidden="true"></i>
+          </a>
           <a routerLink="/login" class="home-promo-link">Ya tengo cuenta</a>
         </div>
       </div>

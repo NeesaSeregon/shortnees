@@ -1,10 +1,13 @@
-import { Component, OnInit, DestroyRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component, OnInit, DestroyRef, ElementRef, inject, signal, computed, effect,
+  viewChild, ChangeDetectionStrategy
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { LinkService } from '../services/link.service';
 import { Links } from '../interfaces/Links';
 import { Estadisticas } from '../interfaces/estadisticas';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { SerieGrafica } from '../interfaces/serie-grafica';
 
 @Component({
@@ -35,10 +38,128 @@ export class DashboardComponent implements OnInit {
   readonly dataBarDispositivo = signal<SerieGrafica[]>([]);
   readonly dataBarHora = signal<SerieGrafica[]>([]);
 
-  // Constantes de presentacion: no cambian nunca, no necesitan ser signals.
-  readonly view: [number, number] = [500, 260];
-  readonly viewHora: [number, number] = [980, 280];
-  readonly gradient = true;
+  // ── Dimensionado de las graficas ─────────────────────────────────────────
+  // Antes el [view] era fijo (500x260 y 980x280) dentro de columnas fluidas:
+  // las graficas no cabian en su tarjeta y cada una acababa con su propia barra
+  // de scroll. Ahora el ancho lo dicta el contenedor, medido con un
+  // ResizeObserver. Va a un signal porque la aplicacion es zoneless: un callback
+  // del observador no repintaria nada por su cuenta.
+  private readonly contenedorGraficas = viewChild<ElementRef<HTMLElement>>('graficas');
+  private readonly anchoPanel = signal(0);
+
+  /** Coincide con el breakpoint de .stats-grid en el CSS del componente. */
+  private static readonly UMBRAL_DOS_COLUMNAS = 720;
+  /** padding de .chart-card: 22px a cada lado. */
+  private static readonly PADDING_TARJETA = 44;
+  /** gap de .stats-grid. */
+  private static readonly HUECO_REJILLA = 20;
+
+  // ── Grosor de las barras ─────────────────────────────────────────────────
+  // ngx-charts no expone un grosor maximo: reparte el eje de bandas entre las
+  // categorias con scaleBand y paddingInner. Con UNA sola categoria no hay
+  // huecos que repartir, asi que la banda ocupa el 100% del area haga lo que
+  // haga [barPadding], y la barra sale como un bloque.
+  //
+  // Lo que si se controla es el area de trazado, y el grosor va por el eje de
+  // bandas: el ALTO en las horizontales y el ANCHO en las verticales. Asi que
+  // el tamano de cada grafica se calcula a partir de cuantos datos hay.
+  private static readonly ALTO_FILA = 44;      // barra horizontal + su hueco
+  private static readonly ANCHO_COLUMNA = 72;  // barra vertical + su hueco
+  private static readonly MARGEN_EJE_X = 60;   // etiquetas del eje inferior
+  private static readonly MARGEN_EJE_Y = 64;   // etiquetas del eje izquierdo
+  private static readonly ALTO_MINIMO = 110;
+  private static readonly ALTO_MAXIMO = 420;
+
+  /** Ancho util dentro de una tarjeta de media fila. */
+  private readonly anchoMitad = computed(() => {
+    const ancho = this.anchoPanel();
+    if (ancho <= 0) { return 420; }
+    const util = ancho >= DashboardComponent.UMBRAL_DOS_COLUMNAS
+      ? (ancho - DashboardComponent.HUECO_REJILLA) / 2
+      : ancho;
+    return Math.max(240, Math.round(util - DashboardComponent.PADDING_TARJETA));
+  });
+
+  /** Ancho util dentro de una tarjeta a fila completa. */
+  private readonly anchoCompleto = computed(() => {
+    const ancho = this.anchoPanel();
+    if (ancho <= 0) { return 860; }
+    return Math.max(280, Math.round(ancho - DashboardComponent.PADDING_TARJETA));
+  });
+
+  /**
+   * Barras horizontales: el alto crece con el numero de paises, asi que cada
+   * barra conserva su grosor en lugar de estirarse para llenar la tarjeta.
+   */
+  readonly vistaPais = computed<[number, number]>(() => {
+    const filas = Math.max(1, this.dataBarPais().length);
+    const alto = DashboardComponent.MARGEN_EJE_X + filas * DashboardComponent.ALTO_FILA;
+    return [this.anchoMitad(), Math.min(
+      DashboardComponent.ALTO_MAXIMO,
+      Math.max(DashboardComponent.ALTO_MINIMO, alto),
+    )];
+  });
+
+  /** La tarta reparte un total: no tiene bandas y usa la tarjeta entera. */
+  readonly vistaDispositivo = computed<[number, number]>(() => [this.anchoMitad(), 260]);
+
+  readonly vistaMes = computed<[number, number]>(
+    () => [this.anchoColumnas(this.dataBarFecha().length), 280]);
+
+  readonly vistaHora = computed<[number, number]>(
+    () => [this.anchoColumnas(this.dataBarHora().length), 280]);
+
+  /**
+   * Columnas verticales: se pide justo el ancho que necesitan los datos, sin
+   * pasar del que hay. Con las 24 franjas horarias sale la tarjeta entera; con
+   * un solo mes sale una grafica estrecha, que es lo honesto -y no un bloque
+   * de 800px de ancho-.
+   */
+  private anchoColumnas(cuantos: number): number {
+    const necesario = DashboardComponent.MARGEN_EJE_Y
+      + Math.max(1, cuantos) * DashboardComponent.ANCHO_COLUMNA;
+    return Math.min(this.anchoCompleto(), necesario);
+  }
+
+  // Paleta de las graficas. Los valores van literales, no como var(--...):
+  // ngx-charts los escribe en atributos SVG, donde una variable CSS no resuelve.
+  // Los tres tonos estan elegidos para pasar 3:1 tanto sobre la tarjeta oscura
+  // (#141416) como sobre la clara (#ffffff), asi que valen en los dos temas.
+  readonly esquemaMono = {
+    name: 'shortnees-mono', selectable: false, group: ScaleType.Ordinal,
+    domain: ['#00968a'],
+  };
+  readonly esquemaDispositivo = {
+    name: 'shortnees-dispositivo', selectable: false, group: ScaleType.Ordinal,
+    domain: ['#00968a', '#7168e0', '#b06a12'],
+  };
+  /** Relleno plano: el degradado solo anadia ruido sobre la marca. */
+  readonly gradient = false;
+
+  constructor() {
+    // El contenedor vive dentro de un @if, asi que aparece y desaparece con la
+    // seleccion. El effect vuelve a engancharse cada vez que cambia.
+    effect((onCleanup) => {
+      const elemento = this.contenedorGraficas()?.nativeElement;
+      if (!elemento || typeof ResizeObserver === 'undefined') { return; }
+
+      const observador = new ResizeObserver((entradas) => {
+        this.medirPanel(entradas[0].contentRect.width);
+      });
+      observador.observe(elemento);
+      onCleanup(() => observador.disconnect());
+    });
+  }
+
+  /**
+   * Punto de entrada de la medida del contenedor. Es publico para poder
+   * probarlo: si dependiera de que el navegador dispare el ResizeObserver, el
+   * test mediria el ancho del runner en vez de un caso concreto.
+   */
+  medirPanel(ancho: number): void {
+    const redondeado = Math.round(ancho);
+    if (redondeado > 0) { this.anchoPanel.set(redondeado); }
+  }
 
   ngOnInit(): void {
     this.loadEnlaces();

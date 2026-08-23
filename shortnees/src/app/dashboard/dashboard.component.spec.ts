@@ -266,4 +266,116 @@ describe('DashboardComponent', () => {
       expect(component.enlaces().length).toBe(2);
     });
   });
+  /**
+   * El [view] de ngx-charts era fijo (500x260 y 980x280) dentro de columnas
+   * fluidas: las graficas no cabian en su tarjeta y cada una acababa con su
+   * propia barra de scroll.
+   *
+   * Y hay un segundo problema que el ancho fijo tapaba: ngx-charts no expone un
+   * grosor maximo de barra. Reparte el eje de bandas con scaleBand, y con UNA
+   * sola categoria no hay huecos que repartir, asi que la banda ocupa el area
+   * entera haga lo que haga [barPadding] y la barra sale como un bloque. Lo
+   * unico que se controla es el tamano del area, y el grosor va por el eje de
+   * bandas: el ALTO en las horizontales y el ANCHO en las verticales.
+   *
+   * El umbral de 720px y el padding de 22px estan tambien en el CSS del
+   * componente (.stats-grid y .chart-card). Si se cambia uno sin el otro, las
+   * graficas se dimensionan para una rejilla que no es la que se pinta.
+   */
+  describe('dimensionado de las graficas', () => {
+    it('sin medir todavia usa un tamano de partida en vez de cero', async () => {
+      await montar();
+
+      expect(component.vistaDispositivo()[0]).toBeGreaterThan(0);
+      expect(component.vistaHora()[0]).toBeGreaterThan(0);
+    });
+
+    it('con el panel ancho las de media fila descuentan hueco y padding', async () => {
+      await montar();
+
+      component.medirPanel(876);
+
+      // (876 - 20 de hueco) / 2 = 428, menos 44 de padding = 384
+      expect(component.vistaDispositivo()).toEqual([384, 260]);
+    });
+
+    it('por debajo del umbral las de media fila ocupan la fila entera', async () => {
+      await montar();
+
+      component.medirPanel(600);
+
+      expect(component.vistaDispositivo()[0]).toBe(556);
+    });
+
+    it('nunca devuelve un ancho negativo por estrecho que sea el panel', async () => {
+      await montar();
+
+      component.medirPanel(60);
+
+      expect(component.vistaDispositivo()[0]).toBe(240);
+    });
+
+    it('ignora una medida de cero, que es lo que llega al ocultarse el panel', async () => {
+      await montar();
+      component.medirPanel(876);
+
+      component.medirPanel(0);
+
+      expect(component.vistaDispositivo()).toEqual([384, 260]);
+    });
+
+    describe('grosor de las barras', () => {
+      it('con un solo pais la barra no se estira hasta llenar la tarjeta', async () => {
+        await montar();
+        component.medirPanel(876);
+
+        component.dataBarPais.set([{ name: 'Desconocido', value: 2 }]);
+
+        // 60 de eje + 44 de fila = 104, por debajo del suelo de 110.
+        expect(component.vistaPais()[1]).toBe(110);
+      });
+
+      it('la grafica de pais crece con el numero de paises', async () => {
+        await montar();
+        component.medirPanel(876);
+
+        component.dataBarPais.set([
+          { name: 'España', value: 9 }, { name: 'México', value: 4 },
+          { name: 'Argentina', value: 2 }, { name: 'Colombia', value: 1 },
+        ]);
+
+        expect(component.vistaPais()[1]).toBe(60 + 4 * 44);
+      });
+
+      it('pero deja de crecer para no desbordar la tarjeta', async () => {
+        await montar();
+        component.medirPanel(876);
+
+        component.dataBarPais.set(
+          Array.from({ length: 20 }, (_, i) => ({ name: `Pais ${i}`, value: 1 })));
+
+        expect(component.vistaPais()[1]).toBe(420);
+      });
+
+      it('con un solo mes las columnas piden solo el ancho que necesitan', async () => {
+        await montar();
+        component.medirPanel(876);
+
+        component.dataBarFecha.set([{ name: '2026-08', value: 2 }]);
+
+        // 64 de eje + 72 de columna. Antes eran los 832 enteros: un bloque.
+        expect(component.vistaMes()[0]).toBe(136);
+      });
+
+      it('con las 24 franjas horarias ocupan todo el ancho disponible', async () => {
+        await montar();
+        component.medirPanel(876);
+
+        component.dataBarHora.set(
+          Array.from({ length: 24 }, (_, h) => ({ name: `${h}`, value: h })));
+
+        expect(component.vistaHora()[0]).toBe(832);
+      });
+    });
+  });
 });

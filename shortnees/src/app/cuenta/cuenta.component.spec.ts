@@ -37,7 +37,7 @@ describe('CuentaComponent', () => {
   async function montar(enlaces: Links[] = ENLACES): Promise<void> {
     autenticado = new BehaviorSubject<boolean>(true);
     tema = {
-      getTheme: jasmine.createSpy('getTheme').and.returnValue('blue'),
+      getTheme: jasmine.createSpy('getTheme').and.returnValue('light'),
       setTheme: jasmine.createSpy('setTheme'),
     };
 
@@ -91,7 +91,7 @@ describe('CuentaComponent', () => {
   it('arranca con el tema que tenga guardado el servicio', async () => {
     await montar();
 
-    expect(component.seleccionarTema()).toBe('blue');
+    expect(component.seleccionarTema()).toBe('light');
   });
 
   it('cambiar de tema lo guarda y actualiza la seleccion', async () => {

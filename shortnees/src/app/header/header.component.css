@@ -1,11 +1,11 @@
 :host {
   display: block;
-  background-color: var(--primary-bg);
-  font-family: 'Roboto', sans-serif;
-}
-
-.header-wrapper {
-  padding: 0.75rem 0 0 0;
+  background-color: var(--bg-main);
+  /* Un divisor de 1px a ras del fondo sustituye al filete en degradado. */
+  border-bottom: 1px solid var(--border-sutil);
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
 .header-content {
@@ -14,61 +14,81 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1rem;
-  padding-bottom: 0.75rem;
+  min-height: 68px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
+/* ── Marca ───────────────────────────────────────────────── */
 .header-brand {
-  font-size: 1.15rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: 1.0625rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: -0.01em;
   color: var(--color);
   text-decoration: none;
-  opacity: 1;
   transition: opacity 0.2s ease;
 }
 
 .header-brand:hover {
-  opacity: 0.75;
+  opacity: 0.8;
   color: var(--color);
 }
 
+.header-marca {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--primary-button), var(--bg-enlace));
+  color: var(--sobre-acento);
+  flex-shrink: 0;
+}
+
+/* ── Navegacion ──────────────────────────────────────────── */
 .header-nav {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.75rem;
   flex-wrap: wrap;
 }
 
+/* El color se declara; ya no se atenua con opacity, que era lo que dejaba
+   varios enlaces por debajo del contraste minimo. */
 .header-link {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: var(--color);
-  opacity: 0.65;
+  padding: 0.5rem 0;
+  color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 500;
   position: relative;
-  transition: opacity 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  transition: color 0.2s ease;
 }
 
 .header-link::after {
   content: '';
   position: absolute;
-  bottom: -4px;
+  bottom: -1px;
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: var(--color-hover);
-  border-radius: 1px;
+  background-color: var(--primary-button);
+  border-radius: 2px;
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 0.25s ease;
+  transition: transform 0.2s ease;
 }
 
 .header-link:hover {
-  opacity: 1;
-  color: var(--color-hover);
-  transform: translateY(-1px);
+  color: var(--color);
 }
 
 .header-link:hover::after {
@@ -76,54 +96,83 @@
 }
 
 /* Apagados a proposito: la seccion existe pero necesita cuenta. Siguen siendo
-   enlaces navegables; llevan al registro. Antes tenian pointer-events: none,
-   que los hacia inertes para el raton pero no para el teclado. */
+   enlaces navegables; llevan al registro. */
 .header-link--muted {
-  opacity: 0.35;
+  color: var(--text-apagado);
 }
 
 /* Seccion en la que estas ahora mismo (routerLinkActive). */
 .header-link--activo {
-  opacity: 1;
-  color: var(--color-hover);
+  color: var(--color);
 }
 
 .header-link--activo::after {
   transform: scaleX(1);
 }
 
+/* Crear cuenta es la accion principal del header sin sesion. */
+.header-link--cta {
+  height: 36px;
+  padding: 0 1rem;
+  border-radius: 9px;
+  background-color: var(--primary-button);
+  color: var(--sobre-acento);
+  font-weight: 700;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.header-link--cta:hover {
+  background-color: var(--acento-hover);
+  color: var(--sobre-acento);
+}
+
+.header-link--cta::after,
+.header-link--avatar::after {
+  display: none;
+}
+
 /* Cerrar sesion es un <button>, pero debe verse igual que el resto del nav. */
 .header-link--boton {
   background: none;
   border: none;
-  padding: 0;
   font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
 }
 
 .header-vr {
   width: 1px;
-  height: 18px;
-  background-color: var(--color-hover);
-  opacity: 0.4;
-  border-radius: 1px;
-}
-
-.header-bottom-line {
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--color-hover), transparent);
-  opacity: 0.5;
+  height: 20px;
+  background-color: var(--border);
 }
 
 .header-avatar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: var(--color-hover);
-  color: var(--primary-bg);
+  background: var(--border);
+  color: var(--color);
   font-weight: 700;
   font-size: 0.75rem;
+  transition: background-color 0.2s ease;
+}
+
+.header-link--avatar:hover .header-avatar,
+.header-link--activo .header-avatar {
+  background: var(--primary-button);
+  color: var(--sobre-acento);
+}
+
+@media (max-width: 575.98px) {
+  .header-nav {
+    gap: 1rem;
+  }
+
+  .header-link {
+    font-size: 0.8125rem;
+  }
 }
