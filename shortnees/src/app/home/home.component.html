@@ -6,7 +6,7 @@
       <p class="home-subtitle">Rápido, personalizable y con estadísticas</p>
     </div>
 
-    @if (isAuthenticated) {
+    @if (isAuthenticated()) {
       <div class="home-card">
         <div class="home-card-line"></div>
         <form [formGroup]="formularioPersonalizar" class="home-form">
@@ -29,15 +29,15 @@
           </button>
         </form>
       </div>
-      @if (errorP !== '') {
+      @if (errorP() !== '') {
         <div class="home-error">
           <i class="bi bi-exclamation-circle-fill"></i>
-          {{ errorP }}
+          {{ errorP() }}
         </div>
       }
-      @if (shortUrlP !== '') {
+      @if (shortUrlP() !== '') {
         <div class="home-result">
-          <input class="home-result-input" value="{{ shortUrlP }}" type="text" readonly>
+          <input class="home-result-input" value="{{ shortUrlP() }}" type="text" readonly>
         </div>
       }
     } @else {
@@ -56,15 +56,15 @@
           </button>
         </form>
       </div>
-      @if (error !== '') {
+      @if (error() !== '') {
         <div class="home-error">
           <i class="bi bi-exclamation-circle-fill"></i>
-          {{ error }}
+          {{ error() }}
         </div>
       }
-      @if (shortUrl !== '') {
+      @if (shortUrl() !== '') {
         <div class="home-result">
-          <input class="home-result-input" value="{{ shortUrl }}" type="text" readonly>
+          <input class="home-result-input" value="{{ shortUrl() }}" type="text" readonly>
         </div>
       }
       <div class="home-promo">

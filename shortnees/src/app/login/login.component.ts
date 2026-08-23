@@ -1,23 +1,22 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, DestroyRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { FormGroup, ReactiveFormsModule, FormBuilder } from '@angular/forms';
-
-import { inject } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AccesoService } from '../services/acceso.service';
 import { Login } from '../interfaces/Login';
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   private router = inject(Router);
   private accesoService = inject(AccesoService);
   public formBuild = inject(FormBuilder);
-  public error:string='';
+  private destroyRef = inject(DestroyRef);
+  public readonly error = signal('');
   public formularioLogin: FormGroup = this.formBuild.group({
     correo: ['',Validators.required],
     password: ['',Validators.required]
@@ -25,7 +24,7 @@ export class LoginComponent {
 
   iniciarSesion(){
     if(this.formularioLogin.invalid){
-      this.error = 'Introduzca sus datos de usuario.';
+      this.error.set('Introduzca sus datos de usuario.');
       return;
     };
     
@@ -34,14 +33,16 @@ export class LoginComponent {
       password: this.formularioLogin.value.password
     }
     
-    this.accesoService.login(objeto).subscribe({
-      next: () => {
-        this.router.navigate(['home']);
-      },
-      error: () => {
-        this.error = 'Credenciales incorrectas';
-      }
-    })
+    this.accesoService.login(objeto)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.router.navigate(['home']);
+        },
+        error: () => {
+          this.error.set('Credenciales incorrectas');
+        }
+      });
   }
   registrarse () {
     this.router.navigate(["registro"]);

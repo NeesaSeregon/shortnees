@@ -24,8 +24,8 @@
         </div>
         <button class="btn btn-primary w-100 py-2" type="submit">Registrarse</button>
         <button type="button" class="btn btn-link w-100 mt-2">Ya tengo cuenta</button>
-        @if (error !== ''){
-          <p class="error fs-4">{{error}}</p>
+        @if (error() !== ''){
+          <p class="error fs-4">{{ error() }}</p>
         }
       </form>
     </div>

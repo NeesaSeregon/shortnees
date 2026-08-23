@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 
@@ -37,62 +38,63 @@ describe('HomeComponent', () => {
         { provide: LinkService, useValue: linkService },
         { provide: AccesoService, useValue: { isAuthenticated$: autenticado } },
         provideRouter([]),
+        provideZonelessChangeDetection(),
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   describe('acortar', () => {
-    it('no llama a la API con el formulario vacio', () => {
+    it('no llama a la API con el formulario vacio', async () => {
       component.acortar();
 
       expect(linkService.enviarLink).not.toHaveBeenCalled();
     });
 
-    it('muestra la url corta cuando el enlace se crea', () => {
+    it('muestra la url corta cuando el enlace se crea', async () => {
       responde({ mensaje: 'Enlace creado', urlCorta: 'shortns.com/abc123' });
       component.formulario.setValue({ url: 'https://ejemplo.com' });
 
       component.acortar();
 
-      expect(component.shortUrl).toBe('shortns.com/abc123');
-      expect(component.error).toBe('');
+      expect(component.shortUrl()).toBe('shortns.com/abc123');
+      expect(component.error()).toBe('');
     });
 
-    it('trata urlCorta "protocolo" como error de protocolo', () => {
+    it('trata urlCorta "protocolo" como error de protocolo', async () => {
       responde({ mensaje: 'Este servicio solo acorta Urls seguras', urlCorta: 'protocolo' });
       component.formulario.setValue({ url: 'http://ejemplo.com' });
 
       component.acortar();
 
-      expect(component.error).toBe('Este servicio solo acorta Urls seguras');
-      expect(component.shortUrl).toBe('');
+      expect(component.error()).toBe('Este servicio solo acorta Urls seguras');
+      expect(component.shortUrl()).toBe('');
     });
 
-    it('muestra cualquier otro mensaje como error', () => {
+    it('muestra cualquier otro mensaje como error', async () => {
       responde({ mensaje: 'No puede dejar su URL en blanco', urlCorta: '' });
       component.formulario.setValue({ url: '   ' });
 
       component.acortar();
 
-      expect(component.error).toBe('No puede dejar su URL en blanco');
-      expect(component.shortUrl).toBe('');
+      expect(component.error()).toBe('No puede dejar su URL en blanco');
+      expect(component.shortUrl()).toBe('');
     });
 
-    it('avisa cuando la peticion falla', () => {
+    it('avisa cuando la peticion falla', async () => {
       linkService.enviarLink.and.returnValue(throwError(() => new Error('sin red')));
       component.formulario.setValue({ url: 'https://ejemplo.com' });
 
       component.acortar();
 
-      expect(component.error).toContain('No se pudo acortar');
-      expect(component.shortUrl).toBe('');
+      expect(component.error()).toContain('No se pudo acortar');
+      expect(component.shortUrl()).toBe('');
     });
 
-    it('limpia el error de un intento anterior al acertar', () => {
+    it('limpia el error de un intento anterior al acertar', async () => {
       responde({ mensaje: 'Este servicio solo acorta Urls seguras', urlCorta: 'protocolo' });
       component.formulario.setValue({ url: 'http://ejemplo.com' });
       component.acortar();
@@ -101,12 +103,12 @@ describe('HomeComponent', () => {
       component.formulario.setValue({ url: 'https://ejemplo.com' });
       component.acortar();
 
-      expect(component.error).toBe('');
+      expect(component.error()).toBe('');
     });
   });
 
   describe('personalizar', () => {
-    it('avisa cuando el nombre elegido ya esta en uso', () => {
+    it('avisa cuando el nombre elegido ya esta en uso', async () => {
       responde({ mensaje: 'El nombre esta en uso, elija otro', urlCorta: 'shortns.com/mio' });
       component.formularioPersonalizar.setValue({
         urlOriginal: 'https://ejemplo.com', urlPersonalizada: 'mio',
@@ -114,10 +116,10 @@ describe('HomeComponent', () => {
 
       component.personalizar();
 
-      expect(component.errorP).toBe('El nombre esta en uso, elija otro');
+      expect(component.errorP()).toBe('El nombre esta en uso, elija otro');
     });
 
-    it('avisa cuando la peticion falla', () => {
+    it('avisa cuando la peticion falla', async () => {
       linkService.personalizarLink.and.returnValue(throwError(() => new Error('sin red')));
       component.formularioPersonalizar.setValue({
         urlOriginal: 'https://ejemplo.com', urlPersonalizada: 'mio',
@@ -125,21 +127,37 @@ describe('HomeComponent', () => {
 
       component.personalizar();
 
-      expect(component.errorP).toContain('No se pudo crear');
+      expect(component.errorP()).toContain('No se pudo crear');
     });
   });
 
   describe('plantilla', () => {
-    it('sin sesion ofrece solo el acortador', () => {
+    it('la url corta aparece en pantalla sin forzar el repintado', async () => {
+      // El equivalente del test que faltaba en el dashboard: comprueba el DOM
+      // despues de un cambio que llega por callback, no solo el campo.
+      responde({ mensaje: 'Enlace creado', urlCorta: 'shortns.com/abc123' });
+      component.formulario.setValue({ url: 'https://ejemplo.com' });
+
+      component.acortar();
+      await fixture.whenStable();
+
+      const salida = (fixture.nativeElement as HTMLElement)
+        .querySelector('.home-result-input') as HTMLInputElement;
+
+      expect(salida).toBeTruthy();
+      expect(salida.value).toBe('shortns.com/abc123');
+    });
+
+    it('sin sesion ofrece solo el acortador', async () => {
       const html = fixture.nativeElement as HTMLElement;
 
       expect(html.querySelector('#url')).toBeTruthy();
       expect(html.querySelector('#urlPersonalizada')).toBeNull();
     });
 
-    it('con sesion ofrece el personalizador', () => {
+    it('con sesion ofrece el personalizador', async () => {
       autenticado.next(true);
-      fixture.detectChanges();
+      await fixture.whenStable();
       const html = fixture.nativeElement as HTMLElement;
 
       expect(html.querySelector('#urlPersonalizada')).toBeTruthy();
