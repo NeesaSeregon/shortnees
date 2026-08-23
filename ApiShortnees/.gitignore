@@ -19,8 +19,15 @@
 ###> JWT keys (never commit private keys) ###
 /config/jwt/private.pem
 /config/jwt/public.pem
+/config/jwt/test-private.pem
+/config/jwt/test-public.pem
 ###< JWT keys ###
 
 ###> logs ###
 *.log
 ###< logs ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###

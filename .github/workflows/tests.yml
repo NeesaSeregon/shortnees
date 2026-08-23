@@ -53,13 +53,60 @@ jobs:
       run:
         working-directory: ApiShortnees
 
+    # Los tests funcionales necesitan una base real: las migraciones son SQL de
+    # MySQL (AUTO_INCREMENT, ENGINE = InnoDB) y no correrian sobre SQLite.
+    services:
+      mariadb:
+        image: mariadb:10.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      # Credenciales de un contenedor efimero, alcanzable solo desde este job:
+      # no son un secreto. Doctrine le anade el sufijo _test (bloque when@test
+      # de doctrine.yaml), asi que la base atacada es webtools_test.
+      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/webtools?serverVersion=10.4.28-MariaDB&charset=utf8mb4"
+
     steps:
       - uses: actions/checkout@v4
 
-      # No hay suite de tests en el backend todavia: de momento se comprueba que
-      # todo el PHP compila y que composer.json y composer.lock estan en sintonia.
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          # intl lo necesita \Locale::getDisplayRegion, que traduce el codigo
+          # ISO del pais al nombre en espanol.
+          extensions: pdo_mysql, intl, openssl
+          coverage: none
+
+      - name: Instalar dependencias
+        run: composer install --prefer-dist --no-progress
+
       - name: Comprobar sintaxis de PHP
-        run: find src migrations -name '*.php' -print0 | xargs -0 -n1 -P4 php -l
+        run: find src migrations tests -name '*.php' -print0 | xargs -0 -n1 -P4 php -l
 
       - name: Validar composer.json
         run: composer validate --no-check-publish
+
+      - name: Avisos de seguridad de las dependencias
+        # Informativo mientras Symfony siga en 7.1, que ya no recibe parches.
+        run: composer audit --no-dev || true
+
+      # Par de claves de usar y tirar, generado aqui. Las de verdad no estan en
+      # el repositorio y nunca deben estarlo.
+      - name: Generar el par de claves JWT de tests
+        run: php bin/console lexik:jwt:generate-keypair --env=test --no-interaction
+
+      - name: Preparar la base de datos de tests
+        run: |
+          php bin/console doctrine:database:create --env=test --if-not-exists
+          php bin/console doctrine:migrations:migrate --env=test --no-interaction
+
+      - name: Tests
+        run: php bin/phpunit

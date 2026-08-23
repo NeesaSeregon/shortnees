@@ -1,45 +1,26 @@
 <?php
 
 namespace App\Controller;
-use App\Repository\EnlacesRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+
 use App\Entity\Enlaces;
-use Symfony\Component\HttpFoundation\Request;
 use App\Entity\EstadisticasEnlaces;
+use App\Repository\EnlacesRepository;
+use App\Services\VisitanteService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
+
 class RedireccionController extends AbstractController
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
     const DOMINIO = 'shortns.com/';
 
-    /**
-     * Servicios que visitan el enlace de forma automatica, sobre todo para
-     * generar la vista previa al compartirlo. No son visitas de personas: si se
-     * contabilizan, un enlace pegado en un grupo de WhatsApp suma clics antes de
-     * que nadie lo haya pulsado.
-     *
-     * Lista deliberadamente corta y explicita. Buscar la subcadena 'bot' a secas
-     * daria falsos positivos (por ejemplo los moviles Cubot). Para una deteccion
-     * completa, la mejora pendiente es matomo/device-detector.
-     */
-    private const AGENTES_AUTOMATICOS = [
-        // Vistas previas al compartir
-        'facebookexternalhit', 'WhatsApp', 'TelegramBot', 'Slackbot', 'Slack-ImgProxy',
-        'Discordbot', 'Twitterbot', 'LinkedInBot', 'SkypeUriPreview', 'redditbot',
-        'Embedly', 'Iframely', 'Quora Link Preview', 'vkShare', 'Pinterest',
-        // Buscadores
-        'Googlebot', 'bingbot', 'YandexBot', 'DuckDuckBot', 'Baiduspider', 'Applebot',
-        // Clientes automaticos y herramientas
-        'curl/', 'Wget/', 'python-requests', 'Go-http-client', 'axios/', 'okhttp',
-        'Java/', 'HeadlessChrome', 'PhantomJS', 'crawler', 'spider', 'scraper',
-    ];
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private VisitanteService $visitante,
+    ) {
+    }
 
     // priority negativa: este catch-all debe evaluarse el ULTIMO. Sin ella tapa
     // a /registro, que se carga despues por orden alfabetico de fichero.
@@ -68,71 +49,17 @@ class RedireccionController extends AbstractController
     {
         $userAgent = $request->headers->get('User-Agent') ?? '';
 
-        if ($this->esAgenteAutomatico($userAgent)) {
+        if ($this->visitante->esAgenteAutomatico($userAgent)) {
             return;
         }
 
         $estadistica = new EstadisticasEnlaces();
         $estadistica->setEnlace($enlace);
         $estadistica->setFechaClick(new \DateTimeImmutable());
-        $estadistica->setUbicacion($this->obtenerPais($request));
-        $estadistica->setDispositivo($this->obtenerTipoDispositivo($userAgent));
+        $estadistica->setUbicacion($this->visitante->pais($request->headers->get('CF-IPCountry')));
+        $estadistica->setDispositivo($this->visitante->tipoDispositivo($userAgent));
 
         $this->entityManager->persist($estadistica);
         $this->entityManager->flush();
-    }
-
-    /**
-     * Codigo ISO 3166-1 alfa-2 del pais del visitante, que Cloudflare adjunta en
-     * la cabecera CF-IPCountry cuando el dominio esta proxificado y la opcion
-     * "IP Geolocation" activada (Network, en el panel de Cloudflare).
-     *
-     * Sustituye a la llamada que se hacia a ip-api.com. Cloudflare ya estaba en
-     * el camino de la peticion, asi que no se anade ningun tercero nuevo: no hay
-     * latencia, ni limite de peticiones, ni un fallo externo que pueda tumbar la
-     * redireccion. Y sobre todo, ya no hace falta tratar la IP del visitante.
-     *
-     * 'XX' = Cloudflare no ha podido determinarlo. 'T1' = red Tor.
-     */
-    private function obtenerPais(Request $request): ?string
-    {
-        $codigo = $request->headers->get('CF-IPCountry');
-
-        if (!$codigo || in_array(strtoupper($codigo), ['XX', 'T1'], true)) {
-            return null;
-        }
-
-        return strtoupper($codigo);
-    }
-
-    private function obtenerTipoDispositivo(string $userAgent): string
-    {
-        // Una tablet Android manda 'Android' pero NO 'Mobile'; los moviles mandan
-        // ambos. Es la forma de distinguirlas sin recurrir a una libreria.
-        if (preg_match('/iPad|Tablet|PlayBook|Silk|Android(?!.*Mobile)/i', $userAgent)) {
-            return 'Tablet';
-        }
-
-        if (preg_match('/Mobile|Android|iPhone|iPod|IEMobile|Opera Mini/i', $userAgent)) {
-            return 'Móvil';
-        }
-
-        return 'Desktop';
-    }
-
-    private function esAgenteAutomatico(string $userAgent): bool
-    {
-        // Un navegador real siempre manda User-Agent.
-        if ($userAgent === '') {
-            return true;
-        }
-
-        foreach (self::AGENTES_AUTOMATICOS as $agente) {
-            if (stripos($userAgent, $agente) !== false) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
