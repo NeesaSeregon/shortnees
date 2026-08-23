@@ -31,10 +31,10 @@ class RegistroController extends AbstractController
     { 
         $request = $this->transformarJsonBody($request);
         $user = new User();
-        $user->setEmail($request->get('email'));
-        $user->setNombre($request->get('nombre'));
+        $user->setEmail($request->request->get('email'));
+        $user->setNombre($request->request->get('nombre'));
         $user->setRoles(['ROLE_USER']);
-        $textoPlanoPass = $request->get('password');
+        $textoPlanoPass = $request->request->get('password');
         $hashedPassword = $passwordHasher->hashPassword(
             $user,
             $textoPlanoPass

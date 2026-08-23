@@ -1,4 +1,7 @@
 ###> symfony/framework-bundle ###
+# Autogenerado por cache:clear: solo son array-shapes para el autocompletado
+# del IDE. Se rehace solo, asi que versionarlo son 1500 lineas de ruido.
+/config/reference.php
 /.env.local
 /.env.local.php
 /.env.*.local

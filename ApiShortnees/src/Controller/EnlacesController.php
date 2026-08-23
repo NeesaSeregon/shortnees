@@ -20,7 +20,7 @@ class EnlacesController extends AbstractController
     EnlacesRepository $enlacesRepository,FiltrarUrlService $filtroUrl ,EntityManagerInterface $entityManager): Response
     {
         $request = $this->transformarJsonBody($request);
-        $urlOriginal = $filtroUrl->limpiarCadena($request->get('url'));
+        $urlOriginal = $filtroUrl->limpiarCadena($request->request->get('url', ''));
         if ($urlOriginal == ''){
             return new JsonResponse(
                 ['mensaje' => 'No puede dejar su URL en blanco',
@@ -68,8 +68,8 @@ class EnlacesController extends AbstractController
     EnlacesRepository $enlacesRepository,FiltrarUrlService $filtroUrl ,EntityManagerInterface $entityManager): Response
     {
         $request = $this->transformarJsonBody($request);
-        $urlOriginal = $filtroUrl->limpiarCadena($request->get('urlOriginal'));
-        $urlPersonalizada = $filtroUrl->limpiarCadena($request->get('urlPersonalizada'));
+        $urlOriginal = $filtroUrl->limpiarCadena($request->request->get('urlOriginal', ''));
+        $urlPersonalizada = $filtroUrl->limpiarCadena($request->request->get('urlPersonalizada', ''));
         $urlPersonalizadaConDominio = 'shortns.com/'.$urlPersonalizada;
         if ($filtroUrl->verificarProtocolo($urlOriginal)){
             if ($urlPersonalizada == ''){
