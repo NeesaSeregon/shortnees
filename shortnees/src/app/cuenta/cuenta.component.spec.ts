@@ -119,4 +119,42 @@ describe('CuentaComponent', () => {
     expect((fixture.nativeElement as HTMLElement).querySelector('.avatar')!.textContent!.trim())
       .toBe('LU');
   });
+
+  /**
+   * El selector de tema era un <select> nativo; ahora es un control segmentado
+   * de dos botones, como el del generador de QR.
+   */
+  describe('selector de tema', () => {
+    function botonesTema(): HTMLButtonElement[] {
+      return Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('.tema-seg'));
+    }
+
+    it('ofrece los dos temas y marca el que esta activo', async () => {
+      await montar();
+
+      expect(botonesTema().map((b) => b.textContent!.trim())).toEqual(['Oscuro', 'Claro']);
+      // El doble de TemaService devuelve 'light'.
+      expect(botonesTema()[1].getAttribute('aria-pressed')).toBe('true');
+      expect(botonesTema()[0].getAttribute('aria-pressed')).toBe('false');
+    });
+
+    it('pulsar un tema lo aplica y lo marca sin forzar el repintado', async () => {
+      await montar();
+
+      botonesTema()[0].click();
+      await fixture.whenStable();
+
+      expect(tema.setTheme).toHaveBeenCalledWith('dark');
+      expect(botonesTema()[0].classList).toContain('tema-seg--activo');
+      expect(botonesTema()[1].classList).not.toContain('tema-seg--activo');
+    });
+
+    it('ya no ofrece el tema azul, que no llegaba al contraste minimo', async () => {
+      await montar();
+
+      expect(botonesTema().length).toBe(2);
+      expect((fixture.nativeElement as HTMLElement).textContent).not.toContain('Azul');
+    });
+  });
+
 });

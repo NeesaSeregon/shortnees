@@ -1,10 +1,28 @@
-<div class="not-found-wrapper">
-  <div class="not-found-card text-center">
-    <div class="error-code">404</div>
+<main class="not-found-wrapper">
+  <div class="container not-found-card">
+
+    <span class="error-code" aria-hidden="true">404</span>
+
     <h1 class="error-title">Enlace no encontrado</h1>
     <p class="error-message">
       El enlace acortado que has introducido no existe o ha sido eliminado.
+      Comprueba que lo has copiado entero.
     </p>
-    <a routerLink="/home" class="btn-home">Volver al inicio</a>
+
+    <!-- Ejemplo del formato correcto: casi siempre el fallo es un carácter
+         de menos al copiar a mano. -->
+    <div class="error-ejemplo">
+      <span class="error-ejemplo-label">Un enlace de Shortnees tiene esta forma</span>
+      <span class="error-ejemplo-url fuente-mono">shortns.com/<span class="error-ejemplo-codigo">a7f2c9</span></span>
+    </div>
+
+    <!-- Una sola accion. Quien llega aqui casi siempre es alguien que ha
+         pinchado un enlace roto, no un usuario con sesion: un «ir a mi panel»
+         lo rebotaria al login. -->
+    <a routerLink="/home" class="btn-home">
+      <i class="bi bi-scissors" aria-hidden="true"></i>
+      Acortar una URL
+    </a>
+
   </div>
-</div>
+</main>

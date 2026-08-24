@@ -1,31 +1,7 @@
 :host {
   display: block;
 }
-.card-body {
-  font-family: inherit;
-}
-form .form-control {
-  background-color: var(--surface-2) !important; 
-  border-color: var(--border-campo);
-}
-.form-label {
-  color: var(--text-subtle);
-  font-family: inherit;
-}
-.card {
-  background: var(--primary-bg);
-  max-height: fit-content;
-  margin-top: 15vh;
-  min-width: 350px;
-  max-width: 350px;
-}
-.card-title {
-  color: var(--color);
-}
-input{
-  background-color: var(--bg-main);
-  border-color: var(--border-campo);
-}
-.error {
-  color: var(--color-peligro);
-}
+
+/* El formulario usa las clases .auth-* de src/styles.css, compartidas con
+   registro: las dos paginas son el mismo patron y estas dos hojas eran
+   duplicados linea por linea. */

@@ -84,10 +84,14 @@
   gap: 0.5625rem;
 }
 
+/* En aguamarina y no en el gris de etiqueta: es la única página donde el
+   formulario ES el contenido, y en gris la tarjeta se quedaba sin color.
+   El acento pasa AA como texto en los dos temas: 8,9:1 sobre la tarjeta
+   oscura y 5,1:1 sobre la clara. */
 .home-label {
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--text-subtle);
+  color: var(--primary-button);
   letter-spacing: 0.09em;
   text-transform: uppercase;
 }
@@ -179,9 +183,14 @@
   box-shadow: none;
 }
 
+/* Deshabilitado con la MISMA anatomía que el botón activo -y que el de
+   descargar el QR-: relleno sólido del acento y texto oscuro encima. Solo baja
+   la intensidad del relleno, lo justo para que se lea como «todavía no».
+   La versión anterior era un relleno casi transparente con el texto en claro:
+   invertía la figura y no parecía el mismo botón. */
 .home-btn:disabled {
-  background-color: var(--border);
-  color: var(--text-tenue);
+  background-color: color-mix(in srgb, var(--primary-button) 70%, var(--surface-2));
+  color: var(--sobre-acento);
   cursor: not-allowed;
   box-shadow: none;
 }

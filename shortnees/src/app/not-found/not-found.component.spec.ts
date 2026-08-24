@@ -30,4 +30,20 @@ describe('NotFoundComponent', () => {
     // routerLink genera un href, pero lo intercepta el router en vez de navegar.
     expect(enlace!.getAttribute('href')).toBe('/home');
   });
+
+  it('el codigo 404 no lo lee el lector de pantalla: lo dice el titular', async () => {
+    const html = fixture.nativeElement as HTMLElement;
+
+    expect(html.querySelector('.error-code')!.getAttribute('aria-hidden')).toBe('true');
+    expect(html.querySelector('h1')!.textContent).toContain('Enlace no encontrado');
+  });
+
+  it('ofrece una sola accion, para no mandar a nadie a una pagina con guardia', async () => {
+    const enlaces = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll('a'));
+
+    expect(enlaces.length).toBe(1);
+    expect(enlaces[0].getAttribute('href')).toBe('/home');
+  });
+
 });

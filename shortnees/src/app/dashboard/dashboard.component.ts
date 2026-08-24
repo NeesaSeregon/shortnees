@@ -9,6 +9,7 @@ import { Links } from '../interfaces/Links';
 import { Estadisticas } from '../interfaces/estadisticas';
 import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { SerieGrafica } from '../interfaces/serie-grafica';
+import { PortapapelesService } from '../services/portapapeles.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +21,7 @@ import { SerieGrafica } from '../interfaces/serie-grafica';
 export class DashboardComponent implements OnInit {
   private readonly linkService = inject(LinkService);
   private readonly router = inject(Router);
+  private readonly portapapeles = inject(PortapapelesService);
   private readonly destroyRef = inject(DestroyRef);
 
   // Todo el estado que se pinta va en signals. Cada set() avisa a Angular por su
@@ -31,6 +33,16 @@ export class DashboardComponent implements OnInit {
   readonly urlCortaSeleccionada = signal<string | null>(null);
   /** Id del enlace cuya fila esta pidiendo confirmacion de borrado, si hay alguna. */
   readonly confirmandoBorradoId = signal<number | null>(null);
+
+  /**
+   * Acuse del boton de copiar de la cabecera de estadisticas. Se comprueba que
+   * no sea null: sin eso, «nada copiado» y «nada seleccionado» serian iguales y
+   * el acuse aparecería sin que nadie hubiera pulsado nada.
+   */
+  readonly copiado = computed(() => {
+    const copiado = this.portapapeles.ultimoCopiado();
+    return copiado !== null && copiado === this.urlCortaSeleccionada();
+  });
 
   readonly estadisticas = signal<Estadisticas | null>(null);
   readonly dataBarPais = signal<SerieGrafica[]>([]);
@@ -149,6 +161,11 @@ export class DashboardComponent implements OnInit {
       observador.observe(elemento);
       onCleanup(() => observador.disconnect());
     });
+  }
+
+  /** Copia al portapapeles la url corta que se esta mirando. */
+  copiarSeleccionada(): Promise<void> {
+    return this.portapapeles.copiar(this.urlCortaSeleccionada() ?? '');
   }
 
   /**

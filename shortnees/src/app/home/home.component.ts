@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, DestroyRef, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { LinkService } from '../services/link.service';
 import { LinkResponse } from '../interfaces/link-response';
 import { AccesoService } from '../services/acceso.service';
+import { PortapapelesService } from '../services/portapapeles.service';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ export class HomeComponent {
   private readonly linkService = inject(LinkService);
   private readonly fb = inject(FormBuilder);
   private readonly accesoService = inject(AccesoService);
+  private readonly portapapeles = inject(PortapapelesService);
   private readonly destroyRef = inject(DestroyRef);
 
   // Los cuatro mensajes se rellenan desde callbacks de RxJS, asi que van en
@@ -27,9 +29,15 @@ export class HomeComponent {
   readonly shortUrlP = signal('');
   readonly errorP = signal('');
 
-  /** Acuse de recibo del boton de copiar; vuelve solo a false. */
-  readonly copiado = signal(false);
-  private temporizadorCopiado: ReturnType<typeof setTimeout> | null = null;
+  /**
+   * Acuse del boton de copiar. Se compara con la URL que hay en pantalla, no
+   * con un booleano global: asi el acuse no se enciende por algo que se copio
+   * en otra pantalla.
+   */
+  readonly copiado = computed(() => {
+    const copiado = this.portapapeles.ultimoCopiado();
+    return copiado !== null && (copiado === this.shortUrl() || copiado === this.shortUrlP());
+  });
 
   readonly isAuthenticated = toSignal(this.accesoService.isAuthenticated$, { initialValue: false });
 
@@ -42,34 +50,9 @@ export class HomeComponent {
     urlPersonalizada: ['', Validators.required]
   });
 
-  /**
-   * Copia la URL corta al portapapeles. El acuse dura dos segundos; si se pulsa
-   * otra vez antes, se reinicia la cuenta en lugar de encadenar temporizadores.
-   *
-   * navigator.clipboard no existe en contextos no seguros (http sin localhost),
-   * asi que se comprueba: sin el, el boton simplemente no confirma nada.
-   *
-   * Devuelve la promesa para que el test pueda esperar a que termine; la
-   * plantilla la ignora.
-   */
+  /** Copia la URL corta al portapapeles. El panel de control hace lo mismo. */
   copiar(url: string): Promise<void> {
-    if (!url || !navigator.clipboard) {
-      return Promise.resolve();
-    }
-
-    return navigator.clipboard.writeText(url).then(
-      () => {
-        if (this.temporizadorCopiado !== null) {
-          clearTimeout(this.temporizadorCopiado);
-        }
-        this.copiado.set(true);
-        this.temporizadorCopiado = setTimeout(() => {
-          this.copiado.set(false);
-          this.temporizadorCopiado = null;
-        }, 2000);
-      },
-      () => { /* El navegador denego el permiso: no hay nada que anunciar. */ }
-    );
+    return this.portapapeles.copiar(url);
   }
 
   /**

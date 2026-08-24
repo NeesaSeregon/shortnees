@@ -25,8 +25,8 @@ export class CuentaComponent implements OnInit {
   // El tema azul se retiro: su combinacion (#00FFFF sobre #007171) no llegaba
   // al contraste minimo y no encajaba con el resto del sistema visual.
   temas = [
-    { value: 'dark',  label: 'Oscuro' },
-    { value: 'light', label: 'Claro'  },
+    { value: 'dark',  label: 'Oscuro', icono: 'bi-moon-stars' },
+    { value: 'light', label: 'Claro',  icono: 'bi-sun'        },
   ];
 
   constructor(

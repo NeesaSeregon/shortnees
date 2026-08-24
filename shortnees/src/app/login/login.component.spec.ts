@@ -84,4 +84,20 @@ describe('LoginComponent', () => {
     expect(mensaje()).toBe('Credenciales incorrectas');
     expect(navigate).not.toHaveBeenCalled();
   });
+
+  it('ofrece crear cuenta con un enlace, no con un boton que navega a mano', async () => {
+    const enlaces = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll('a'));
+
+    expect(enlaces.map((a) => a.getAttribute('href'))).toContain('/registro');
+  });
+
+  it('no navega con botones sueltos: el unico boton es el de enviar', async () => {
+    const botones = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll('button'));
+
+    expect(botones.length).toBe(1);
+    expect(botones[0].getAttribute('type')).toBe('submit');
+  });
+
 });

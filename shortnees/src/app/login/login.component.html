@@ -1,22 +1,49 @@
-<main class="container d-flex justify-content-center vh-100 ">
-  <div class="card p-4 rounded shadow-sm">
-    <div class="card-body">
-      <h5 class="card-title text-center">Iniciar Sesión</h5>
-      <form class="" [formGroup]="formularioLogin" (ngSubmit)="iniciarSesion()">
-        <div class="mb-3">
-          <label for="correo" class="form-label">Email</label>
-          <input type="email" class="form-control" id="correo" formControlName="correo" placeholder="Ex. pat@example.com" required>
+<main class="auth-main">
+  <div class="container auth-container">
+
+    <div class="auth-intro">
+      <span class="auth-marca" aria-hidden="true"><i class="bi bi-box-arrow-in-right"></i></span>
+      <h1 class="auth-title">Iniciar sesión</h1>
+      <p class="auth-subtitle">Entra para personalizar tus enlaces y ver sus estadísticas.</p>
+    </div>
+
+    <div class="auth-card">
+      <form class="auth-form" [formGroup]="formularioLogin" (ngSubmit)="iniciarSesion()">
+
+        <div class="auth-field">
+          <label for="correo" class="auth-label">Email</label>
+          <div class="auth-input-group">
+            <span class="auth-input-icono" aria-hidden="true"><i class="bi bi-envelope"></i></span>
+            <input type="email" class="auth-input" id="correo" formControlName="correo"
+                   placeholder="tu@correo.com" autocomplete="email" required>
+          </div>
         </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Contraseña</label>
-          <input type="password" class="form-control" id="password" formControlName="password" placeholder="Contraseña" required>
+
+        <div class="auth-field">
+          <label for="password" class="auth-label">Contraseña</label>
+          <div class="auth-input-group">
+            <span class="auth-input-icono" aria-hidden="true"><i class="bi bi-lock"></i></span>
+            <input type="password" class="auth-input" id="password" formControlName="password"
+                   placeholder="Tu contraseña" autocomplete="current-password" required>
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
-        <button type="button" class="btn btn-link w-100 mt-2" (click)="registrarse()">Registrarse</button>
-        @if (error() !== ''){
-          <p class="error fs-4">{{ error() }}</p>
+
+        @if (error() !== '') {
+          <p class="error auth-error" role="alert">
+            <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+            {{ error() }}
+          </p>
         }
+
+        <button type="submit" class="auth-btn">Iniciar sesión</button>
       </form>
     </div>
+
+    <!-- routerLink y no un boton con router.navigate(): es una navegacion, y
+         asi el enlace se puede abrir en otra pestaña como cualquier otro. -->
+    <p class="auth-pie">
+      ¿Todavía no tienes cuenta? <a routerLink="/registro" class="auth-enlace">Crear cuenta</a>
+    </p>
+
   </div>
 </main>

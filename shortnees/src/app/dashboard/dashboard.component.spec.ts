@@ -378,4 +378,81 @@ describe('DashboardComponent', () => {
       });
     });
   });
+
+  /**
+   * El acuse compara el texto copiado con la url que hay en pantalla, no un
+   * booleano global: asi copiar en el acortador no enciende el boton del panel.
+   */
+  describe('copiar la url corta', () => {
+    let escribir: jasmine.Spy;
+    let original: PropertyDescriptor | undefined;
+
+    beforeEach(() => {
+      original = Object.getOwnPropertyDescriptor(Navigator.prototype, 'clipboard')
+        ?? Object.getOwnPropertyDescriptor(navigator, 'clipboard');
+      escribir = jasmine.createSpy('writeText').and.returnValue(Promise.resolve());
+      Object.defineProperty(navigator, 'clipboard', {
+        value: { writeText: escribir },
+        configurable: true,
+      });
+    });
+
+    afterEach(() => {
+      delete (navigator as any).clipboard;
+      if (original) {
+        Object.defineProperty(navigator, 'clipboard', original);
+      }
+    });
+
+    it('copia la url del enlace seleccionado', async () => {
+      await montar();
+      component.seleccionar(ENLACES[0]);
+
+      await component.copiarSeleccionada();
+
+      expect(escribir).toHaveBeenCalledOnceWith('shortns.com/uno');
+    });
+
+    it('el acuse aparece en pantalla sin forzar el repintado', async () => {
+      await montar();
+      component.seleccionar(ENLACES[0]);
+      await fixture.whenStable();
+
+      await component.copiarSeleccionada();
+      await fixture.whenStable();
+
+      expect(component.copiado()).toBeTrue();
+      expect((fixture.nativeElement as HTMLElement).querySelector('.stats-copiado')).toBeTruthy();
+    });
+
+    it('sin nada copiado ni seleccionado no se enciende el acuse', async () => {
+      await montar();
+
+      // Los dos son null: si se compararan a secas, null === null seria true.
+      expect(component.copiado()).toBeFalse();
+    });
+
+    it('el acuse no se enciende para un enlace distinto del copiado', async () => {
+      await montar();
+      component.seleccionar(ENLACES[0]);
+      await component.copiarSeleccionada();
+
+      component.seleccionar(ENLACES[1]);
+      await fixture.whenStable();
+
+      expect(component.copiado()).toBeFalse();
+    });
+
+    it('el boton de copiar esta en la cabecera de estadisticas', async () => {
+      await montar();
+      component.seleccionar(ENLACES[0]);
+      await fixture.whenStable();
+
+      const boton = (fixture.nativeElement as HTMLElement)
+        .querySelector('.stats-header button.button-copiar');
+
+      expect(boton).toBeTruthy();
+    });
+  });
+
 });

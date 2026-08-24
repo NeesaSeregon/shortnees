@@ -8,7 +8,7 @@
              Antes era una rejilla de columnas Bootstrap con tres botones
              apretados en cada celda; las filas quedaban desiguales y las URLs
              cortadas. Ahora es una lista de una columna. -->
-        <aside class="panel-rail">
+        <aside>
           <div class="rail-cabecera">
             <h2 class="rail-titulo">Mis enlaces</h2>
             <span class="rail-total">{{ enlaces().length }} en total</span>
@@ -22,7 +22,6 @@
 
                 <button
                   class="button-enlaces"
-                  [class.activo]="enlace.id === enlaceSeleccionadoId()"
                   type="button"
                   [attr.aria-pressed]="enlace.id === enlaceSeleccionadoId()"
                   (click)="seleccionar(enlace)">
@@ -82,7 +81,21 @@
             <div class="stats-header">
               <div class="stats-identidad">
                 <span class="stats-label">Estadísticas de</span>
-                <span class="stats-url fuente-mono">{{ urlCortaSeleccionada() }}</span>
+                <div class="stats-url-fila">
+                  <span class="stats-url fuente-mono">{{ urlCortaSeleccionada() }}</span>
+                  <button
+                    class="button-copiar"
+                    type="button"
+                    (click)="copiarSeleccionada()"
+                    [attr.aria-label]="'Copiar ' + urlCortaSeleccionada()"
+                    [title]="copiado() ? 'Copiado' : 'Copiar al portapapeles'">
+                    <i class="bi" [class.bi-clipboard]="!copiado()"
+                       [class.bi-clipboard-check]="copiado()" aria-hidden="true"></i>
+                  </button>
+                  @if (copiado()) {
+                    <span class="stats-copiado" role="status">Copiado</span>
+                  }
+                </div>
               </div>
               <div class="stats-total">
                 <span class="stats-num">{{ stats.numeroClicks }}</span>

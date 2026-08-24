@@ -3,7 +3,6 @@ import { RegistroComponent } from './registro/registro.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AutenticacionGuard } from './custom/autenticacion.guard';
-import { WellcomeComponent } from './wellcome/wellcome.component';
 import { CuentaComponent } from './cuenta/cuenta.component';
 import { GeneradorQRComponent } from './generador-qr/generador-qr.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -25,9 +24,15 @@ export const routes: Routes = [
         .then((m) => m.DashboardComponent),
       canActivate: [AutenticacionGuard],
     },
-    {path:'wellcome', component: WellcomeComponent},
     {path:'cuenta', component: CuentaComponent},
-    {path:'generador', component: GeneradorQRComponent},
+    // Con guardia: el header ya presentaba el QR como algo que exige cuenta
+    // (sin sesion, el enlace lleva al registro), pero la ruta estaba abierta y
+    // se entraba tecleando la URL. AutenticacionGuard redirige a /login.
+    {
+      path: 'generador',
+      component: GeneradorQRComponent,
+      canActivate: [AutenticacionGuard],
+    },
     {path:'not-found', component: NotFoundComponent},
     {path:'**', redirectTo:'not-found'},
 ];

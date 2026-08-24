@@ -1,12 +1,12 @@
 import { Component, DestroyRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AccesoService } from '../services/acceso.service';
 import { Login } from '../interfaces/Login';
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './login.component.css'
@@ -43,8 +43,5 @@ export class LoginComponent {
           this.error.set('Credenciales incorrectas');
         }
       });
-  }
-  registrarse () {
-    this.router.navigate(["registro"]);
   }
 }

@@ -80,4 +80,25 @@ describe('RegistroComponent', () => {
     expect(mensaje()).toContain('No se ha podido crear la cuenta');
     expect(navigate).not.toHaveBeenCalled();
   });
+
+  /**
+   * El «Ya tengo cuenta» del formulario era un <button> SIN (click): no hacia
+   * nada al pulsarlo. Ahora es un routerLink, que ademas se puede abrir en otra
+   * pestaña como cualquier enlace.
+   */
+  it('ofrece volver al login con un enlace navegable', async () => {
+    const enlaces = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll('a'));
+
+    expect(enlaces.map((a) => a.getAttribute('href'))).toContain('/login');
+  });
+
+  it('no navega con botones sueltos: el unico boton es el de enviar', async () => {
+    const botones = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll('button'));
+
+    expect(botones.length).toBe(1);
+    expect(botones[0].getAttribute('type')).toBe('submit');
+  });
+
 });

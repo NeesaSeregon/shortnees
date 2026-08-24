@@ -1,13 +1,13 @@
 import { Component, DestroyRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AccesoService } from '../services/acceso.service';
 import { Usuario } from '../interfaces/Usuario';
 
 @Component({
   selector: 'app-registro',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './registro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './registro.component.css'

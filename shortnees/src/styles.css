@@ -470,3 +470,262 @@ h1, h2, h3, h4, h5, h6 {
   outline: 2px solid var(--primary-button);
   outline-offset: 2px;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Formularios de acceso: login y registro
+   ─────────────────────────────────────────────────────────────────────────
+   Van aqui y no en el CSS de cada componente porque las dos paginas son el
+   mismo patron. Estaban duplicadas linea por linea en login.component.css y
+   registro.component.css, incluido el #858484 del tema oscuro antiguo.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.auth-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0 5rem 0;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 27.5rem;
+}
+
+/* ── Encabezado ──────────────────────────────────────────── */
+.auth-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-marca {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--primary-button), var(--bg-enlace));
+  color: var(--sobre-acento);
+  font-size: 1.375rem;
+  margin-bottom: 1.25rem;
+}
+
+.auth-title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--color);
+  margin: 0 0 0.625rem 0;
+}
+
+.auth-subtitle {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* ── Tarjeta ─────────────────────────────────────────────── */
+.auth-card {
+  background-color: var(--primary-bg);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--sombra-card);
+}
+
+.auth-form {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+}
+
+/* ── Campos ──────────────────────────────────────────────── */
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.auth-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+.auth-input-group {
+  display: flex;
+  align-items: center;
+  background-color: var(--surface-2);
+  border: 1px solid var(--border-campo);
+  border-radius: var(--radio);
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-input-group:focus-within {
+  border-color: var(--primary-button);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-button) 14%, transparent);
+}
+
+/* El grupo entero ya marca el foco: el anillo global sobraria. */
+.auth-input:focus-visible {
+  outline: none;
+}
+
+.auth-input-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 52px;
+  font-size: 1rem;
+  color: var(--text-subtle);
+  flex-shrink: 0;
+}
+
+.auth-input {
+  flex: 1;
+  min-width: 0;
+  height: 52px;
+  padding: 0 1rem 0 0.125rem;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color);
+  font-family: inherit;
+  font-size: 0.9375rem;
+}
+
+.auth-input::placeholder {
+  color: var(--text-tenue);
+}
+
+/* Aviso de un campo concreto, debajo del campo. */
+.auth-hint {
+  font-size: 0.78125rem;
+  color: var(--color-peligro);
+}
+
+/* ── Boton ───────────────────────────────────────────────── */
+.auth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  height: 52px;
+  margin-top: 0.25rem;
+  background-color: var(--primary-button);
+  color: var(--sobre-acento);
+  border: none;
+  border-radius: var(--radio);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--sombra-acento);
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.auth-btn:hover {
+  background-color: var(--acento-hover);
+  transform: translateY(-1px);
+}
+
+.auth-btn:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* ── Error del formulario ────────────────────────────────── */
+/* Conserva la clase .error: login.component.spec.ts y
+   registro.component.spec.ts leen el mensaje con querySelector('p.error'). */
+.auth-error {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0.8125rem 1rem;
+  background-color: var(--peligro-bg);
+  border: 1px solid var(--peligro-borde);
+  border-radius: var(--radio);
+  color: var(--color-peligro);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.auth-error i {
+  flex-shrink: 0;
+}
+
+/* ── Pie: la otra pagina de acceso ───────────────────────── */
+.auth-pie {
+  margin: 1.5rem 0 0 0;
+  text-align: center;
+  font-size: 0.90625rem;
+  color: var(--text-muted);
+}
+
+.auth-enlace {
+  color: var(--primary-button);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.auth-enlace:hover {
+  color: var(--acento-hover);
+  text-decoration: underline;
+}
+
+@media (max-width: 575.98px) {
+  .auth-main {
+    padding: 2.5rem 0 3rem 0;
+  }
+
+  .auth-form {
+    padding: 1.375rem;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Tematizado de ngx-charts
+   ─────────────────────────────────────────────────────────────────────────
+   La libreria pinta sus etiquetas dentro del SVG con color heredado, asi que
+   sin esto los ejes se quedan en el gris por defecto del navegador sobre el
+   fondo oscuro.
+
+   Van aqui, como reglas globales, y no con ::ng-deep en dashboard.component.css:
+   ::ng-deep esta deprecado y la forma recomendada de tematizar el DOM de un
+   componente de terceros son los estilos globales, que no llevan encapsulacion
+   que perforar.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.ngx-charts text {
+  fill: var(--text-muted);
+  font-family: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  font-size: 11px;
+}
+
+.ngx-charts .gridline-path {
+  stroke: var(--border);
+}
+
+.advanced-pie-legend .legend-items-container .legend-item .item-value,
+.advanced-pie-legend .total-value {
+  color: var(--color);
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+}
+
+.advanced-pie-legend .legend-items-container .legend-item .item-label,
+.advanced-pie-legend .legend-items-container .legend-item .item-percent,
+.advanced-pie-legend .total-label {
+  color: var(--text-muted);
+}
