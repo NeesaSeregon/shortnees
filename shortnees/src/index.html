@@ -5,7 +5,12 @@
   <title>Shortnees</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- El .ico va primero para los navegadores viejos; el SVG lo prefieren los
+       modernos y escala a cualquier tamano. El anterior era un PNG de 107x66
+       renombrado a .ico, trazo negro sin fondo que desaparecia en pestana oscura. -->
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <!-- Los iconos van en SVG dentro de IconoComponent. Antes se cargaba la
        fuente Bootstrap Icons desde jsdelivr: ~200 kB y ~2000 glifos para usar
        25, mas otra peticion a un tercero que ve la IP del visitante. -->
