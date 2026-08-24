@@ -4,10 +4,11 @@ import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { AccesoService } from '../services/acceso.service';
 import { Usuario } from '../interfaces/Usuario';
+import { IconoComponent } from '../icono/icono.component';
 
 @Component({
   selector: 'app-registro',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, IconoComponent],
   templateUrl: './registro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './registro.component.css'

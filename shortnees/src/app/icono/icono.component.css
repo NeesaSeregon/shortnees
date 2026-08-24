@@ -1,0 +1,13 @@
+/* inline-block y vertical-align: sin esto el SVG se apoya en la linea base y
+   descuadra media letra respecto al texto que lleva al lado. */
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+svg {
+  display: block;
+}

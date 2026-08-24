@@ -7,10 +7,11 @@ import { LinkService } from '../services/link.service';
 import { LinkResponse } from '../interfaces/link-response';
 import { AccesoService } from '../services/acceso.service';
 import { PortapapelesService } from '../services/portapapeles.service';
+import { IconoComponent } from '../icono/icono.component';
 
 @Component({
   selector: 'app-home',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, IconoComponent],
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './home.component.css'

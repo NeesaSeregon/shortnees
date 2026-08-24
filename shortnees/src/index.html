@@ -6,7 +6,9 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <!-- Los iconos van en SVG dentro de IconoComponent. Antes se cargaba la
+       fuente Bootstrap Icons desde jsdelivr: ~200 kB y ~2000 glifos para usar
+       25, mas otra peticion a un tercero que ve la IP del visitante. -->
   <!-- Las tres familias del sistema visual se autoalojan en public/fuentes/ y
        se declaran con @font-face en styles.css. No se piden a Google: eso
        enviaba la IP de cada visitante a un tercero, justo lo que este proyecto

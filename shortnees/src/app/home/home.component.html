@@ -18,7 +18,7 @@
           <div class="home-field">
             <label for="urlOriginal" class="home-label">URL Original</label>
             <div class="home-input-group">
-              <span class="home-input-prefix"><i class="bi bi-link-45deg"></i></span>
+              <span class="home-input-prefix"><app-icono nombre="link-45deg" /></span>
               <input id="urlOriginal" class="home-input" formControlName="urlOriginal" type="text" placeholder="Ingresa la URL que deseas acortar">
             </div>
           </div>
@@ -30,19 +30,19 @@
             </div>
           </div>
           <button class="home-btn" (click)="personalizar()" type="button" [disabled]="formularioPersonalizar.invalid">
-            <i class="bi bi-scissors"></i> Personalizar URL
+            <app-icono nombre="scissors" /> Personalizar URL
           </button>
         </form>
       </div>
       @if (errorP() !== '' && shortUrlP() === '') {
         <div class="home-error">
-          <i class="bi bi-exclamation-circle-fill"></i>
+          <app-icono nombre="exclamation-circle-fill" />
           {{ errorP() }}
         </div>
       }
       @if (shortUrlP() !== '') {
         <div class="home-result">
-          <span class="home-result-icono" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
+          <span class="home-result-icono" aria-hidden="true"><app-icono nombre="check-lg" /></span>
           <div class="home-result-datos">
             <span class="home-result-label">Enlace creado</span>
             <input class="home-result-input" value="{{ shortUrlP() }}" type="text" readonly aria-label="Tu URL corta">
@@ -50,11 +50,11 @@
           <div class="home-result-acciones">
             <button type="button" class="home-result-btn" (click)="copiar(shortUrlP())"
                     [attr.aria-label]="'Copiar ' + shortUrlP()" title="Copiar al portapapeles">
-              <i class="bi" [class.bi-clipboard]="!copiado()" [class.bi-clipboard-check]="copiado()" aria-hidden="true"></i>
+              <app-icono [nombre]="copiado() ? 'clipboard-check' : 'clipboard'" />
             </button>
             <a class="home-result-btn" routerLink="/generador" [queryParams]="{ url: urlAbsoluta(shortUrlP()) }"
                [attr.aria-label]="'Generar código QR de ' + shortUrlP()" title="Generar código QR">
-              <i class="bi bi-qr-code" aria-hidden="true"></i>
+              <app-icono nombre="qr-code" />
             </a>
           </div>
         </div>
@@ -68,24 +68,24 @@
           <div class="home-field">
             <label for="url" class="home-label">URL a acortar</label>
             <div class="home-input-group">
-              <span class="home-input-prefix"><i class="bi bi-link-45deg"></i></span>
+              <span class="home-input-prefix"><app-icono nombre="link-45deg" /></span>
               <input id="url" class="home-input" formControlName="url" type="text" placeholder="Ingresa la URL que deseas acortar">
             </div>
           </div>
           <button class="home-btn" (click)="acortar()" type="button" [disabled]="formulario.invalid">
-            <i class="bi bi-scissors"></i> Acortar URL
+            <app-icono nombre="scissors" /> Acortar URL
           </button>
         </form>
       </div>
       @if (error() !== '') {
         <div class="home-error">
-          <i class="bi bi-exclamation-circle-fill"></i>
+          <app-icono nombre="exclamation-circle-fill" />
           {{ error() }}
         </div>
       }
       @if (shortUrl() !== '') {
         <div class="home-result">
-          <span class="home-result-icono" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
+          <span class="home-result-icono" aria-hidden="true"><app-icono nombre="check-lg" /></span>
           <div class="home-result-datos">
             <span class="home-result-label">Enlace creado</span>
             <input class="home-result-input" value="{{ shortUrl() }}" type="text" readonly aria-label="Tu URL corta">
@@ -93,7 +93,7 @@
           <div class="home-result-acciones">
             <button type="button" class="home-result-btn" (click)="copiar(shortUrl())"
                     [attr.aria-label]="'Copiar ' + shortUrl()" title="Copiar al portapapeles">
-              <i class="bi" [class.bi-clipboard]="!copiado()" [class.bi-clipboard-check]="copiado()" aria-hidden="true"></i>
+              <app-icono [nombre]="copiado() ? 'clipboard-check' : 'clipboard'" />
             </button>
           </div>
         </div>
@@ -104,19 +104,19 @@
       <div class="home-promo">
         <div class="home-promo-grid">
           <div class="home-promo-item">
-            <span class="home-promo-icono" aria-hidden="true"><i class="bi bi-pencil-square"></i></span>
+            <span class="home-promo-icono" aria-hidden="true"><app-icono nombre="pencil-square" /></span>
             <span class="home-promo-titulo">Enlaces con tu nombre</span>
             <span class="home-promo-texto">Elige tú el código: <span class="fuente-mono">shortns.com/oferta</span> en vez de una cadena aleatoria.</span>
           </div>
           <div class="home-promo-item">
-            <span class="home-promo-icono" aria-hidden="true"><i class="bi bi-bar-chart-line"></i></span>
+            <span class="home-promo-icono" aria-hidden="true"><app-icono nombre="bar-chart-line" /></span>
             <span class="home-promo-titulo">Estadísticas de cada clic</span>
             <span class="home-promo-texto">País, dispositivo, fecha y hora. Sin rastrear la IP de nadie.</span>
           </div>
         </div>
         <div class="home-promo-actions">
           <a routerLink="/registro" class="home-promo-btn">
-            Crear cuenta gratis <i class="bi bi-arrow-right" aria-hidden="true"></i>
+            Crear cuenta gratis <app-icono nombre="arrow-right" />
           </a>
           <a routerLink="/login" class="home-promo-link">Ya tengo cuenta</a>
         </div>

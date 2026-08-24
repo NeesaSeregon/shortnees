@@ -5,10 +5,11 @@ import { Router, RouterLink } from '@angular/router';
 import { TemaService } from '../services/tema.service';
 import { Links } from '../interfaces/Links';
 import { LinkService } from '../services/link.service';
+import { IconoComponent, NombreIcono } from '../icono/icono.component';
 
 @Component({
   selector: 'app-cuenta',
-  imports: [RouterLink],
+  imports: [RouterLink, IconoComponent],
   templateUrl: './cuenta.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './cuenta.component.css'
@@ -24,9 +25,9 @@ export class CuentaComponent implements OnInit {
 
   // El tema azul se retiro: su combinacion (#00FFFF sobre #007171) no llegaba
   // al contraste minimo y no encajaba con el resto del sistema visual.
-  temas = [
-    { value: 'dark',  label: 'Oscuro', icono: 'bi-moon-stars' },
-    { value: 'light', label: 'Claro',  icono: 'bi-sun'        },
+  temas: { value: string; label: string; icono: NombreIcono }[] = [
+    { value: 'dark',  label: 'Oscuro', icono: 'moon-stars' },
+    { value: 'light', label: 'Claro',  icono: 'sun'        },
   ];
 
   constructor(

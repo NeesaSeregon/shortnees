@@ -1,10 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import QRCodeStyling, { FileExtension } from "qr-code-styling";
+import { IconoComponent } from '../icono/icono.component';
 
 @Component({
   selector: 'app-generador-qr',
-  imports: [],
+  imports: [IconoComponent],
   templateUrl: './generador-qr.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './generador-qr.component.css'

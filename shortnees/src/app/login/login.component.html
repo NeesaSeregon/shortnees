@@ -2,7 +2,7 @@
   <div class="container auth-container">
 
     <div class="auth-intro">
-      <span class="auth-marca" aria-hidden="true"><i class="bi bi-box-arrow-in-right"></i></span>
+      <span class="auth-marca" aria-hidden="true"><app-icono nombre="box-arrow-in-right" /></span>
       <h1 class="auth-title">Iniciar sesión</h1>
       <p class="auth-subtitle">Entra para personalizar tus enlaces y ver sus estadísticas.</p>
     </div>
@@ -13,7 +13,7 @@
         <div class="auth-field">
           <label for="correo" class="auth-label">Email</label>
           <div class="auth-input-group">
-            <span class="auth-input-icono" aria-hidden="true"><i class="bi bi-envelope"></i></span>
+            <span class="auth-input-icono" aria-hidden="true"><app-icono nombre="envelope" /></span>
             <input type="email" class="auth-input" id="correo" formControlName="correo"
                    placeholder="tu@correo.com" autocomplete="email" required>
           </div>
@@ -22,7 +22,7 @@
         <div class="auth-field">
           <label for="password" class="auth-label">Contraseña</label>
           <div class="auth-input-group">
-            <span class="auth-input-icono" aria-hidden="true"><i class="bi bi-lock"></i></span>
+            <span class="auth-input-icono" aria-hidden="true"><app-icono nombre="lock" /></span>
             <input type="password" class="auth-input" id="password" formControlName="password"
                    placeholder="Tu contraseña" autocomplete="current-password" required>
           </div>
@@ -30,7 +30,7 @@
 
         @if (error() !== '') {
           <p class="error auth-error" role="alert">
-            <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+            <app-icono nombre="exclamation-circle-fill" />
             {{ error() }}
           </p>
         }

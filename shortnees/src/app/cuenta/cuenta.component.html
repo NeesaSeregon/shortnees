@@ -27,14 +27,14 @@
         </div>
         <a routerLink="/dashboard" class="btn-ir-panel">
           Ver panel de control
-          <i class="bi bi-arrow-right" aria-hidden="true"></i>
+          <app-icono nombre="arrow-right" />
         </a>
       </div>
 
       <!-- Apariencia -->
       <div class="cuenta-card">
         <h2 class="section-title">
-          <i class="bi bi-palette" aria-hidden="true"></i>Apariencia
+          <app-icono nombre="palette" />Apariencia
         </h2>
         <div class="cuenta-ajuste">
           <div class="cuenta-ajuste-texto">
@@ -49,7 +49,7 @@
                       [class.tema-seg--activo]="seleccionarTema() === t.value"
                       [attr.aria-pressed]="seleccionarTema() === t.value"
                       (click)="onThemeChange(t.value)">
-                <i [class]="'bi ' + t.icono" aria-hidden="true"></i>
+                <app-icono [nombre]="t.icono" />
                 {{ t.label }}
               </button>
             }
@@ -64,7 +64,7 @@
           <span class="setting-ayuda">Tus enlaces seguirán funcionando.</span>
         </div>
         <button type="button" class="btn-logout" (click)="logout()">
-          <i class="bi bi-box-arrow-right" aria-hidden="true"></i>Cerrar sesión
+          <app-icono nombre="box-arrow-right" />Cerrar sesión
         </button>
       </div>
 

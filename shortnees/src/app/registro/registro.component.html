@@ -2,7 +2,7 @@
   <div class="container auth-container">
 
     <div class="auth-intro">
-      <span class="auth-marca" aria-hidden="true"><i class="bi bi-person-plus"></i></span>
+      <span class="auth-marca" aria-hidden="true"><app-icono nombre="person-plus" /></span>
       <h1 class="auth-title">Crear cuenta</h1>
       <p class="auth-subtitle">Elige tú el código de tus enlaces y mide cada clic. Es gratis.</p>
     </div>
@@ -13,7 +13,7 @@
         <div class="auth-field">
           <label for="nombre" class="auth-label">Nombre</label>
           <div class="auth-input-group">
-            <span class="auth-input-icono" aria-hidden="true"><i class="bi bi-person"></i></span>
+            <span class="auth-input-icono" aria-hidden="true"><app-icono nombre="person" /></span>
             <input type="text" class="auth-input" id="nombre" formControlName="nombre"
                    placeholder="Cómo quieres que te llamemos" autocomplete="nickname" required>
           </div>
@@ -25,7 +25,7 @@
         <div class="auth-field">
           <label for="email" class="auth-label">Email</label>
           <div class="auth-input-group">
-            <span class="auth-input-icono" aria-hidden="true"><i class="bi bi-envelope"></i></span>
+            <span class="auth-input-icono" aria-hidden="true"><app-icono nombre="envelope" /></span>
             <input type="email" class="auth-input" id="email" formControlName="email"
                    placeholder="tu@correo.com" autocomplete="email" required>
           </div>
@@ -34,7 +34,7 @@
         <div class="auth-field">
           <label for="password" class="auth-label">Contraseña</label>
           <div class="auth-input-group">
-            <span class="auth-input-icono" aria-hidden="true"><i class="bi bi-lock"></i></span>
+            <span class="auth-input-icono" aria-hidden="true"><app-icono nombre="lock" /></span>
             <input type="password" class="auth-input" id="password" formControlName="password"
                    placeholder="Elige una contraseña" autocomplete="new-password" required>
           </div>
@@ -42,7 +42,7 @@
 
         @if (error() !== '') {
           <p class="error auth-error" role="alert">
-            <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+            <app-icono nombre="exclamation-circle-fill" />
             {{ error() }}
           </p>
         }

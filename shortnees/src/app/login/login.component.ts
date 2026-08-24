@@ -4,9 +4,10 @@ import { Router, RouterLink } from '@angular/router';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AccesoService } from '../services/acceso.service';
 import { Login } from '../interfaces/Login';
+import { IconoComponent } from '../icono/icono.component';
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, IconoComponent],
   templateUrl: './login.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './login.component.css'

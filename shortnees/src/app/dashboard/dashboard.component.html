@@ -57,7 +57,7 @@
                       (click)="verQr(enlace)"
                       [attr.aria-label]="'Generar código QR de ' + enlace.urlCorta"
                       [title]="'Generar código QR de ' + enlace.urlCorta">
-                      <i class="bi bi-qr-code" aria-hidden="true"></i>
+                      <app-icono nombre="qr-code" />
                     </button>
                     <button
                       class="button-borrar"
@@ -65,7 +65,7 @@
                       (click)="pedirConfirmacion(enlace)"
                       [attr.aria-label]="'Eliminar ' + enlace.urlCorta"
                       [title]="'Eliminar ' + enlace.urlCorta">
-                      <i class="bi bi-trash" aria-hidden="true"></i>
+                      <app-icono nombre="trash" />
                     </button>
                   }
                 </div>
@@ -89,8 +89,7 @@
                     (click)="copiarSeleccionada()"
                     [attr.aria-label]="'Copiar ' + urlCortaSeleccionada()"
                     [title]="copiado() ? 'Copiado' : 'Copiar al portapapeles'">
-                    <i class="bi" [class.bi-clipboard]="!copiado()"
-                       [class.bi-clipboard-check]="copiado()" aria-hidden="true"></i>
+                    <app-icono [nombre]="copiado() ? 'clipboard-check' : 'clipboard'" />
                   </button>
                   @if (copiado()) {
                     <span class="stats-copiado" role="status">Copiado</span>
@@ -105,7 +104,7 @@
 
             <div class="stats-grid" #graficas>
               <div class="chart-card">
-                <h3 class="chart-title"><i class="bi bi-globe2" aria-hidden="true"></i>Por país</h3>
+                <h3 class="chart-title"><app-icono nombre="globe2" />Por país</h3>
                 <!-- Barras horizontales, no tarta: los nombres de país son
                      largos y lo que se compara es magnitud, no proporción. -->
                 <ngx-charts-bar-horizontal
@@ -120,7 +119,7 @@
               </div>
 
               <div class="chart-card">
-                <h3 class="chart-title"><i class="bi bi-phone" aria-hidden="true"></i>Por dispositivo</h3>
+                <h3 class="chart-title"><app-icono nombre="phone" />Por dispositivo</h3>
                 <!-- La única de las cuatro que reparte un total entre categorías,
                      y la única que usa color por categoría. Su leyenda lleva
                      nombre y cifra: el color nunca es el único indicio. -->
@@ -133,7 +132,7 @@
               </div>
 
               <div class="chart-card chart-card--ancha">
-                <h3 class="chart-title"><i class="bi bi-calendar3" aria-hidden="true"></i>Por mes</h3>
+                <h3 class="chart-title"><app-icono nombre="calendar3" />Por mes</h3>
                 <!-- Era una tarta, que escondía que esto es una serie temporal. -->
                 <ngx-charts-bar-vertical
                   [view]="vistaMes()"
@@ -149,7 +148,7 @@
 
               <div class="chart-card chart-card--ancha">
                 <h3 class="chart-title">
-                  <i class="bi bi-clock" aria-hidden="true"></i>Por hora del día
+                  <app-icono nombre="clock" />Por hora del día
                   <span class="chart-nota">hora del servidor</span>
                 </h3>
                 <ngx-charts-bar-vertical
@@ -167,7 +166,7 @@
 
           } @else {
             <div class="stats-vacio">
-              <span class="stats-vacio-icono" aria-hidden="true"><i class="bi bi-bar-chart-line"></i></span>
+              <span class="stats-vacio-icono" aria-hidden="true"><app-icono nombre="bar-chart-line" /></span>
               <p class="stats-vacio-texto">Elige un enlace de la lista para ver sus estadísticas.</p>
             </div>
           }
@@ -177,7 +176,7 @@
 
     } @else {
       <div class="panel-sin-enlaces" role="status">
-        <span class="stats-vacio-icono" aria-hidden="true"><i class="bi bi-link-45deg"></i></span>
+        <span class="stats-vacio-icono" aria-hidden="true"><app-icono nombre="link-45deg" /></span>
         <p class="stats-vacio-texto">No tienes enlaces disponibles.</p>
       </div>
     }

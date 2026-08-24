@@ -10,10 +10,11 @@ import { Estadisticas } from '../interfaces/estadisticas';
 import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { SerieGrafica } from '../interfaces/serie-grafica';
 import { PortapapelesService } from '../services/portapapeles.service';
+import { IconoComponent } from '../icono/icono.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [NgxChartsModule],
+  imports: [NgxChartsModule, IconoComponent],
   templateUrl: './dashboard.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './dashboard.component.css'
