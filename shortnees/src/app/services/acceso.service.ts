@@ -14,6 +14,11 @@ interface UserData {
   rol: string[];
 }
 
+/** Cuerpo de las respuestas de recuperacion de contraseña. */
+export interface RespuestaMensaje {
+  mensaje: string;
+}
+
 /** Lo que el backend mete en el payload del JWT. Ver AnadirNombreAlJwt. */
 interface PayloadJwt {
   exp?: number;
@@ -62,6 +67,19 @@ export class AccesoService {
 
   registrarse(objeto: Usuario): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}registro`, objeto);
+  }
+
+  /**
+   * Pide el correo de recuperacion. La API contesta lo mismo exista o no la
+   * cuenta, asi que el mensaje de la respuesta es el que hay que enseñar.
+   */
+  solicitarRecuperacion(email: string): Observable<RespuestaMensaje> {
+    return this.http.post<RespuestaMensaje>(`${this.baseUrl}recuperar-contrasena`, { email });
+  }
+
+  /** Cambia la contraseña con el token del correo. 400 si caducó, ya se usó o es corta. */
+  restablecerContrasena(token: string, password: string): Observable<RespuestaMensaje> {
+    return this.http.post<RespuestaMensaje>(`${this.baseUrl}restablecer-contrasena`, { token, password });
   }
 
   // Decodifica el token para extraer exp y el perfil; el token nunca se guarda en localStorage

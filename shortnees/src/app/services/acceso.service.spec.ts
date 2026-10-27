@@ -162,4 +162,28 @@ describe('AccesoService', () => {
       expect(service.isAuthenticated).toBeFalse();
     });
   });
+
+  describe('recuperacion de contraseña', () => {
+    it('pide el correo a /recuperar-contrasena con solo el email', () => {
+      service.solicitarRecuperacion('ana@ejemplo.com').subscribe();
+
+      const req = httpMock.expectOne(`${appsettings.apiUrl}recuperar-contrasena`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({ email: 'ana@ejemplo.com' });
+      req.flush({ mensaje: 'ok' });
+    });
+
+    it('restablece con el token y la contraseña, y no inicia sesion por su cuenta', () => {
+      service.restablecerContrasena('abc123', 'ContrasenaNueva123').subscribe();
+
+      const req = httpMock.expectOne(`${appsettings.apiUrl}restablecer-contrasena`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({ token: 'abc123', password: 'ContrasenaNueva123' });
+      req.flush({ mensaje: 'Contraseña actualizada.' });
+
+      // El usuario entra despues por /login, como siempre: restablecer no
+      // emite token.
+      expect(service.isAuthenticated).toBeFalse();
+    });
+  });
 });

@@ -6,11 +6,16 @@ import { AutenticacionGuard } from './custom/autenticacion.guard';
 import { CuentaComponent } from './cuenta/cuenta.component';
 import { GeneradorQRComponent } from './generador-qr/generador-qr.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { RecuperarComponent } from './recuperar/recuperar.component';
+import { RestablecerComponent } from './restablecer/restablecer.component';
 //import { autenticacionGuard } from './custom/autenticacion.guard';
 export const routes: Routes = [
     {path:'', pathMatch:'full', redirectTo:'home'},
     {path:'registro', component: RegistroComponent},
     {path:'login', component: LoginComponent},
+    // Publicas a proposito: quien las usa es justamente quien no puede entrar.
+    {path:'recuperar', component: RecuperarComponent},
+    {path:'restablecer', component: RestablecerComponent},
     {path:'home', component: HomeComponent},
     // Perezosa a proposito. DashboardComponent es el unico que importa
     // NgxChartsModule, y un import estatico aqui obligaba a descargar la

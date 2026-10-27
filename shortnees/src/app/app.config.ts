@@ -14,7 +14,7 @@ export const appConfig: ApplicationConfig = {
     // Sin zone.js. Angular ya no recibe el aviso global de "ha pasado algo" que
     // le daba zone parcheando las APIs del navegador, y solo repinta cuando algo
     // se lo pide: un signal que cambia, un evento de plantilla, un async pipe o
-    // un markForCheck(). Es viable porque los once componentes estan en OnPush
+    // un markForCheck(). Es viable porque los trece componentes estan en OnPush
     // con su estado en signals; con campos normales rellenados desde callbacks
     // de RxJS, la pantalla se quedaria congelada. Sustituye a
     // provideZoneChangeDetection({ eventCoalescing: true }), cuya opcion era una

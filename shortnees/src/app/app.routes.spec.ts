@@ -16,7 +16,9 @@ describe('app.routes', () => {
   }
 
   const PRIVADAS = ['dashboard', 'generador'];
-  const PUBLICAS = ['home', 'login', 'registro', 'not-found'];
+  // recuperar y restablecer las usa quien no puede iniciar sesion: una guardia
+  // ahi dejaria la recuperacion inservible.
+  const PUBLICAS = ['home', 'login', 'registro', 'recuperar', 'restablecer', 'not-found'];
 
   for (const path of PRIVADAS) {
     it(`/${path} exige sesion`, () => {

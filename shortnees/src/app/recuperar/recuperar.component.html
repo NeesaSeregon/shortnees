@@ -1,0 +1,47 @@
+<main class="auth-main">
+  <div class="container auth-container">
+
+    <div class="auth-intro">
+      <span class="auth-marca" aria-hidden="true"><app-icono nombre="lock" /></span>
+      <h1 class="auth-title">Recuperar contraseña</h1>
+      <p class="auth-subtitle">Te enviaremos un enlace para elegir una nueva.</p>
+    </div>
+
+    <div class="auth-card">
+      @if (acuse() !== '') {
+        <div class="auth-form">
+          <p class="auth-exito" role="status">
+            <app-icono nombre="check-lg" />
+            {{ acuse() }}
+          </p>
+          <small class="auth-hint">El enlace caduca en una hora. Si no llega, revisa la carpeta de spam.</small>
+        </div>
+      } @else {
+        <form class="auth-form" [formGroup]="formulario" (ngSubmit)="enviar()">
+          <div class="auth-field">
+            <label for="email" class="auth-label">Email</label>
+            <div class="auth-input-group">
+              <span class="auth-input-icono" aria-hidden="true"><app-icono nombre="envelope" /></span>
+              <input type="email" class="auth-input" id="email" formControlName="email"
+                     placeholder="tu@correo.com" autocomplete="email" required>
+            </div>
+          </div>
+
+          @if (error() !== '') {
+            <p class="error auth-error" role="alert">
+              <app-icono nombre="exclamation-circle-fill" />
+              {{ error() }}
+            </p>
+          }
+
+          <button type="submit" class="auth-btn" [disabled]="enviando()">Enviar enlace</button>
+        </form>
+      }
+    </div>
+
+    <p class="auth-pie">
+      ¿Ya la recuerdas? <a routerLink="/login" class="auth-enlace">Iniciar sesión</a>
+    </p>
+
+  </div>
+</main>

@@ -1,0 +1,6 @@
+:host {
+  display: block;
+}
+
+/* El formulario usa las clases .auth-* de src/styles.css, compartidas con
+   login, registro y recuperar. */

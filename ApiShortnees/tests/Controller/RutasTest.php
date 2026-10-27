@@ -32,6 +32,19 @@ class RutasTest extends BaseFuncional
     }
 
     #[Test]
+    public function el_catch_all_no_tapa_la_recuperacion_de_contrasena(): void
+    {
+        // Las dos son de un solo segmento: si RecuperarContrasenaController se
+        // renombrara a algo que vaya despues de RedireccionController, las
+        // taparia /{urlCorta}.
+        $this->cliente->request('POST', '/recuperar-contrasena', [], [], ['CONTENT_TYPE' => 'application/json'], '{}');
+        self::assertSame('recuperar_contrasena', $this->cliente->getRequest()->attributes->get('_route'));
+
+        $this->cliente->request('POST', '/restablecer-contrasena', [], [], ['CONTENT_TYPE' => 'application/json'], '{}');
+        self::assertSame('restablecer_contrasena', $this->cliente->getRequest()->attributes->get('_route'));
+    }
+
+    #[Test]
     public function la_raiz_del_dominio_responde_200_y_no_404(): void
     {
         // Sin DefaultController, https://shortns.com/ daria 404: el catch-all

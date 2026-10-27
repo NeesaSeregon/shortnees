@@ -1,0 +1,63 @@
+<main class="auth-main">
+  <div class="container auth-container">
+
+    <div class="auth-intro">
+      <span class="auth-marca" aria-hidden="true"><app-icono nombre="lock" /></span>
+      <h1 class="auth-title">Nueva contraseña</h1>
+      <p class="auth-subtitle">Elige la contraseña con la que entrarás a partir de ahora.</p>
+    </div>
+
+    <div class="auth-card">
+      @if (hecho()) {
+        <div class="auth-form">
+          <p class="auth-exito" role="status">
+            <app-icono nombre="check-lg" />
+            Contraseña actualizada. Ya puedes iniciar sesión con ella.
+          </p>
+          <a routerLink="/login" class="auth-btn">Iniciar sesión</a>
+        </div>
+      } @else if (token === '') {
+        <div class="auth-form">
+          <p class="error auth-error" role="alert">
+            <app-icono nombre="exclamation-circle-fill" />
+            Este enlace está incompleto. Ábrelo tal como llegó en el correo, o pide uno nuevo.
+          </p>
+        </div>
+      } @else {
+        <form class="auth-form" [formGroup]="formulario" (ngSubmit)="guardar()">
+          <div class="auth-field">
+            <label for="password" class="auth-label">Contraseña nueva</label>
+            <div class="auth-input-group">
+              <span class="auth-input-icono" aria-hidden="true"><app-icono nombre="lock" /></span>
+              <input type="password" class="auth-input" id="password" formControlName="password"
+                     [placeholder]="'Al menos ' + longitudMinima + ' caracteres'" autocomplete="new-password" required>
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <label for="confirmacion" class="auth-label">Repítela</label>
+            <div class="auth-input-group">
+              <span class="auth-input-icono" aria-hidden="true"><app-icono nombre="lock" /></span>
+              <input type="password" class="auth-input" id="confirmacion" formControlName="confirmacion"
+                     placeholder="La misma otra vez" autocomplete="new-password" required>
+            </div>
+          </div>
+
+          @if (error() !== '') {
+            <p class="error auth-error" role="alert">
+              <app-icono nombre="exclamation-circle-fill" />
+              {{ error() }}
+            </p>
+          }
+
+          <button type="submit" class="auth-btn" [disabled]="enviando()">Guardar contraseña</button>
+        </form>
+      }
+    </div>
+
+    <p class="auth-pie">
+      ¿El enlace no funciona? <a routerLink="/recuperar" class="auth-enlace">Pide uno nuevo</a>
+    </p>
+
+  </div>
+</main>

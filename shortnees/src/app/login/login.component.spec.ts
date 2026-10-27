@@ -92,6 +92,13 @@ describe('LoginComponent', () => {
     expect(enlaces.map((a) => a.getAttribute('href'))).toContain('/registro');
   });
 
+  it('ofrece recuperar la contraseña con un enlace navegable', async () => {
+    const enlaces = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll('a'));
+
+    expect(enlaces.map((a) => a.getAttribute('href'))).toContain('/recuperar');
+  });
+
   it('no navega con botones sueltos: el unico boton es el de enviar', async () => {
     const botones = Array.from(
       (fixture.nativeElement as HTMLElement).querySelectorAll('button'));

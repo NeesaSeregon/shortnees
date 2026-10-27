@@ -742,6 +742,37 @@ h1, h2, h3, h4, h5, h6 {
   flex-shrink: 0;
 }
 
+/* El acuse de recuperar y restablecer: la misma caja que .auth-error con los
+   tokens de exito, para que los dos estados se lean como pareja. */
+.auth-exito {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0.8125rem 1rem;
+  background-color: var(--exito-bg);
+  border: 1px solid var(--exito-borde);
+  border-radius: var(--radio);
+  color: var(--exito-color);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+/* Restablecer cierra con un enlace con forma de boton: sin esto heredaria el
+   subrayado de los <a> de Bootstrap. */
+a.auth-btn,
+a.auth-btn:hover {
+  text-decoration: none;
+  color: var(--sobre-acento);
+}
+
+/* Enlace secundario dentro de la tarjeta, bajo el campo de contrasena. */
+.auth-olvido {
+  align-self: flex-end;
+  margin-top: -0.25rem;
+  font-size: 0.8125rem;
+}
+
 /* ── Pie: la otra pagina de acceso ───────────────────────── */
 .auth-pie {
   margin: 1.5rem 0 0 0;
